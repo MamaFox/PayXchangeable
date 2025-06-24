@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayXchangeable - Gamified Financial Learning</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for FXAMS */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        /* PayXchangeable Color Theme */
+        :root {
+            /* Main brand colors */
+            --primary-color: #32127A; /* Persian Indigo */
+            --secondary-color: #E6C34A; /* Gold */
+            --tertiary-color: #89756b; /* Brown */
+            --money-green: #00a86b;
+            --binary-code-color: #808080; /* Grey color for binary code */
+            
+            /* Light Theme Colors */
+            --light-bg: #FFFFFF;
+            --light-text: #000000;
+            --light-card-bg: #FFFFFF;
+            --light-section-bg: #f8f9fa;
+            
+            /* Dark Theme Colors */
+            --dark-bg: #1a1a1a;
+            --dark-text: #FFFFFF;
+            --dark-card-bg: #2c2c2c;
+            --dark-section-bg: #333333;
+            
+            /* Default Theme (system preference) */
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --card-bg: var(--light-card-bg);
+            --section-bg: var(--light-section-bg);
+            --border-color: #e0e0e0;
+            --muted-text: #666;
+            
+            /* Game elements colors */
+            --xp-color: #6941E0;
+            --quest-color: #F59E0B;
+            --achievement-color: #10B981;
+            --challenge-color: #EF4444;
+            
+            /* FXAMS Styling */
+            --fxams-color: #FF00FF; /* Magenta */
+            --fxams-outline: #00C957; /* Kelly Green */
+            --skulkams-color: #FF00FF; /* Legacy - keep for compatibility */
+            --skulkams-outline: #00C957; /* Legacy - keep for compatibility */
+        }
+        
+        /* Additional FXAMS text styling with variables */
+        .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: var(--skulkams-color);
+            text-shadow:
+                -1px -1px 0 var(--skulkams-outline),
+                1px -1px 0 var(--skulkams-outline),
+                -1px 1px 0 var(--skulkams-outline),
+                1px 1px 0 var(--skulkams-outline);
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        /* FXAMS deal card styling */
+        .fxams-deal, .skulkams-deal {
+            margin-top: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            background-color: rgba(255, 0, 255, 0.1);
+            border-left: 3px solid var(--skulkams-color);
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--dark-bg);
+                --text-color: #FFFFFF;
+                --card-bg: var(--dark-card-bg);
+                --section-bg: var(--dark-section-bg);
+                --border-color: #444;
+                --muted-text: #dddddd;
+            }
+        }
+        
+        @font-face {
+            font-family: 'Boulder';
+            src: url('assets/fonts/boulder.woff2') format('woff2'),
+                 url('assets/fonts/boulder.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+        }
+        
+        .binary-code {
+            font-family: monospace;
+            color: var(--binary-code-color);
+            opacity: 0.7;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+        
+        /* High contrast navigation */
+        .navbar-dark {
+            font-size: 1.2rem !important;
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-dark .nav-link {
+            color: white !important;
+            font-weight: 600 !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8) !important;
+            margin: 0 5px;
+            padding: 10px 15px !important;
+        }
+        
+        .navbar-dark .nav-link:hover {
+            color: #E6C34A !important;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9) !important;
+        }
+        
+        /* Hero section high contrast */
+        .hero-section {
+            background: linear-gradient(135deg, #32127A 0%, #4B1BA8 100%);
+            color: white !important;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            border-bottom: 3px solid #E6C34A;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero text with strong contrast */
+        .hero-section h1 {
+            color: white !important;
+            text-shadow: 
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 8px rgba(0, 0, 0, 0.8) !important;
+            font-size: 2.8rem !important;
+            letter-spacing: 1px;
+        }
+        
+        .hero-section p {
+            color: white !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            font-size: 1.3rem !important;
+            font-weight: 500 !important;
+        }
+        
+        /* Game elements styling */
+        .level-badge {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6941E0 0%, #32127A 100%);
+            color: white;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto;
+            border: 3px solid #E6C34A;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .xp-progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+        
+        .xp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #6941E0 0%, #8B5CF6 100%);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .stats-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .module-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: var(--secondary-color);
+        }
+        
+        .module-card .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 1.2rem;
+        }
+        
+        .module-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .module-card .module-img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .module-difficulty {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .difficulty-beginner {
+            background-color: #34D399;
+            color: #064E3B;
+        }
+        
+        .difficulty-intermediate {
+            background-color: #F59E0B;
+            color: #78350F;
+        }
+        
+        .difficulty-advanced {
+            background-color: #EF4444;
+            color: #7F1D1D;
+        }
+        
+        .module-xp {
+            font-weight: bold;
+            color: #6941E0;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .module-xp i {
+            margin-right: 0.3rem;
+        }
+        
+        .module-status-locked {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .module-status-locked i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .module-status-complete {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #10B981;
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .achievement-card {
+            position: relative;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .achievement-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background-color: #F3F4F6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #6B7280;
+            flex-shrink: 0;
+        }
+        
+        .achievement-unlocked .achievement-icon {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .achievement-info {
+            flex-grow: 1;
+        }
+        
+        .achievement-title {
+            margin: 0;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .achievement-desc {
+            margin: 0.2rem 0 0 0;
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        
+        .achievement-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #10B981;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 0.2rem 0.6rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .achievement-unlocked .achievement-badge {
+            opacity: 1;
+        }
+        
+        /* Leaderboard styles */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+        
+        .leaderboard-table tr {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+        
+        .leaderboard-table tr:hover {
+            transform: translateX(5px);
+        }
+        
+        .leaderboard-table th {
+            padding: 1rem;
+            text-align: left;
+            color: var(--muted-text);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .leaderboard-table td {
+            padding: 1rem;
+            border-top: none;
+            vertical-align: middle;
+        }
+        
+        .leaderboard-table tr td:first-child {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        .leaderboard-table tr td:last-child {
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        
+        .leaderboard-rank-1 {
+            background-color: rgba(255, 215, 0, 0.1) !important;
+        }
+        
+        .leaderboard-rank-2 {
+            background-color: rgba(192, 192, 192, 0.1) !important;
+        }
+        
+        .leaderboard-rank-3 {
+            background-color: rgba(205, 127, 50, 0.1) !important;
+        }
+        
+        .rank-badge {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .rank-1 {
+            background: linear-gradient(135deg, #FFD700 0%, #F59E0B 100%);
+        }
+        
+        .rank-2 {
+            background: linear-gradient(135deg, #C0C0C0 0%, #94A3B8 100%);
+        }
+        
+        .rank-3 {
+            background: linear-gradient(135deg, #CD7F32 0%, #B45309 100%);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.8rem;
+        }
+        
+        /* Game dashboard elements */
+        .badge-counter {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .badge-counter .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            color: var(--primary-color);
+        }
+        
+        .badge-counter .label {
+            font-size: 1rem;
+            color: var(--muted-text);
+        }
+        
+        .quest-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--quest-color);
+            transition: transform 0.2s ease;
+        }
+        
+        .quest-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .daily-challenge {
+            border-left-color: var(--challenge-color);
+        }
+        
+        .quest-card .quest-title {
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-color);
+        }
+        
+        .quest-card .quest-desc {
+            color: var(--muted-text);
+            margin-bottom: 1rem;
+        }
+        
+        .quest-rewards {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .quest-reward {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .quest-reward i {
+            margin-right: 0.3rem;
+        }
+        
+        .xp-reward {
+            color: var(--xp-color);
+        }
+        
+        .coin-reward {
+            color: var(--secondary-color);
+        }
+        
+        .challenge-reward {
+            color: var(--challenge-color);
+        }
+        
+        .streak-info {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted-text);
+        }
+        
+        .streak-info i {
+            color: #F59E0B;
+            margin-right: 0.3rem;
+        }
+        
+        .streak-days {
+            display: flex;
+            margin-left: auto;
+        }
+        
+        .streak-day {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #F3F4F6;
+            margin-left: 3px;
+        }
+        
+        .streak-day-completed {
+            background-color: #F59E0B;
+        }
+        
+        .btn-animated {
+            background-color: #32127A;
+            color: #FFFFFF !important;
+            border: 2px solid #260e60;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(50, 18, 122, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            padding: 0.5rem 0.25rem;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(50, 18, 122, 0.4);
+            background-color: #3c1694;
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(230, 195, 74, 0), rgba(230, 195, 74, 0.3), rgba(230, 195, 74, 0));
+            transition: left 0.8s ease;
+            z-index: -1;
+        }
+        
+        .btn-animated:hover::after {
+            left: 100%;
+        }
+        
+        .module-card .card-body {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .module-card .d-flex {
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        .footer {
+            background-color: #32127A;
+            color: #f8f9fa;
+            padding: 3rem 0;
+            box-shadow: 0 0 3px 1px #708090; /* Gray outline for footer */
+        }
+        
+        .footer-links a {
+            color: #d0d0d0;
+            margin-right: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Ensure all elements fit properly in containers */
+        * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-size: clamp(1rem, 5vw, 2.5rem);
+            line-height: 1.3;
+        }
+        
+        .card, .feature-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body {
+            flex: 1 1 auto;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure form elements fit in their containers */
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .badge {
+            white-space: normal;
+            text-align: center;
+        }
+        
+        /* Platform buttons sizing */
+        .platform-icon {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        
+        .btn-outline-primary {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        /* Educational content card improvements */
+        .course-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        /* Course pricing styles */
+        .course-price {
+            display: inline-block;
+            font-weight: bold;
+            color: #00a86b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-tag {
+            font-size: 1.1rem;
+            margin-right: 0.5rem;
+        }
+        
+        .skulkams-deal {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #32127A;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+        
+        /* FXAMS logo styling is defined above */
+        
+        .dev-access {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 168, 107, 0.9);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        
+        .crowd9-access {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(230, 195, 74, 0.9); /* Gold */
+            color: black;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        
+
+        
+        /* Compact number display for function integers */
+        .number-display, 
+        .card .number,
+        .level-badge,
+        .xp-progress,
+        .badge-counter .number,
+        .quest-reward,
+        .module-xp,
+        .percentage-complete,
+        .streak-info,
+        .numeric-value {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-feature-settings: "tnum";
+        }
+        
+        /* Styled counters for numbers */
+        .badge-counter .number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1;
+            padding: 0.25rem;
+            min-width: 2.5rem;
+            text-align: center;
+            display: block;
+        }
+        
+        /* Level badge sizing */
+        .level-badge {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+        
+        /* Character container styling */
+        .character-container {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .character-container:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(230, 195, 74, 0.5);
+        }
+        
+        .character-container svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #32127A; box-shadow: 0 0 3px 1px #708090;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            
+            <!-- Character display container -->
+            <div class="d-none d-md-block ms-auto me-4">
+                <div class="character-container" id="header-character" style="width: 60px; height: 60px;">
+                    <!-- User's character will be displayed here by character-display.js -->
+                </div>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">App Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn ms-lg-3 px-4" style="background-color: #E6C34A; color: black; font-weight: bold;" href="index.html#download">Download</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="binary-code" style="position: absolute; top: 15px; right: 15px; z-index: 1;">
+            01001100 01100101 01100001 01110010 01101110 00100000 01010000 01100001 01111001 01011000 01100011
+        </div>
+        <div class="binary-code" style="position: absolute; bottom: 15px; left: 15px; z-index: 1;">
+            01010011 01101011 01110101 01101100 01101011 01100001 01101101 01110011
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">
+                        <span class="payxc-brand">Financial Learning Quest</span>
+                        <div class="binary-code text-center">01101100 01100101 01100001 01110010 01101110</div>
+                    </h1>
+                    <p class="lead mb-4">Level up your financial knowledge through interactive learning modules, challenges, and rewards. Track your progress and compete with others!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Stats Section -->
+    <section class="container py-5">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="stats-card text-center">
+                    <div class="level-badge mb-2">14</div>
+                    <h4>Level 14</h4>
+                    <p class="text-muted">2,350 XP / 3,000 XP to Level 15</p>
+                    <div class="xp-progress">
+                        <div class="xp-bar" style="width: 78%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="badge-counter">
+                            <i class="bi bi-trophy" style="font-size: 2rem; color: var(--achievement-color);"></i>
+                            <div class="number">7</div>
+                            <div class="label">Achievements</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="badge-counter">
+                            <i class="bi bi-mortarboard" style="font-size: 2rem; color: var(--quest-color);"></i>
+                            <div class="number">5</div>
+                            <div class="label">Modules Completed</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="badge-counter">
+                            <i class="bi bi-lightning" style="font-size: 2rem; color: var(--challenge-color);"></i>
+                            <div class="number">12</div>
+                            <div class="label">Day Streak</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Quests Section -->
+    <section class="container py-3">
+        <h2 class="mb-4">Current Quests</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="quest-card daily-challenge">
+                    <h5 class="quest-title">Daily Financial Challenge</h5>
+                    <p class="quest-desc">Complete a quiz on budget management basics to earn rewards.</p>
+                    <div class="quest-rewards">
+                        <div class="quest-reward xp-reward">
+                            <i class="bi bi-stars"></i> 100 XP
+                        </div>
+                        <div class="quest-reward coin-reward">
+                            <i class="bi bi-coin"></i> 50 Coins
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <a href="#" class="btn btn-animated btn-sm">Start Challenge</a>
+                        <div class="streak-info">
+                            <i class="bi bi-fire"></i> Daily Streak: 12
+                            <div class="streak-days ms-2">
+                                <div class="streak-day streak-day-completed"></div>
+                                <div class="streak-day streak-day-completed"></div>
+                                <div class="streak-day streak-day-completed"></div>
+                                <div class="streak-day streak-day-completed"></div>
+                                <div class="streak-day"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="quest-card">
+                    <h5 class="quest-title">Weekly Investment Mission</h5>
+                    <p class="quest-desc">Research and compare 3 investment options to enhance your portfolio.</p>
+                    <div class="quest-rewards">
+                        <div class="quest-reward xp-reward">
+                            <i class="bi bi-stars"></i> 250 XP
+                        </div>
+                        <div class="quest-reward coin-reward">
+                            <i class="bi bi-coin"></i> 125 Coins
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-3">
+                        <a href="javascript:void(0)" onclick="startQuest()" class="btn btn-animated btn-sm">Start Quest</a>
+                        <div class="progress" style="width: 120px; height: 10px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Modules Section -->
+    <section class="container py-5">
+        <h2 class="mb-4">Learning Modules</h2>
+        
+        <!-- Pricing Info Box -->
+        <div class="pricing-info-box mb-4 p-3">
+            <h4 class="text-center mb-3">
+                <span class="payxc-brand">Course Pricing</span>
+                <div class="binary-code text-center">01110000 01110010 01101001 01100011 01100101</div>
+            </h4>
+            <div class="binary-code" style="position: absolute; top: 10px; right: 15px; z-index: 1; font-size: 0.7rem;">
+                01010011 01101011 01110101 01101100 01101011 01100001
+            </div>
+            <div class="row">
+                <div class="col-md-3 pricing-option">
+                    <div class="pricing-option-inner text-center p-3">
+                        <h5>Standard Price</h5>
+                        <p class="price-value">$1.99</p>
+                        <p class="price-desc">Per course</p>
+                    </div>
+                </div>
+                <div class="col-md-3 pricing-option">
+                    <div class="pricing-option-inner text-center p-3">
+                        <h5>Discounted Price</h5>
+                        <p class="price-value">$0.40</p>
+                        <p class="price-desc">EBT, SSI, and student users (80% off)</p>
+                    </div>
+                </div>
+                <div class="col-md-3 pricing-option">
+                    <div class="pricing-option-inner text-center p-3">
+                        <h5>With <span class="skulkams-logo">FXAMS</span></h5>
+                        <p class="price-value">FREE</p>
+                        <p class="price-desc">With $20+ <span class="skulkams-logo">FXAMS</span> purchase</p>
+                    </div>
+                </div>
+                <div class="col-md-3 pricing-option">
+                    <div class="pricing-option-inner text-center p-3 special-offer">
+                        <div class="binary-code text-end">01001</div>
+                        <h5>Unlimited Access</h5>
+                        <p class="price-value">$10.99</p>
+                        <p class="price-desc">Monthly subscription to all courses</p>
+                        <div class="binary-code text-start">10110</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <p class="mb-0"><strong>Note:</strong> Developers and Crowd 9 members have free access to all courses.</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Module 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <div class="module-status-complete">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <span class="module-difficulty difficulty-beginner">Beginner</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Budgeting+Basics" alt="Budgeting Basics" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Budgeting Basics</h5>
+                        <p class="card-text">Learn foundational budgeting skills to manage your finances effectively.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 200 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="replayCourse('budgeting')" class="btn btn-animated">Replay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <div class="module-status-complete">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <span class="module-difficulty difficulty-beginner">Beginner</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Debt+Management" alt="Debt Management" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Debt Management</h5>
+                        <p class="card-text">Strategies for reducing debt and managing credit effectively.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 250 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="replayCourse('debt')" class="btn btn-animated">Replay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <div class="module-status-complete">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <span class="module-difficulty difficulty-beginner">Beginner</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Saving+Strategies" alt="Saving Strategies" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Saving Strategies</h5>
+                        <p class="card-text">Techniques to build emergency funds and save for future goals.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 200 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="replayCourse('saving')" class="btn btn-animated">Replay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 4 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <div class="module-status-complete">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <span class="module-difficulty difficulty-intermediate">Intermediate</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Investment+Fundamentals" alt="Investment Fundamentals" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Investment Fundamentals</h5>
+                        <p class="card-text">Understanding investment options and building a portfolio.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 300 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="replayCourse('investment')" class="btn btn-animated">Replay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 5 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <div class="module-status-complete">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                    <span class="module-difficulty difficulty-intermediate">Intermediate</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Retirement+Planning" alt="Retirement Planning" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Retirement Planning</h5>
+                        <p class="card-text">Planning for a secure retirement with different account types.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 350 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="replayCourse('retirement')" class="btn btn-animated">Replay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 6 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="dev-access">Developer & Crowd 9 Only</div>
+                    <span class="module-difficulty difficulty-intermediate">Intermediate</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Tax+Strategies" alt="Tax Strategies" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Tax Strategies</h5>
+                        <p class="card-text">Understand tax-saving strategies and maximize your returns.</p>
+                        <div class="course-price">
+                            <span class="price-tag">$1.99</span>
+                            <div class="skulkams-deal">
+                                <i class="bi bi-currency-exchange me-1"></i> Free with $20+ <span class="skulkams-logo">FXAMS</span> purchase
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 350 XP
+                            </div>
+                            <a href="javascript:void(0)" onclick="startCourse('tax')" class="btn btn-animated">Start</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 7 (Locked) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-status-locked">
+                        <i class="bi bi-lock-fill"></i>
+                        <span>Reach Level 15 to Unlock</span>
+                    </div>
+                    <span class="module-difficulty difficulty-advanced">Advanced</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Stock+Market+Investing" alt="Stock Market Investing" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Stock Market Investing</h5>
+                        <p class="card-text">Advanced techniques for stock analysis and portfolio management.</p>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 450 XP
+                            </div>
+                            <a href="#" class="btn btn-animated disabled">Locked</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 8 (Locked) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-status-locked">
+                        <i class="bi bi-lock-fill"></i>
+                        <span>Reach Level 18 to Unlock</span>
+                    </div>
+                    <span class="module-difficulty difficulty-advanced">Advanced</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Real+Estate+Investing" alt="Real Estate Investing" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Real Estate Investing</h5>
+                        <p class="card-text">Strategies for investing in real estate markets and property management.</p>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 500 XP
+                            </div>
+                            <a href="#" class="btn btn-animated disabled">Locked</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Module 9 (Locked) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-status-locked">
+                        <i class="bi bi-lock-fill"></i>
+                        <span>Reach Level 20 to Unlock</span>
+                    </div>
+                    <span class="module-difficulty difficulty-advanced">Advanced</span>
+                    <img src="https://placehold.co/800x450/32127A/FFFFFF?text=Advanced+Investing" alt="Advanced Investing" class="module-img">
+                    <div class="card-body">
+                        <h5 class="card-title">Advanced Investing</h5>
+                        <p class="card-text">Complex investment strategies and alternative investment options.</p>
+                        <div class="d-flex flex-column">
+                            <div class="module-xp mb-2">
+                                <i class="bi bi-stars"></i> 550 XP
+                            </div>
+                            <a href="#" class="btn btn-animated disabled">Locked</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="container py-5">
+        <h2 class="mb-4">Your Achievements</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-piggy-bank"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Savings Master</h5>
+                        <p class="achievement-desc">Save $1,000 in your emergency fund</p>
+                    </div>
+                    <div class="achievement-badge">+200 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Budgeting Pro</h5>
+                        <p class="achievement-desc">Create and follow a budget for 3 consecutive months</p>
+                    </div>
+                    <div class="achievement-badge">+250 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">First Investment</h5>
+                        <p class="achievement-desc">Make your first investment in the stock market</p>
+                    </div>
+                    <div class="achievement-badge">+150 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-lightning-charge"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Week Streak</h5>
+                        <p class="achievement-desc">Complete daily challenges for 7 consecutive days</p>
+                    </div>
+                    <div class="achievement-badge">+100 XP</div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="bi bi-trophy"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Module Master</h5>
+                        <p class="achievement-desc">Complete all beginner and intermediate modules</p>
+                    </div>
+                    <div class="achievement-badge">+300 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-mortarboard"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Knowledge Seeker</h5>
+                        <p class="achievement-desc">Complete 5 learning modules with perfect scores</p>
+                    </div>
+                    <div class="achievement-badge">+250 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Debt Reducer</h5>
+                        <p class="achievement-desc">Reduce your debt by 20% or more</p>
+                    </div>
+                    <div class="achievement-badge">+200 XP</div>
+                </div>
+                
+                <div class="achievement-card achievement-unlocked">
+                    <div class="achievement-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <h5 class="achievement-title">Community Contributor</h5>
+                        <p class="achievement-desc">Help 5 other users with their financial questions</p>
+                    </div>
+                    <div class="achievement-badge">+150 XP</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section class="container py-5">
+        <h2 class="mb-4">Leaderboard</h2>
+        <div class="table-responsive">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>User</th>
+                        <th>Level</th>
+                        <th>XP</th>
+                        <th>Achievements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="leaderboard-rank-1">
+                        <td>
+                            <span class="rank-badge rank-1">1</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://placehold.co/100/32127A/FFFFFF?text=JS" alt="User Avatar" class="user-avatar">
+                                <span>JohnSmith92</span>
+                            </div>
+                        </td>
+                        <td>21</td>
+                        <td>6,250 XP</td>
+                        <td>15</td>
+                    </tr>
+                    <tr class="leaderboard-rank-2">
+                        <td>
+                            <span class="rank-badge rank-2">2</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://placehold.co/100/32127A/FFFFFF?text=MD" alt="User Avatar" class="user-avatar">
+                                <span>MoneyDiva</span>
+                            </div>
+                        </td>
+                        <td>19</td>
+                        <td>5,840 XP</td>
+                        <td>14</td>
+                    </tr>
+                    <tr class="leaderboard-rank-3">
+                        <td>
+                            <span class="rank-badge rank-3">3</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://placehold.co/100/32127A/FFFFFF?text=IG" alt="User Avatar" class="user-avatar">
+                                <span>InvestGuru</span>
+                            </div>
+                        </td>
+                        <td>18</td>
+                        <td>5,625 XP</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="rank-badge bg-primary">4</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://placehold.co/100/32127A/FFFFFF?text=SF" alt="User Avatar" class="user-avatar">
+                                <span>SavvyFinance</span>
+                            </div>
+                        </td>
+                        <td>16</td>
+                        <td>4,980 XP</td>
+                        <td>11</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="rank-badge bg-primary">5</span>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://placehold.co/100/32127A/FFFFFF?text=YO" alt="User Avatar" class="user-avatar">
+                                <span class="fw-bold">You (FinancePro)</span>
+                            </div>
+                        </td>
+                        <td>14</td>
+                        <td>4,350 XP</td>
+                        <td>7</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">PayXchangeable</h5>
+                    <p>Bridging the gap between payment platforms, making money transfers easier for everyone.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Features</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html#features">Features</a></li>
+                        <li class="mb-2"><a href="index.html#bridges">Bridges</a></li>
+                        <li class="mb-2"><a href="ebt-benefits.html">EBT Benefits</a></li>
+                        <li class="mb-2"><a href="index.html#education">Education</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="about-us.html">About Us</a></li>
+                        <li class="mb-2"><a href="financial-learning.html">Careers</a></li>
+                        <li class="mb-2"><a href="about-us.html#blog">Blog</a></li>
+                        <li class="mb-2"><a href="about-us.html#press">Press</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-4">Stay Connected</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="mailto:support@payxchangeable.com">support@payxchangeable.com</a></li>
+                        <li class="mb-2"><span class="small text-muted">Email support bot available 24/7</span></li>
+                    </ul>
+                    <div class="d-flex mt-4">
+                        <a href="https://facebook.com" target="_blank" class="me-3 text-white">FB</a>
+                        <a href="https://twitter.com" target="_blank" class="me-3 text-white">TW</a>
+                        <a href="https://instagram.com" target="_blank" class="me-3 text-white">IG</a>
+                        <a href="https://linkedin.com" target="_blank" class="text-white">LI</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <p class="small text-muted mb-0">© 2025 PayXchangeable. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/financial-learning.js"></script>
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+</body>
+</html>

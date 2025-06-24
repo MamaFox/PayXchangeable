@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayXchangeable - Cryptocurrency</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for FXAMS */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        /* PayXchangeable Color Theme */
+        :root {
+            /* Main brand colors */
+            --payxchangeable-purple: #32127A; /* Persian Indigo */
+            --money-green: #D4AF37;
+            --gold: #E6C34A; /* Replacing silver with gold */
+            --brown: #89756b;
+            --investment-green: #00a86b; /* Green for investment buttons */
+            
+            /* UI colors */
+            --primary-color: var(--payxchangeable-purple);
+            --secondary-color: var(--money-green);
+            --accent-color: var(--gold);
+            --tertiary-color: var(--brown);
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navbar styling */
+        .navbar-dark {
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 0 3px 1px #708090;
+        }
+        
+        .navbar-dark .nav-link {
+            color: white !important;
+            font-weight: 600;
+        }
+        
+        .navbar-dark .nav-link:hover {
+            color: var(--gold) !important;
+        }
+        
+        /* Section headers */
+        .section-header {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        /* Crypto cards */
+        .crypto-card {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+            height: 100%;
+        }
+        
+        .crypto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .crypto-card .card-header {
+            background-color: rgba(50, 18, 122, 0.1);
+            border-bottom: none;
+            padding: 1.25rem;
+        }
+        
+        .crypto-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .crypto-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-change {
+            font-size: 0.9rem;
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+        
+        .price-up {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        
+        .price-down {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        
+        /* Purchase form */
+        .purchase-form {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .purchase-form label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .purchase-form select, 
+        .purchase-form input {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .purchase-form .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .btn-purchase {
+            background: linear-gradient(135deg, #FF00FF, #00C957);
+            border: none;
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-purchase:hover {
+            opacity: 0.9;
+            color: white;
+        }
+        
+        /* Fee display */
+        .fee-display {
+            background-color: rgba(230, 195, 74, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .fee-amount {
+            font-weight: 700;
+        }
+        
+        /* FXAMS features */
+        .skulkams-features {
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.05), rgba(0, 201, 87, 0.05));
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            background-color: rgba(255, 0, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            color: #FF00FF;
+        }
+        
+        /* Wallet connect section */
+        .wallet-section {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        
+        .wallet-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .wallet-option:hover {
+            background-color: rgba(50, 18, 122, 0.05);
+        }
+        
+        .wallet-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 1rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer h5 {
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer a:hover {
+            color: var(--gold);
+        }
+        
+        /* Accessibility toggle button */
+        .accessibility-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        /* Highlight animation for purchase form */
+        .highlight-form {
+            animation: highlightPulse 1.5s ease-in-out;
+        }
+        
+        @keyframes highlightPulse {
+            0%, 100% { box-shadow: none; }
+            50% { box-shadow: 0 0 20px rgba(50, 18, 122, 0.6); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <small class="text-white">PayXchangeable</small>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#bridges">Bridges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ebt-benefits.html">For Electronic Benefits (EBT) CLICK HERE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="currency-exchange.html">Currency Exchange</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cryptocurrency.html">Cryptocurrency</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">App Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-account.html">My Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-superhero.html">Superhero Creator</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #32127A, #260e60);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-white">
+                    <h1 class="display-4 mb-4">
+                        <span class="payxc-brand">Cryptocurrency</span>
+                        <div class="binary-code">01100011 01110010 01111001 01110000 01110100 01101111</div>
+                    </h1>
+                    <p class="lead mb-4">Buy, sell, and store cryptocurrencies with our secure platform. Enjoy 99% savings on transaction fees when using <span class="skulkams-logo">FXAMS</span>, our exclusive cryptocurrency.</p>
+                    <div class="d-flex flex-wrap">
+                        <a href="#crypto-purchase" class="btn btn-light me-3 mb-3">Buy Cryptocurrency</a>
+                        <a href="#fxams" class="btn" style="background: linear-gradient(135deg, #FF00FF, #00C957); color: white; border: none;">Learn About <span class="fxams-logo">FXAMS</span></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-4 mt-lg-0 text-center">
+                    <div style="background-color: rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem;">
+                        <div class="mb-4">
+                            <span style="font-size: 4rem;" class="fxams-logo">FXM</span>
+                        </div>
+                        <div class="bg-white p-3 rounded mb-3 text-dark">
+                            <div class="crypto-price">$2.14 USD</div>
+                            <div class="price-change price-up">+5.2% (24h)</div>
+                        </div>
+                        <p class="text-white mb-0">Our exclusive cryptocurrency with 99% lower fees!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cryptocurrency Market Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2>Cryptocurrency Market</h2>
+                <p class="text-muted">Live prices and market data for popular cryptocurrencies</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Bitcoin -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="crypto-card">
+                        <div class="card-header">
+                            <span class="crypto-icon">₿</span>
+                            <h3>Bitcoin</h3>
+                            <small class="text-muted">BTC</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="crypto-price">$64,325.78</div>
+                            <span class="price-change price-up">+2.5% <i class="bi bi-arrow-up"></i></span>
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <a href="#crypto-purchase" class="btn btn-sm btn-outline-primary" data-crypto="btc">Buy Bitcoin</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ethereum -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="crypto-card">
+                        <div class="card-header">
+                            <span class="crypto-icon">Ξ</span>
+                            <h3>Ethereum</h3>
+                            <small class="text-muted">ETH</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="crypto-price">$3,215.42</div>
+                            <span class="price-change price-up">+1.7% <i class="bi bi-arrow-up"></i></span>
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <a href="#crypto-purchase" class="btn btn-sm btn-outline-primary" data-crypto="eth">Buy Ethereum</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <span class="skulkams-logo">FXAMS</span> -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="crypto-card">
+                        <div class="card-header" style="background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 201, 87, 0.1));">
+                            <span class="crypto-icon fxams-logo">FXM</span>
+                            <h3><span class="skulkams-logo">FXAMS</span></h3>
+                            <small class="text-muted">FXM</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="crypto-price">$2.14</div>
+                            <span class="price-change price-up">+5.2% <i class="bi bi-arrow-up"></i></span>
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <a href="#crypto-purchase" class="btn btn-sm btn-purchase" data-crypto="skm">Buy <span class="skulkams-logo">FXAMS</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ripple -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="crypto-card">
+                        <div class="card-header">
+                            <span class="crypto-icon">✘</span>
+                            <h3>Ripple</h3>
+                            <small class="text-muted">XRP</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="crypto-price">$0.5231</div>
+                            <span class="price-change price-down">-0.9% <i class="bi bi-arrow-down"></i></span>
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <a href="#crypto-purchase" class="btn btn-sm btn-outline-primary" data-crypto="xrp">Buy Ripple</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purchase Section -->
+    <section id="crypto-purchase" class="py-5 bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Buy Cryptocurrency</h2>
+                <p class="text-muted">Purchase cryptocurrency directly from your selected payment platform</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="purchase-form">
+                        <h3 class="mb-4">Cryptocurrency Purchase</h3>
+                        
+                        <form>
+                            <div class="mb-3">
+                                <label for="sourcePlatform" class="form-label">Source Platform</label>
+                                <select class="form-select" id="sourcePlatform" required>
+                                    <option value="" selected disabled>Select source platform</option>
+                                    <option value="apple-cash">Apple Cash</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="venmo">Venmo</option>
+                                    <option value="zelle">Zelle</option>
+                                    <option value="cash-app">Cash App</option>
+                                    <option value="samsung-pay">Samsung Pay</option>
+                                    <option value="google-pay">Google Pay</option>
+                                    <option value="ebt">Electronic Benefits Transfer (EBT)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="cryptoType" class="form-label">Cryptocurrency</label>
+                                <select class="form-select" id="cryptoType" required>
+                                    <option value="" selected disabled>Select cryptocurrency</option>
+                                    <option value="btc">Bitcoin (BTC)</option>
+                                    <option value="eth">Ethereum (ETH)</option>
+                                    <option value="fxm"><span class="fxams-text">FXAMS</span> (FXM)</option>
+                                    <option value="xrp">Ripple (XRP)</option>
+                                    <option value="ltc">Litecoin (LTC)</option>
+                                    <option value="doge">Dogecoin (DOGE)</option>
+                                    <option value="sol">Solana (SOL)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="amount" class="form-label">Amount (USD)</label>
+                                <input type="number" class="form-control" id="amount" min="1" step="1" placeholder="Enter amount in USD" required>
+                            </div>
+                            
+                            <div class="fee-display">
+                                <p class="mb-1"><strong>Transaction Fee:</strong></p>
+                                <p class="mb-0">Standard Fee: <span class="fee-amount">0.5%</span></p>
+                                <p class="mb-0 text-success"><span class="skulkams-logo">FXAMS</span> Fee: <span class="fee-amount">0.005%</span> (99% savings!)</p>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Purchase Cryptocurrency</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="fxams-features" id="fxams">
+                        <h3 class="mb-4">
+                            <span class="skulkams-logo">FXAMS</span> Benefits
+                        </h3>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-piggy-bank"></i>
+                            </div>
+                            <div>
+                                <h4>99% Lower Fees</h4>
+                                <p>All transactions using <span class="skulkams-logo">FXAMS</span> have a minimal 0.005% fee instead of the standard 0.5% fee.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-lightning"></i>
+                            </div>
+                            <div>
+                                <h4>Faster Transfers</h4>
+                                <p>Enjoy near-instant transfers between platforms when using <span class="skulkams-logo">FXAMS</span> as your transaction medium.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-mortarboard"></i>
+                            </div>
+                            <div>
+                                <h4>Free Financial Courses</h4>
+                                <p>Get access to our premium financial education courses for free with any <span class="skulkams-logo">FXAMS</span> purchase. All courses free with $25 <span class="skulkams-logo">FXAMS</span> purchase!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div>
+                                <h4>Enhanced Security</h4>
+                                <p><span class="skulkams-logo">FXAMS</span> transactions feature additional security layers for protection against fraud and unauthorized access.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="#purchase" class="btn btn-purchase btn-lg w-100">Buy <span class="skulkams-logo">FXAMS</span> Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wallet Connect Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <h2>Connect Your Wallet</h2>
+                <p class="text-muted">Connect your existing cryptocurrency wallet or create a new one</p>
+            </div>
+            
+            <div class="wallet-section">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 class="mb-4">External Wallets</h3>
+                        <a href="https://metamask.io/download/" target="_blank" class="text-decoration-none">
+                            <div class="wallet-option">
+                                <img src="assets/images/metamask.svg" alt="MetaMask" class="wallet-icon" onerror="this.src='https://placeholder.pics/svg/40x40/FF00FF-00C957/FFFFFF/wallet'">
+                                <div>
+                                    <h4 class="h5 mb-1">MetaMask <i class="bi bi-shield-check text-success"></i></h4>
+                                    <p class="mb-0 text-muted">Connect your MetaMask wallet (secure connection)</p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://trustwallet.com/download" target="_blank" class="text-decoration-none">
+                            <div class="wallet-option">
+                                <img src="assets/images/trustwallet.svg" alt="Trust Wallet" class="wallet-icon" onerror="this.src='https://placeholder.pics/svg/40x40/FF00FF-00C957/FFFFFF/wallet'">
+                                <div>
+                                    <h4 class="h5 mb-1">Trust Wallet <i class="bi bi-shield-check text-success"></i></h4>
+                                    <p class="mb-0 text-muted">Connect your Trust Wallet (secure connection)</p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.coinbase.com/wallet" target="_blank" class="text-decoration-none">
+                            <div class="wallet-option">
+                                <img src="assets/images/coinbase.svg" alt="Coinbase Wallet" class="wallet-icon" onerror="this.src='https://placeholder.pics/svg/40x40/FF00FF-00C957/FFFFFF/wallet'">
+                                <div>
+                                    <h4 class="h5 mb-1">Coinbase Wallet <i class="bi bi-shield-check text-success"></i></h4>
+                                    <p class="mb-0 text-muted">Connect your Coinbase Wallet (secure connection)</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <h3 class="mb-4">PayXchangeable Wallet <i class="bi bi-shield-check text-success"></i></h3>
+                        <div class="p-4 bg-white rounded shadow-sm">
+                            <p>Create a secure wallet within the PayXchangeable app to store your cryptocurrencies and <span class="skulkams-logo">FXAMS</span>.</p>
+                            
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="me-3" style="width: 60px; height: 60px; background: linear-gradient(135deg, #32127A, #260e60); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" onerror="this.src='https://placeholder.pics/svg/40x40/32127A-E6C34A/FFFFFF/PayXc'">
+                                </div>
+                                <div>
+                                    <h4 class="h5 mb-1">PayXchangeable Wallet</h4>
+                                    <p class="mb-0 text-muted">Secure storage for all your digital assets</p>
+                                </div>
+                            </div>
+                            
+                            <div class="wallet-security-features mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-lock-fill text-success me-2"></i>
+                                    <span>End-to-end encryption</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="bi bi-fingerprint text-success me-2"></i>
+                                    <span>Biometric authentication</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-shield-lock-fill text-success me-2"></i>
+                                    <span>Secure recovery options</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button class="btn btn-primary mb-2" id="createWalletBtn">Create New Wallet</button>
+                                <button class="btn btn-outline-primary" id="connectWalletBtn">Connect Existing Wallet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                        <div>
+                            <div class="binary-code text-end">010101</div>
+                            <span class="payxc-brand text-white">PayXc</span>
+                            <small class="d-block">PayXchangeable</small>
+                            <div class="binary-code text-start">101010</div>
+                        </div>
+                    </div>
+                    <p>The ultimate bridge between payment platforms. Transfer money between any services with ease.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5>Features</h5>
+                    <ul>
+                        <li><a href="index.html#bridges">Bridges</a></li>
+                        <li><a href="investments.html">Investments</a></li>
+                        <li><a href="cryptocurrency.html">Cryptocurrency</a></li>
+                        <li><a href="currency-exchange.html">Currency Exchange</a></li>
+                        <li><a href="financial-learning.html">Financial Learning</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="mailto:support@payxchangeable.com">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <h5>Download</h5>
+                    <p>Get the PayXchangeable app on your device</p>
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="btn btn-outline-light me-2 mb-2">
+                            <i class="bi bi-apple me-2"></i> App Store
+                        </a>
+                        <a href="#" class="btn btn-outline-light mb-2">
+                            <i class="bi bi-google-play me-2"></i> Google Play
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2025 PayXchangeable. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="btn btn-sm btn-outline-light me-2">Privacy Policy</a>
+                    <a href="#" class="btn btn-sm btn-outline-light">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Accessibility Toggle -->
+    <div class="accessibility-toggle">
+        <button class="btn btn-secondary" id="accessibilityBtn">
+            <i class="bi bi-eye"></i>
+        </button>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Character Display Script -->
+    <script src="assets/js/character-display.js"></script>
+    
+    <!-- Support Bot Script -->
+    <script src="assets/js/support-bot.js"></script>
+    
+    <script>
+        // Cryptocurrency purchase form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const purchaseForm = document.querySelector('.purchase-form form');
+            const cryptoTypeSelect = document.getElementById('cryptoType');
+            const feeDisplay = document.querySelector('.fee-display');
+            
+            // Handle crypto purchase buttons from the cards
+            const cryptoPurchaseButtons = document.querySelectorAll('a[href="#crypto-purchase"]');
+            cryptoPurchaseButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get the crypto type from the data attribute
+                    const cryptoType = this.getAttribute('data-crypto');
+                    
+                    // Scroll to the purchase form
+                    const purchaseSection = document.querySelector('.purchase-form');
+                    purchaseSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Set the selected crypto type in the dropdown
+                    if (cryptoType && cryptoTypeSelect) {
+                        cryptoTypeSelect.value = cryptoType;
+                        
+                        // Trigger the change event to update the fee display
+                        const event = new Event('change');
+                        cryptoTypeSelect.dispatchEvent(event);
+                    }
+                    
+                    // Add highlight effect to the form
+                    purchaseSection.classList.add('highlight-form');
+                    setTimeout(() => {
+                        purchaseSection.classList.remove('highlight-form');
+                    }, 1500);
+                });
+            });
+            
+            // Update fee display based on cryptocurrency selection
+            cryptoTypeSelect.addEventListener('change', function() {
+                if (this.value === 'skm') {
+                    feeDisplay.innerHTML = `
+                        <p class="mb-1"><strong>Transaction Fee:</strong></p>
+                        <p class="mb-0 text-muted"><s>Standard Fee: 0.5%</s></p>
+                        <p class="mb-0 text-success"><span class="skulkams-logo">FXAMS</span> Fee: <span class="fee-amount">0.005%</span> (99% savings!)</p>
+                    `;
+                } else {
+                    feeDisplay.innerHTML = `
+                        <p class="mb-1"><strong>Transaction Fee:</strong></p>
+                        <p class="mb-0">Standard Fee: <span class="fee-amount">0.5%</span></p>
+                        <p class="mb-0 text-success">Switch to <span class="skulkams-logo">FXAMS</span> for 99% fee savings!</p>
+                    `;
+                }
+            });
+            
+            // Form submission
+            if (purchaseForm) {
+                purchaseForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const sourcePlatform = document.getElementById('sourcePlatform').value;
+                    const cryptoType = document.getElementById('cryptoType').value;
+                    const amount = document.getElementById('amount').value;
+                    
+                    // Calculate fee
+                    const fee = cryptoType === 'skm' ? amount * 0.00005 : amount * 0.005;
+                    const totalAmount = parseFloat(amount) + fee;
+                    
+                    alert(`
+                        Cryptocurrency Purchase Order:
+                        
+                        Source Platform: ${sourcePlatform}
+                        Cryptocurrency: ${cryptoType.toUpperCase()}
+                        Amount: $${amount} USD
+                        Fee: $${fee.toFixed(2)} USD
+                        Total Amount (with fee): $${totalAmount.toFixed(2)} USD
+                        
+                        Please confirm this purchase in the PayXchangeable app.
+                    `);
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+            
+            // PayXc Wallet functionality
+            const createWalletBtn = document.getElementById('createWalletBtn');
+            const connectWalletBtn = document.getElementById('connectWalletBtn');
+            
+            if (createWalletBtn) {
+                createWalletBtn.addEventListener('click', function() {
+                    // Create a secure wallet creation form
+                    const walletForm = document.createElement('div');
+                    walletForm.className = 'wallet-creation-form p-4 bg-white rounded shadow-sm';
+                    walletForm.innerHTML = `
+                        <h4 class="mb-3">Create Your PayXc Wallet</h4>
+                        <form id="newWalletForm">
+                            <div class="mb-3">
+                                <label for="walletName" class="form-label">Wallet Name</label>
+                                <input type="text" class="form-control" id="walletName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="walletPassword" class="form-label">Secure Password</label>
+                                <input type="password" class="form-control" id="walletPassword" required>
+                                <small class="text-muted">Must be at least 12 characters with letters, numbers, and symbols</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">I agree to the terms and have backed up my password</label>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Create Wallet</button>
+                            </div>
+                        </form>
+                    `;
+                    
+                    // Replace the wallet content with the form
+                    const walletContent = this.closest('.p-4');
+                    walletContent.replaceWith(walletForm);
+                    
+                    // Add form submission handler
+                    document.getElementById('newWalletForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // Simulate wallet creation - would connect to server in a real app
+                        const walletName = document.getElementById('walletName').value;
+                        
+                        // Show success message with wallet details
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'wallet-success p-4 bg-white rounded shadow-sm text-center';
+                        successMessage.innerHTML = `
+                            <div class="mb-3 text-success">
+                                <i class="bi bi-check-circle-fill" style="font-size: 3rem;"></i>
+                            </div>
+                            <h4 class="mb-3">Wallet Created Successfully!</h4>
+                            <p>Your PayXc wallet "<strong>${walletName}</strong>" is ready to use.</p>
+                            <p class="mb-4">Your wallet address: <br><code>payxc_${Math.random().toString(36).substring(2, 15)}${Math.random().toString(36).substring(2, 15)}</code></p>
+                            <div class="alert alert-warning">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                Keep your wallet password safe! It cannot be recovered if lost.
+                            </div>
+                            <div class="d-grid mt-4">
+                                <button class="btn btn-primary" id="walletDashboardBtn">Go to Wallet Dashboard</button>
+                            </div>
+                        `;
+                        
+                        walletForm.replaceWith(successMessage);
+                        
+                        // Dashboard button functionality
+                        document.getElementById('walletDashboardBtn').addEventListener('click', function() {
+                            alert('Wallet dashboard will be available in the PayXchangeable app.');
+                        });
+                    });
+                });
+            }
+            
+            if (connectWalletBtn) {
+                connectWalletBtn.addEventListener('click', function() {
+                    // Create a connect wallet form
+                    const connectForm = document.createElement('div');
+                    connectForm.className = 'wallet-connect-form p-4 bg-white rounded shadow-sm';
+                    connectForm.innerHTML = `
+                        <h4 class="mb-3">Connect Your PayXc Wallet</h4>
+                        <form id="connectWalletForm">
+                            <div class="mb-3">
+                                <label for="walletAddress" class="form-label">Wallet Address</label>
+                                <input type="text" class="form-control" id="walletAddress" placeholder="Enter your PayXc wallet address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="walletPassword" class="form-label">Wallet Password</label>
+                                <input type="password" class="form-control" id="walletPassword" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Connect Wallet</button>
+                            </div>
+                        </form>
+                    `;
+                    
+                    // Replace the wallet content with the form
+                    const walletContent = this.closest('.p-4');
+                    walletContent.replaceWith(connectForm);
+                    
+                    // Add form submission handler
+                    document.getElementById('connectWalletForm').addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // Show connection success
+                        const successMessage = document.createElement('div');
+                        successMessage.className = 'wallet-success p-4 bg-white rounded shadow-sm text-center';
+                        successMessage.innerHTML = `
+                            <div class="mb-3 text-success">
+                                <i class="bi bi-link-45deg" style="font-size: 3rem;"></i>
+                            </div>
+                            <h4 class="mb-3">Wallet Connected!</h4>
+                            <p>Your PayXc wallet is now linked to your account.</p>
+                            <div class="wallet-balance p-3 mb-4 rounded" style="background-color: rgba(50, 18, 122, 0.1);">
+                                <h5>Wallet Balance</h5>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span><i class="bi bi-currency-bitcoin me-2"></i> Bitcoin</span>
+                                    <span>0.0012 BTC</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span><i class="bi bi-currency-exchange me-2"></i> Ethereum</span>
+                                    <span>0.058 ETH</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span class="skulkams-logo">FXAMS</span>
+                                    <span>12.45 FXM</span>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button class="btn btn-primary" id="manageWalletBtn">Manage Wallet</button>
+                            </div>
+                        `;
+                        
+                        connectForm.replaceWith(successMessage);
+                        
+                        // Manage wallet button functionality
+                        document.getElementById('manageWalletBtn').addEventListener('click', function() {
+                            alert('Wallet management features will be available in the PayXchangeable app.');
+                        });
+                    });
+                });
+            }
+            
+            // Accessibility toggle
+            const accessibilityBtn = document.getElementById('accessibilityBtn');
+            if (accessibilityBtn) {
+                accessibilityBtn.addEventListener('click', function() {
+                    document.body.classList.toggle('high-contrast');
+                    
+                    // Update icon
+                    const icon = this.querySelector('i');
+                    if (document.body.classList.contains('high-contrast')) {
+                        icon.className = 'bi bi-eye-slash';
+                    } else {
+                        icon.className = 'bi bi-eye';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

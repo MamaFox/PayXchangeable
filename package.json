@@ -1,0 +1,26 @@
+{
+  "name": "payxchangeable",
+  "version": "2.0.0",
+  "description": "PayXchangeable - Cross-platform financial technology platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'Build complete'",
+    "vercel-build": "echo 'Vercel build complete'"
+  },
+  "keywords": [
+    "fintech",
+    "payment-bridge",
+    "payxchangeable"
+  ],
+  "author": "PayXchangeable",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

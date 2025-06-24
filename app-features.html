@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayXchangeable - App Features</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for Skulkams */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        :root {
+            /* Color variables */
+            --primary-color: #32127A; /* Persian Indigo */
+            --secondary-color: #89756b; /* Brown */
+            --gold: #E6C34A; /* Gold */
+            --money-green: #00a86b;
+            
+            /* Light Theme Colors */
+            --light-bg: #FFFFFF;
+            --light-text: #000000;
+            --light-card-bg: #FFFFFF;
+            --light-section-bg: #f8f9fa;
+            
+            /* Dark Theme Colors */
+            --dark-bg: #1a1a1a;
+            --dark-text: #FFFFFF;
+            --dark-card-bg: #2c2c2c;
+            --dark-section-bg: #333333;
+            
+            /* Default Theme (system preference) */
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --card-bg: var(--light-card-bg);
+            --section-bg: var(--light-section-bg);
+            --border-color: #e0e0e0;
+            --muted-text: #666;
+            
+            /* High contrast variables */
+            --high-contrast-border: rgba(50, 18, 122, 0.5);
+            --high-contrast-outline: rgba(230, 195, 74, 0.5);
+        }
+        
+        /* Detect dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--dark-bg);
+                --text-color: #FFFFFF; /* Pure white text for dark backgrounds */
+                --card-bg: var(--dark-card-bg);
+                --section-bg: var(--dark-section-bg);
+                --border-color: #444;
+                --muted-text: #dddddd; /* Lighter muted text for better contrast */
+            }
+            
+            /* Add gold outline to Persian Indigo elements in dark mode */
+            .text-primary, .btn-outline-primary {
+                text-shadow: 0 0 2px var(--gold);
+            }
+            
+            .bg-primary {
+                box-shadow: 0 0 2px 1px var(--gold);
+            }
+            
+            /* Ensure all informational text is white on dark backgrounds */
+            .text-muted {
+                color: #dddddd !important;
+            }
+            
+            p, span, li, label, a {
+                color: #FFFFFF;
+            }
+        }
+        
+        /* Light mode */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: var(--light-bg);
+                --text-color: #000000; /* Pure black text for light backgrounds */
+                --card-bg: var(--light-card-bg);
+                --section-bg: var(--light-section-bg);
+                --border-color: #e0e0e0;
+                --muted-text: #444444; /* Darker muted text for better contrast */
+            }
+            
+            /* Ensure all informational text is black on light backgrounds */
+            .text-muted {
+                color: #444444 !important;
+            }
+            
+            p, span, li, label, a {
+                color: #000000;
+            }
+        }
+        
+        /* Force light mode with class */
+        .light-theme {
+            --bg-color: var(--light-bg) !important;
+            --text-color: #000000 !important; /* Pure black text for light backgrounds */
+            --card-bg: var(--light-card-bg) !important;
+            --section-bg: var(--light-section-bg) !important;
+            --border-color: #e0e0e0 !important;
+            --muted-text: #444444 !important; /* Darker muted text for better contrast */
+        }
+        
+        /* Light theme specific contrast adjustments */
+        .light-theme .text-muted {
+            color: #444444 !important; /* Darker muted text for better contrast */
+        }
+        
+        .light-theme p, 
+        .light-theme span, 
+        .light-theme li, 
+        .light-theme label, 
+        .light-theme a:not(.btn) {
+            color: #000000 !important; /* Black text */
+        }
+        
+        /* Force dark mode with class */
+        .dark-theme {
+            --bg-color: var(--dark-bg) !important;
+            --text-color: #FFFFFF !important; /* Pure white text for dark backgrounds */
+            --card-bg: var(--dark-card-bg) !important;
+            --section-bg: var(--dark-section-bg) !important;
+            --border-color: #444 !important;
+            --muted-text: #dddddd !important; /* Lighter muted text for better contrast */
+        }
+        
+        /* Dark theme specific contrast adjustments */
+        .dark-theme .text-muted {
+            color: #dddddd !important; /* Lighter muted text for better contrast */
+        }
+        
+        .dark-theme p, 
+        .dark-theme span, 
+        .dark-theme li, 
+        .dark-theme label, 
+        .dark-theme a:not(.btn) {
+            color: #FFFFFF !important; /* White text */
+        }
+        
+        /* Apply gold outline to Persian Indigo elements in forced dark mode */
+        .dark-theme .text-primary, 
+        .dark-theme .btn-outline-primary {
+            text-shadow: 0 0 1px var(--gold);
+        }
+            
+        .dark-theme .bg-primary {
+            box-shadow: 0 0 2px 1px var(--gold);
+        }
+        
+        /* HIGH CONTRAST MODE FOR ALL ELEMENTS */
+        body {
+            font-family: Arial, sans-serif;
+            color: #000000; /* Black text for light mode */
+            background-color: #FFFFFF; /* White background */
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Dark mode contrast adjustments */
+        .dark-theme {
+            /* High contrast for dark mode */
+            --dark-text: #FFFFFF !important; /* Pure white text for dark backgrounds */
+        }
+        
+        /* Light mode contrast adjustments */
+        .light-theme {
+            /* High contrast for light mode */
+            --light-text: #000000 !important; /* Pure black text for light backgrounds */
+        }
+        
+        /* High contrast cards and sections */
+        .feature-card,
+        .bridge-card,
+        .course-card,
+        .card {
+            background-color: #FFFFFF !important;
+            border: 2px solid rgba(50, 18, 122, 0.5) !important;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                0 0 0 2px rgba(230, 195, 74, 0.3) !important;
+            color: #000000 !important;
+        }
+        
+        /* Make all text in these cards black and larger */
+        .feature-card *,
+        .bridge-card *,
+        .course-card *,
+        .card * {
+            color: #000000 !important;
+            font-size: 1.05em;
+        }
+        
+        /* Headings with text shadow outline */
+        h1, h2, h3, h4, h5, h6 {
+            color: #32127A !important;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 4px rgba(255, 255, 255, 0.8) !important;
+            font-weight: bold !important;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Special treatment for buttons */
+        .btn {
+            font-weight: bold !important;
+            font-size: 1.1em !important;
+            padding: 10px 20px !important;
+            border-width: 2px !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Stronger contrast for primary buttons */
+        .btn-primary {
+            background-color: #32127A !important;
+            color: #FFFFFF !important;
+            border: 2px solid #260e60 !important;
+            text-shadow: 0 0 1px #000000 !important;
+        }
+        
+        /* Stronger contrast for secondary buttons */
+        .btn-secondary, 
+        .btn-outline-primary:hover {
+            background-color: #E6C34A !important;
+            color: #000000 !important;
+            border: 2px solid #c09d20 !important;
+        }
+        
+        /* Outlined buttons */
+        .btn-outline-primary {
+            color: #32127A !important;
+            border: 2px solid #32127A !important;
+            background-color: #FFFFFF !important;
+            text-shadow: none !important;
+        }
+        
+        /* Hero section high contrast */
+        .hero-section {
+            background: #32127A;
+            color: white !important;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            border-bottom: 3px solid #E6C34A;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero text with strong contrast */
+        .hero-section h1 {
+            color: white !important;
+            text-shadow: 
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 8px rgba(0, 0, 0, 0.8) !important;
+            font-size: 2.8rem !important;
+            letter-spacing: 1px;
+        }
+        
+        .hero-section p {
+            color: white !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            font-size: 1.3rem !important;
+            font-weight: 500 !important;
+        }
+        
+        .feature-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--money-green);
+        }
+        
+        /* Animated Button Styles */
+        .btn-animated {
+            background-color: #32127A;
+            color: #FFFFFF !important;
+            border: 2px solid #260e60;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(50, 18, 122, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(50, 18, 122, 0.4);
+            background-color: #3c1694;
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(230, 195, 74, 0), rgba(230, 195, 74, 0.3), rgba(230, 195, 74, 0));
+            transition: left 0.8s ease;
+            z-index: -1;
+        }
+        
+        .btn-animated:hover::after {
+            left: 100%;
+        }
+        
+        .footer {
+            background-color: #32127A;
+            color: #f8f9fa;
+            padding: 3rem 0;
+            box-shadow: 0 0 3px 1px #708090; /* Gray outline for footer */
+        }
+        
+        .footer-links a {
+            color: #d0d0d0;
+            margin-right: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--money-green);
+        }
+        
+        /* High contrast navigation */
+        .navbar-dark {
+            font-size: 1.2rem !important;
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-dark .nav-link {
+            color: white !important;
+            font-weight: 600 !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8) !important;
+            margin: 0 5px;
+            padding: 10px 15px !important;
+        }
+        
+        .navbar-dark .nav-link:hover {
+            color: #E6C34A !important;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9) !important;
+        }
+        
+        /* App screenshots */
+        .app-screenshot {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* See more dropdown styling */
+        .collapsed-content {
+            display: none;
+            padding-top: 15px;
+        }
+        
+        .see-more-btn {
+            color: #32127A;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .see-more-btn:hover {
+            color: #00a86b;
+        }
+        
+        .see-more-btn i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .app-screenshot {
+            margin-bottom: 20px;
+            border: 3px solid #32127A;
+        }
+        
+        /* Feature interaction elements */
+        .interactive-demo {
+            border: 2px solid #E6C34A;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+        }
+        
+        .demo-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #32127A;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .feature-section {
+            padding: 60px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-section:last-child {
+            border-bottom: none;
+        }
+        
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin: 0 10px;
+        }
+        
+        .platform-transfer {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .transfer-arrow {
+            font-size: 2rem;
+            margin: 0 20px;
+            color: #32127A;
+        }
+        
+        /* Ensure all elements fit properly in containers */
+        * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-size: clamp(1rem, 5vw, 2.5rem);
+            line-height: 1.3;
+        }
+        
+        .card, .feature-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body {
+            flex: 1 1 auto;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure form elements fit in their containers */
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .badge {
+            white-space: normal;
+            text-align: center;
+        }
+        
+        /* Platform buttons sizing */
+        .platform-icon {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        
+        .btn-outline-primary {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        /* Compact number display for function integers */
+        .number-display, 
+        .demo-result-value,
+        .fee-display,
+        .pricing-card .price,
+        .pricing-card .price-detail,
+        .statistic-value,
+        .numerical-data,
+        .numeric-value {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-feature-settings: "tnum";
+        }
+        
+        /* Form elements with numerical inputs */
+        input[type="number"] {
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+            padding-right: 0.5rem;
+        }
+        
+        /* Transfer amount display */
+        .transfer-amount {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background-color: rgba(0,0,0,0.05);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        
+        /* Character container styling */
+        .character-container {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .character-container:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(230, 195, 74, 0.5);
+        }
+        
+        .character-container svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #32127A; box-shadow: 0 0 3px 1px #708090;">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <small class="text-white">PayXchangeable</small>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            
+            <!-- Character display container -->
+            <div class="d-none d-md-block ms-auto me-4">
+                <div class="character-container" id="header-character" style="width: 60px; height: 60px;">
+                    <!-- User's character will be displayed here by character-display.js -->
+                </div>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#bridges">Bridges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ebt-benefits.html">EBT Benefits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="app-features.html">App Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn ms-lg-3 px-4" style="background-color: #E6C34A; color: black; font-weight: bold;" href="index.html#download">Download</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">Complete App Features</h1>
+                    <p class="lead mb-4">Explore the full range of features available in PayXchangeable. All the functionality of the mobile app, accessible from your web browser.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Features Content -->
+    <section class="container py-5">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">All App Features at Your Fingertips</h2>
+                <p class="lead">Access every feature of PayXchangeable directly from your browser. No download required to explore our platform's capabilities.</p>
+            </div>
+        </div>
+
+        <!-- Cross-Platform Transfers -->
+        <div class="feature-section" id="transfers">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Cross-Platform Money Transfers</h3>
+                    <p>Transfer money directly between payment platforms without needing to have the original apps installed. Bridge the gap between any services with our secure transfer system.</p>
+                    
+                    <div class="platform-transfer mt-4">
+                        <a href="#applecash" class="btn btn-outline-primary">
+                            <img src="assets/images/apple-cash.svg" alt="Apple Cash" class="platform-icon">
+                            <span>Apple Cash</span>
+                        </a>
+                        <span class="transfer-arrow">→</span>
+                        <a href="#samsungpay" class="btn btn-outline-primary">
+                            <img src="assets/images/samsung-pay.svg" alt="Samsung Pay" class="platform-icon">
+                            <span>Samsung Pay</span>
+                        </a>
+                    </div>
+                    
+                    <div class="platform-transfer">
+                        <a href="#zelle" class="btn btn-outline-primary">
+                            <img src="assets/images/zelle.svg" alt="Zelle" class="platform-icon">
+                            <span>Zelle</span>
+                        </a>
+                        <span class="transfer-arrow">→</span>
+                        <a href="#cashapp" class="btn btn-outline-primary">
+                            <img src="assets/images/cash-app.svg" alt="Cash App" class="platform-icon">
+                            <span>Cash App</span>
+                        </a>
+                    </div>
+                    
+                    <div class="interactive-demo">
+                        <h5>Try a Transfer Simulation</h5>
+                        <form class="mt-3">
+                            <div class="mb-3">
+                                <label for="sourceSelect" class="form-label">Source Platform</label>
+                                <select class="form-select demo-input" id="sourceSelect">
+                                    <option value="applecash">Apple Cash</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="venmo">Venmo</option>
+                                    <option value="zelle">Zelle</option>
+                                    <option value="ebt">EBT Cash Benefits</option>
+                                    <option value="samsungpay">Samsung Pay</option>
+                                    <option value="cashapp">Cash App</option>
+                                    <option value="googlepay">Google Pay</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="destinationSelect" class="form-label">Destination Platform</label>
+                                <select class="form-select demo-input" id="destinationSelect">
+                                    <option value="applecash">Apple Cash</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="venmo">Venmo</option>
+                                    <option value="zelle">Zelle</option>
+                                    <option value="ebt">EBT Cash Benefits</option>
+                                    <option value="samsungpay">Samsung Pay</option>
+                                    <option value="cashapp">Cash App</option>
+                                    <option value="googlepay">Google Pay</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="transferAmount" class="form-label">Amount</label>
+                                <input type="number" class="demo-input" id="transferAmount" placeholder="Enter amount" value="50.00">
+                            </div>
+                            <button type="button" class="btn btn-animated">Simulate Transfer</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://placehold.co/600x800/32127A/FFFFFF?text=Transfer+Feature+Screenshot" alt="Transfer Feature Screenshot" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+
+        <!-- EBT Benefits Integration -->
+        <div class="feature-section" id="ebt-integration">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 order-lg-2">
+                    <h3 class="mb-4">EBT Benefits Integration</h3>
+                    <p>Electronic Benefits Transfer (EBT) features are accessible for eligible cardholders. For more comprehensive EBT information and features, please visit our <a href="ebt-benefits.html" class="btn btn-sm btn-primary ms-2">Dedicated EBT Page</a></p>
+                    
+                    <ul class="list-group mt-4 mb-4">
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">✓</span>
+                            Transfer EBT funds to popular payment platforms
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">✓</span>
+                            Platform compatibility:
+                            <div class="ms-4 mt-2 d-flex flex-wrap gap-2">
+                                <a href="#cashapp" class="badge bg-secondary d-flex align-items-center text-decoration-none">
+                                    <img src="assets/images/cash-app.svg" alt="Cash App" width="16" height="16" class="me-1"> Cash App
+                                </a>
+                                <a href="#paypal" class="badge bg-secondary d-flex align-items-center text-decoration-none">
+                                    <img src="assets/images/paypal.svg" alt="PayPal" width="16" height="16" class="me-1"> PayPal
+                                </a>
+                                <a href="#zelle" class="badge bg-secondary d-flex align-items-center text-decoration-none">
+                                    <img src="assets/images/zelle.svg" alt="Zelle" width="16" height="16" class="me-1"> Zelle
+                                </a>
+                                <a href="#banktransfer" class="badge bg-secondary d-flex align-items-center text-decoration-none">
+                                    <i class="bi bi-bank me-1"></i> Bank Transfer
+                                </a>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">✓</span>
+                            Utility Bill Pay services
+                            <div class="ms-4 mt-2 d-flex flex-wrap gap-2">
+                                <a href="#electricity" class="badge bg-info d-flex align-items-center text-decoration-none">
+                                    <i class="bi bi-lightbulb me-1"></i> Electricity
+                                </a>
+                                <a href="#water" class="badge bg-info d-flex align-items-center text-decoration-none">
+                                    <i class="bi bi-droplet me-1"></i> Water
+                                </a>
+                                <a href="#phone" class="badge bg-info d-flex align-items-center text-decoration-none">
+                                    <i class="bi bi-telephone me-1"></i> Phone
+                                </a>
+                                <a href="#internet" class="badge bg-info d-flex align-items-center text-decoration-none">
+                                    <i class="bi bi-wifi me-1"></i> Internet
+                                </a>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">✓</span>
+                            Secure fund management
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">✓</span>
+                            Financial education resources
+                        </li>
+                    </ul>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="interactive-demo">
+                                <h5>EBT Card Connection</h5>
+                                <form class="mt-3">
+                                    <div class="mb-3">
+                                        <label for="ebtCardNumber" class="form-label">EBT Card Number</label>
+                                        <input type="text" class="demo-input" id="ebtCardNumber" placeholder="Enter EBT card number">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ebtPin" class="form-label">PIN</label>
+                                        <input type="password" class="demo-input" id="ebtPin" placeholder="Enter PIN">
+                                    </div>
+                                    <button type="button" class="btn btn-animated">Connect EBT Card</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="interactive-demo">
+                                <h5>EBT Transfer to Payment Platform</h5>
+                                <form class="mt-3">
+                                    <div class="mb-3">
+                                        <label for="ebtTransferDestination" class="form-label">Transfer to Platform</label>
+                                        <select class="form-select demo-input" id="ebtTransferDestination">
+                                            <option value="applecash">Apple Cash</option>
+                                            <option value="paypal">PayPal</option>
+                                            <option value="venmo">Venmo</option>
+                                            <option value="zelle">Zelle</option>
+                                            <option value="samsungpay">Samsung Pay</option>
+                                            <option value="cashapp">Cash App</option>
+                                            <option value="googlepay">Google Pay</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ebtTransferAmount" class="form-label">Amount</label>
+                                        <input type="number" class="demo-input" id="ebtTransferAmount" placeholder="Enter amount" value="100.00">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="alert alert-info">
+                                            <small><strong>Note:</strong> Standard transfer fees apply.</small>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-animated" id="ebtTransferButton">Transfer from EBT</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="interactive-demo">
+                                <h5>EBT Bill Pay</h5>
+                                <form class="mt-3">
+                                    <div class="mb-3">
+                                        <label for="billType" class="form-label">Bill Type</label>
+                                        <select class="form-select demo-input" id="billType">
+                                            <option value="electricity">Electricity</option>
+                                            <option value="water">Water</option>
+                                            <option value="phone">Phone</option>
+                                            <option value="internet">Internet</option>
+                                            <option value="rent">Rent</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="billAmount" class="form-label">Amount</label>
+                                        <input type="number" class="demo-input" id="billAmount" placeholder="Enter amount" value="85.00">
+                                    </div>
+                                    <button type="button" class="btn btn-animated">Pay Bill</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 mt-4">
+                            <div class="card border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">EBT Budget Protection</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>We understand that managing your EBT benefits is critical. If you've made a transfer you need to reverse, our refund system can help you stay on budget.</p>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="interactive-demo">
+                                                <h5>Request Refund</h5>
+                                                <form class="mt-3" id="ebtRefundForm">
+                                                    <div class="mb-3">
+                                                        <label for="refundTransactionSelect" class="form-label">Select Transaction</label>
+                                                        <select class="form-select demo-input" id="refundTransactionSelect">
+                                                            <option value="">Select a transaction to refund</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="refundReason" class="form-label">Reason for Refund</label>
+                                                        <select class="form-select demo-input" id="refundReason">
+                                                            <option value="budget">Exceeded Budget</option>
+                                                            <option value="mistake">Accidental Transfer</option>
+                                                            <option value="emergency">Emergency Need</option>
+                                                            <option value="other">Other</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3 d-none" id="otherReasonField">
+                                                        <label for="otherRefundReason" class="form-label">Specify Reason</label>
+                                                        <input type="text" class="demo-input" id="otherRefundReason" placeholder="Enter reason">
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" id="priorityRefund">
+                                                        <label class="form-check-label" for="priorityRefund">
+                                                            Priority Refund (1-hour processing)
+                                                        </label>
+                                                    </div>
+                                                    <button type="button" class="btn btn-animated" id="requestRefundButton">Request Refund</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card h-100">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">EBT Refund Policy</h5>
+                                                    <ul class="list-group list-group-flush mb-3">
+                                                        <li class="list-group-item">Refunds are processed within 24 hours (1 hour for priority)</li>
+                                                        <li class="list-group-item">Standard refund fees apply</li>
+                                                        <li class="list-group-item">Refunds available for transactions less than 30 days old</li>
+                                                        <li class="list-group-item">Budget management tools available</li>
+                                                    </ul>
+                                                    <div class="alert alert-info">
+                                                        <small>Priority refunds available for time-sensitive situations.</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <img src="https://placehold.co/600x800/32127A/FFFFFF?text=EBT+Integration+Screenshot" alt="EBT Integration Screenshot" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Features -->
+        <div class="feature-section" id="investments">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Investment Capabilities</h3>
+                    <p>Access comprehensive investment features directly from any payment platform. Invest funds from your connected accounts with our diverse investment opportunities.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Stock Trading</h5>
+                                    <p class="card-text">Invest in stocks with minimal fees and automated portfolio management.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cryptocurrency</h5>
+                                    <p class="card-text">Trade popular cryptocurrencies with enhanced security features.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a class="see-more-btn" data-target="more-investment-features">
+                            <span>See more</span> <i class="bi bi-chevron-down"></i>
+                        </a>
+                        
+                        <div id="more-investment-features" class="collapsed-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Micro-Investing</h5>
+                                            <p class="card-text">Round up transactions to automatically invest spare change.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">ETF Investing</h5>
+                                            <p class="card-text">Invest in exchange-traded funds for diversified, low-cost portfolio options.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-demo mt-4">
+                        <h5>Investment Simulator</h5>
+                        <form class="mt-3">
+                            <div class="mb-3">
+                                <label for="investmentType" class="form-label">Investment Type</label>
+                                <select class="form-select demo-input" id="investmentType">
+                                    <option value="stocks">Stocks</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                    <option value="micro">Micro-Investing</option>
+                                    <option value="bonds">Government Bonds</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="investmentSourcePlatform" class="form-label">Source Platform</label>
+                                <select class="form-select demo-input" id="investmentSourcePlatform">
+                                    <option value="">Auto-select (highest balance)</option>
+                                    <option value="applecash">Apple Cash</option>
+                                    <option value="paypal">PayPal</option>
+                                    <option value="venmo">Venmo</option>
+                                    <option value="zelle">Zelle</option>
+                                    <option value="ebt">EBT Cash Benefits</option>
+                                    <option value="samsungpay">Samsung Pay</option>
+                                    <option value="cashapp">Cash App</option>
+                                    <option value="googlepay">Google Pay</option>
+                                </select>
+                                <small class="text-muted">Select the platform you want to use for this investment.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="investmentAmount" class="form-label">Amount to Invest</label>
+                                <input type="number" class="demo-input" id="investmentAmount" placeholder="Enter amount" value="100.00">
+                            </div>
+                            <button type="button" class="btn btn-animated">Simulate Investment</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Investment Refund Section -->
+                    <div id="ebt-investment-refund-section" class="mt-4 d-none">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Investment Refund Options</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>All users can request refunds on investments in certain circumstances when funds are needed for other purposes.</p>
+                                
+                                <div class="interactive-demo">
+                                    <h5>Request Investment Refund</h5>
+                                    <form class="mt-3" id="investment-refund-form">
+                                        <div class="mb-3">
+                                            <label for="investmentRefundSelect" class="form-label">Select Investment</label>
+                                            <select class="form-select demo-input" id="investmentRefundSelect">
+                                                <option value="">Select an investment to refund</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="investmentRefundReason" class="form-label">Reason for Refund</label>
+                                            <select class="form-select demo-input" id="investmentRefundReason">
+                                                <option value="essential">Need Funds for Essential Expenses</option>
+                                                <option value="emergency">Financial Emergency</option>
+                                                <option value="budget">Exceeded Budget</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 d-none" id="otherInvestmentReasonField">
+                                            <label for="otherInvestmentRefundReason" class="form-label">Specify Reason</label>
+                                            <input type="text" class="demo-input" id="otherInvestmentRefundReason" placeholder="Enter reason">
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="priorityInvestmentRefund">
+                                            <label class="form-check-label" for="priorityInvestmentRefund">
+                                                Priority Refund (1-hour processing)
+                                            </label>
+                                        </div>
+                                        <div class="alert alert-info">
+                                            <small>Note: Investment refunds may return slightly less than your initial investment due to market fluctuations.</small>
+                                        </div>
+                                        <button type="button" class="btn btn-animated" id="requestInvestmentRefundButton">Request Investment Refund</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://placehold.co/600x800/32127A/FFFFFF?text=Investment+Feature+Screenshot" alt="Investment Feature Screenshot" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Education -->
+        <div class="feature-section" id="financial-education">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 order-lg-2">
+                    <h3 class="mb-4">Financial Education Platform</h3>
+                    <p>Access our comprehensive financial education courses designed to improve your financial literacy. All courses are free and accessible to everyone.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">Featured Course</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Budgeting Fundamentals</h5>
+                                    <p class="card-text">Learn essential budgeting techniques to manage your finances effectively.</p>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-animated">Start Course</button>
+                                        <a href="financial-learning.html" class="btn btn-animated" style="background-color: #E6C34A; color: #000 !important; border-color: #c09d20;">
+                                            <i class="bi bi-trophy me-1"></i> Gamified Learning
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h5>Available Courses</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Debt Management Strategies
+                                <span class="badge bg-primary rounded-pill">$1.99</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Investment Fundamentals
+                                <span class="badge bg-primary rounded-pill">$1.99</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a class="see-more-btn" data-target="more-courses">
+                            <span>See more</span> <i class="bi bi-chevron-down"></i>
+                        </a>
+                        
+                        <div id="more-courses" class="collapsed-content">
+                            <ul class="list-group mt-2">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Maximizing Government Benefits
+                                    <span class="badge bg-primary rounded-pill">$1.99</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Building Credit Score
+                                    <span class="badge bg-primary rounded-pill">$1.99</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Advanced Budgeting Techniques
+                                    <span class="badge bg-primary rounded-pill">$1.99</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Cryptocurrency Basics
+                                    <span class="badge bg-primary rounded-pill">$1.99</span>
+                                </li>
+                            </ul>
+                            
+                            <div class="card mt-3 border-success">
+                                <div class="card-body">
+                                    <h5 class="card-title">Special Offers</h5>
+                                    <ul class="list-group list-group-flush mb-3">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            EBT/SSI/Student Discount
+                                            <span class="badge bg-success rounded-pill">80% OFF</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            With $20+ <span class="fxams-logo">FXAMS</span> Purchase
+                                            <span class="badge bg-success rounded-pill">FREE</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Unlimited Access (Monthly)
+                                            <span class="badge bg-success rounded-pill">$10.99</span>
+                                        </li>
+                                    </ul>
+                                    <a href="financial-learning.html" class="btn btn-success">View All Courses</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <img src="https://placehold.co/600x800/32127A/FFFFFF?text=Financial+Education+Screenshot" alt="Financial Education Screenshot" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+
+        <!-- Accessibility Features -->
+        <div class="feature-section" id="accessibility">
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Accessibility Features</h3>
+                    <p>PayXchangeable is designed with accessibility in mind. Our platform includes features to ensure everyone can use our services comfortably.</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">High Contrast Mode</h5>
+                                    <p class="card-text">Enhanced visibility with high contrast colors and text outlines.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Color-Blind Friendly</h5>
+                                    <p class="card-text">Special color modes for different types of color blindness.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a class="see-more-btn" data-target="more-accessibility-features">
+                            <span>See more</span> <i class="bi bi-chevron-down"></i>
+                        </a>
+                        
+                        <div id="more-accessibility-features" class="collapsed-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Screen Reader Support</h5>
+                                            <p class="card-text">Full compatibility with screen readers for vision-impaired users.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Light/Dark Mode</h5>
+                                            <p class="card-text">Toggle between light and dark mode for your visual comfort.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Voice Commands</h5>
+                                            <p class="card-text">Control the app using just your voice for hands-free operation.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Haptic Feedback</h5>
+                                            <p class="card-text">Tactile feedback for touch interactions to enhance the user experience.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="highContrastMode">
+                            <label class="form-check-label" for="highContrastMode">Enable High Contrast Mode</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                            <label class="form-check-label" for="darkModeToggle">Enable Dark Mode</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="colorBlindMode">
+                            <label class="form-check-label" for="colorBlindMode">Enable Color-Blind Mode</label>
+                        </div>
+                        <div class="mt-3">
+                            <button class="btn btn-animated">Apply Settings</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://placehold.co/600x800/32127A/FFFFFF?text=Accessibility+Features+Screenshot" alt="Accessibility Features Screenshot" class="app-screenshot">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="py-5" id="download-options" style="background-color: #f9f9f9;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">Download PayXchangeable</h2>
+                    <p class="lead mb-5">Get the full PayXchangeable experience on your preferred device with our mobile apps. Direct access to APKs and source code via GitHub.</p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">Android APK</h3>
+                            <p class="mb-4">Direct APK download for Android devices. No Google Play required.</p>
+                            <a href="https://github.com/payxchangeable/android/releases/download/v1.2.0/payxchangeable-v1.2.0.apk" class="btn btn-primary btn-animated" download>Download APK</a>
+                            <p class="mt-2 small">Version 1.2.0 (Latest)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">iOS App</h3>
+                            <p class="mb-4">Download the TestFlight version or get from the App Store.</p>
+                            <a href="https://testflight.apple.com/join/payxchangeable" class="btn btn-primary btn-animated">TestFlight Beta</a>
+                            <a href="https://apps.apple.com/app/payxchangeable/id1234567890" class="btn btn-outline-primary mt-2">App Store</a>
+                            <p class="mt-2 small">Version 1.2.0 (Latest)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">GitHub Source</h3>
+                            <p class="mb-4">Access our open source repositories for Android and iOS apps.</p>
+                            <a href="https://github.com/payxchangeable/android" class="btn btn-primary btn-animated">Android Repo</a>
+                            <a href="https://github.com/payxchangeable/ios" class="btn btn-outline-primary mt-2">iOS Repo</a>
+                            <p class="mt-2 small">MIT Licensed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-5" style="background-color: #32127A;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center text-white">
+                    <h2 class="text-white mb-4">Ready to Experience PayXchangeable?</h2>
+                    <p class="lead mb-4">Start using our features now directly in your browser or download the app for the full mobile experience.</p>
+                    <a href="#transfers" class="btn btn-lg me-3 mb-3" style="background-color: #E6C34A; color: #000000; font-weight: bold; padding: 15px 30px; border-radius: 50px;">Try Features Now</a>
+                    <a href="#download-options" class="btn btn-lg btn-outline-light mb-3" style="font-weight: bold; padding: 15px 30px; border-radius: 50px;">Download Apps</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">PayXchangeable</h5>
+                    <p>Bridging the gap between payment platforms, making money transfers easier for everyone.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Features</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#transfers">Transfers</a></li>
+                        <li class="mb-2"><a href="ebt-benefits.html">EBT Integration</a></li>
+                        <li class="mb-2"><a href="#investments">Investments</a></li>
+                        <li class="mb-2"><a href="#financial-education">Education</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">About Us</a></li>
+                        <li class="mb-2"><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-4">Stay Connected</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="mailto:support@payxchangeable.com">support@payxchangeable.com</a></li>
+                        <li class="mb-2"><span class="small text-muted">Email support bot available 24/7</span></li>
+                    </ul>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="me-3 text-white">FB</a>
+                        <a href="#" class="me-3 text-white">TW</a>
+                        <a href="#" class="me-3 text-white">IG</a>
+                        <a href="#" class="text-white">LI</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <p class="small text-muted mb-0">© 2025 PayXchangeable. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load Required JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    
+    <!-- Load our custom JavaScript for app features -->
+    <script src="assets/js/app-features.js"></script>
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+    
+    <!-- See More Dropdown Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const seeMoreButtons = document.querySelectorAll('.see-more-btn');
+            
+            seeMoreButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const collapsedContent = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+                    
+                    if (collapsedContent.style.display === 'block') {
+                        collapsedContent.style.display = 'none';
+                        this.querySelector('span').textContent = 'See more';
+                        icon.classList.remove('bi-chevron-up');
+                        icon.classList.add('bi-chevron-down');
+                    } else {
+                        collapsedContent.style.display = 'block';
+                        this.querySelector('span').textContent = 'See less';
+                        icon.classList.remove('bi-chevron-down');
+                        icon.classList.add('bi-chevron-up');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

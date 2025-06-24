@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayXchangeable - About Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for Skulkams */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        :root {
+            /* Color variables */
+            --primary-color: #32127A; /* Persian Indigo */
+            --secondary-color: #89756b; /* Brown */
+            --gold: #E6C34A; /* Gold */
+            --money-green: #00a86b;
+            
+            /* Light Theme Colors */
+            --light-bg: #FFFFFF;
+            --light-text: #000000;
+            --light-card-bg: #FFFFFF;
+            --light-section-bg: #f8f9fa;
+            
+            /* Dark Theme Colors */
+            --dark-bg: #1a1a1a;
+            --dark-text: #FFFFFF;
+            --dark-card-bg: #2c2c2c;
+            --dark-section-bg: #333333;
+            
+            /* Default Theme (system preference) */
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --card-bg: var(--light-card-bg);
+            --section-bg: var(--light-section-bg);
+            --border-color: #e0e0e0;
+            --muted-text: #666;
+            
+            /* High contrast variables */
+            --high-contrast-border: rgba(50, 18, 122, 0.5);
+            --high-contrast-outline: rgba(230, 195, 74, 0.5);
+            
+            /* Skulkams Styling */
+            --skulkams-color: #FF00FF; /* Magenta */
+            --skulkams-outline: #00C957; /* Kelly Green */
+        }
+        
+        /* Additional Skulkams text styling with variables */
+        .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: var(--skulkams-color);
+            text-shadow:
+                -1px -1px 0 var(--skulkams-outline),
+                1px -1px 0 var(--skulkams-outline),
+                -1px 1px 0 var(--skulkams-outline),
+                1px 1px 0 var(--skulkams-outline);
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        /* Detect dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--dark-bg);
+                --text-color: #FFFFFF; /* Pure white text for dark backgrounds */
+                --card-bg: var(--dark-card-bg);
+                --section-bg: var(--dark-section-bg);
+                --border-color: #444;
+                --muted-text: #dddddd; /* Lighter muted text for better contrast */
+            }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Navigation styles */
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header styles */
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--gold);
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* About us specific styles */
+        .about-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .signature {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-top: 2rem;
+        }
+        
+        /* Footer styles */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="currency-exchange.html">Currency Exchange</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about-us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-account.html">My Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-4">About Us</h1>
+                    <p class="lead">Learn about our mission and the team behind PayXchangeable</p>
+                </div>
+                <div class="col-lg-4 d-none d-lg-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                        <div class="display-1 text-warning">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <p class="text-white">Family Owned & Operated</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body about-content p-4 p-md-5">
+                        <p>Here at PayXc (PayXchangeable) we are family developed (with the help of ai) owned and operated business; who share your dream of generational wealth. There is no reason why you too can't have financial freedom, intelligence, and health. Regardless of your current financial state, circumstances, or situation.</p>
+                        
+                        <p>We have compiled a wealth of tools to get you on the road to the future you invision for you and your lineage. You can be the catalyst that sparks the change.</p>
+                        
+                        <p>Partnered with Crowd 9 invest we are set to be fully equipped to handle all your financial needs. We appreciate your backing and can't wait to see where your journey takes you and your family.</p>
+                        
+                        <div class="mt-5">
+                            <p class="mb-0">With Love,</p>
+                            <p class="signature">Avery Williams-Fox</p>
+                            <p class="small text-muted">Founder, PayXchangeable</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        Our Vision
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0">To empower individuals and families with the financial tools and knowledge they need to build generational wealth and achieve true financial freedom.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Company Values
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="bi bi-people-fill text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-0">Family First</h6>
+                                    <small class="text-muted">Building generational wealth starts with family</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="bi bi-shield-fill-check text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-0">Trust & Security</h6>
+                                    <small class="text-muted">Your financial data and assets are always protected</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="bi bi-lightbulb-fill text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-0">Financial Education</h6>
+                                    <small class="text-muted">Knowledge is the key to building wealth</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <i class="bi bi-graph-up-arrow text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-0">Accessible Growth</h6>
+                                    <small class="text-muted">Financial growth opportunities for everyone</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        Connect With Us
+                    </div>
+                    <div class="card-body">
+                        <p><i class="bi bi-envelope me-2 text-primary"></i> Email: support@payxchangeable.com</p>
+                        <p><i class="bi bi-geo-alt me-2 text-primary"></i> Location: Global (Remote-First)</p>
+                        <div class="d-flex gap-3 mt-4">
+                            <a href="#" class="btn btn-outline-primary"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="btn btn-outline-primary"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="btn btn-outline-primary"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="btn btn-outline-primary"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>PayXchangeable</h5>
+                    <p>The cross-platform payment bridge that makes transfers between payment platforms simple and secure.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Features</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#bridges">Bridges</a></li>
+                        <li><a href="ebt-benefits.html">Electronic Benefits</a></li>
+                        <li><a href="index.html#education">Education</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about-us.html" class="fw-bold">About Us</a></li>
+                        <li><a href="financial-learning.html">Financial Learning</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Stay Connected</h5>
+                    <div class="d-flex mb-3">
+                        <a href="#" class="me-3">Facebook</a>
+                        <a href="#" class="me-3">Twitter</a>
+                        <a href="#" class="me-3">Instagram</a>
+                        <a href="#" class="me-3">LinkedIn</a>
+                    </div>
+                    <p class="mb-1">support@payxchangeable.com</p>
+                    <p class="small text-muted">Email support bot available 24/7</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="mb-0">© 2025 PayXchangeable. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <small class="text-muted">Family developed, owned and operated</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+</body>
+</html>

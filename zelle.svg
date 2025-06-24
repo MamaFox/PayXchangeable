@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .zelle-bg {
+      fill: #6D1ED4; /* Zelle purple */
+    }
+    .zelle-text {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      fill: #FFFFFF;
+      font-size: 48px;
+      text-anchor: middle;
+    }
+    .zelle-z {
+      fill: none;
+      stroke: #FFFFFF;
+      stroke-width: 8;
+    }
+  </style>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" class="zelle-bg" />
+  
+  <!-- Zelle Z -->
+  <path d="M60,70 L140,70 L60,130 L140,130" class="zelle-z" />
+  
+  <!-- Zelle text -->
+  <text x="100" y="155" class="zelle-text">Zelle</text>
+</svg>

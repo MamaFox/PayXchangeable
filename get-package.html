@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get PayXchangeable Package</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .package-info {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .download-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        .file-details {
+            font-size: 16px;
+            margin: 15px 0;
+        }
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .step {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .step:last-child {
+            border-bottom: none;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10B981;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PayXchangeable Deployment Package</h1>
+        
+        <div class="package-info">
+            <div class="file-details">
+                <strong>File:</strong> payxchangeable-complete-deploy.tar.gz<br>
+                <strong>Size:</strong> 944 KB<br>
+                <strong>Type:</strong> Complete Application Package
+            </div>
+            
+            <a href="./payxchangeable-fixed-deploy.tar.gz" 
+               download="payxchangeable-fixed-deploy.tar.gz" 
+               class="download-btn"
+               onclick="showSuccess()">
+                Download Fixed Package
+            </a>
+            
+            <div style="margin-top: 15px; font-size: 14px; color: #ffffff99;">
+                Fixed: Vercel deployment JSON configuration
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3 style="margin-top: 0;">Deployment Steps:</h3>
+            <div class="step">1. Download the package above</div>
+            <div class="step">2. Go to your GitHub repository</div>
+            <div class="step">3. Delete all existing files</div>
+            <div class="step">4. Extract and upload all package files</div>
+            <div class="step">5. payxchangeable.com will update automatically</div>
+        </div>
+        
+        <div id="successMessage" class="success" style="display: none;">
+            Package downloaded successfully! Check your Downloads folder and follow the deployment steps above.
+        </div>
+    </div>
+    
+    <script>
+        function showSuccess() {
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'block';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayXchangeable - Investment Opportunities</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for FXAMS */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        /* Crowd 9 partnership styling */
+        .crowd9-partnership {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(50, 18, 122, 0.1) 0%, rgba(230, 195, 74, 0.1) 100%);
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        /* Binary code decorative elements */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(50, 18, 122, 0.3);
+            letter-spacing: 2px;
+        }
+        
+        :root {
+            /* Color variables */
+            --primary-color: #32127A; /* Persian Indigo */
+            --secondary-color: #89756b; /* Brown */
+            --gold: #E6C34A; /* Gold */
+            --money-green: #00a86b;
+            
+            /* Light Theme Colors */
+            --light-bg: #FFFFFF;
+            --light-text: #000000;
+            --light-card-bg: #FFFFFF;
+            --light-section-bg: #f8f9fa;
+            
+            /* Dark Theme Colors */
+            --dark-bg: #1a1a1a;
+            --dark-text: #FFFFFF;
+            --dark-card-bg: #2c2c2c;
+            --dark-section-bg: #333333;
+            
+            /* Default Theme (system preference) */
+            --bg-color: var(--light-bg);
+            --text-color: var(--light-text);
+            --card-bg: var(--light-card-bg);
+            --section-bg: var(--light-section-bg);
+            --border-color: #e0e0e0;
+            --muted-text: #666;
+            
+            /* High contrast variables */
+            --high-contrast-border: rgba(50, 18, 122, 0.5);
+            --high-contrast-outline: rgba(230, 195, 74, 0.5);
+        }
+        
+        /* Detect dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--dark-bg);
+                --text-color: #FFFFFF; /* Pure white text for dark backgrounds */
+                --card-bg: var(--dark-card-bg);
+                --section-bg: var(--dark-section-bg);
+                --border-color: #444;
+                --muted-text: #dddddd; /* Lighter muted text for better contrast */
+            }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Navigation styles */
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header styles */
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--gold);
+        }
+        
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 12px 20px;
+        }
+        
+        /* Button styles */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--money-green);
+            border-color: var(--money-green);
+        }
+        
+        .btn-success:hover {
+            background-color: #007a4d;
+            border-color: #007a4d;
+        }
+        
+        .btn-animated {
+            background-color: var(--money-green);
+            color: white;
+            transition: all 0.3s ease;
+            border-color: var(--money-green);
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 168, 107, 0.4);
+            background-color: #007a4d;
+        }
+        
+        /* Investment card */
+        .investment-card {
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .investment-card .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--money-green);
+        }
+        
+        .investment-card .risk-label {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .risk-low {
+            background-color: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+        }
+        
+        .risk-medium {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .risk-high {
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        /* Stock ticker display */
+        .ticker-display {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .ticker-item {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .ticker-up {
+            color: #28a745;
+        }
+        
+        .ticker-down {
+            color: #dc3545;
+        }
+        
+        /* Chart container */
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .placeholder-chart {
+            background-color: #f8f9fa;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+        
+        /* Portfolio performance */
+        .portfolio-performance {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .growth-positive {
+            color: #28a745;
+        }
+        
+        .growth-negative {
+            color: #dc3545;
+        }
+        
+        /* Progress bars */
+        .progress {
+            height: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        .progress-bar-success {
+            background-color: var(--money-green);
+        }
+        
+        /* Footer styles */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+        
+        /* Ensure all elements fit properly in containers */
+        * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-size: clamp(1rem, 5vw, 2.5rem);
+            line-height: 1.3;
+        }
+        
+        .card, .feature-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body {
+            flex: 1 1 auto;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure form elements fit in their containers */
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .badge {
+            white-space: normal;
+            text-align: center;
+        }
+        
+        /* Platform buttons sizing */
+        .platform-icon {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        
+        .btn-outline-primary {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        /* Form layout improvements */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-select, .form-control {
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        /* Investment calculator result cards */
+        #simulationResults .card {
+            min-height: 120px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #simulationResults .card-title {
+            font-size: 1rem;
+        }
+        
+        #simulationResults .h3 {
+            font-size: clamp(1.2rem, 3vw, 1.75rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        /* Compact number display for function integers */
+        .number-display, 
+        .ticker-item span,
+        .card p.h3,
+        .growth-positive,
+        .growth-negative,
+        .balance-display,
+        .numeric-value {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-feature-settings: "tnum";
+        }
+        
+        /* Ticker display adjustments */
+        .ticker-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .ticker-item {
+            flex: 1 1 auto;
+            min-width: 120px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="40" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="currency-exchange.html">Currency Exchange</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cryptocurrency.html">Cryptocurrency</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-account.html">My Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="display-4">
+                        <span class="payxc-brand">Investment Opportunities</span>
+                        <div class="binary-code">01101001 01101110 01110110 01100101 01110011 01110100</div>
+                    </h1>
+                    <p class="lead">Invest your funds directly from any payment platform with personalized recommendations</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Market Overview -->
+        <section class="mb-5">
+            <h2 class="mb-4">
+                <span class="payxc-brand">Market Overview</span>
+                <div class="binary-code">01101101 01100001 01110010 01101011 01100101 01110100</div>
+            </h2>
+            
+            <div class="ticker-display">
+                <div class="ticker-item">
+                    <strong>S&P 500</strong>
+                    <span class="ticker-up">4,183.95 <i class="bi bi-arrow-up"></i> 0.8%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong>NASDAQ</strong>
+                    <span class="ticker-up">14,112.63 <i class="bi bi-arrow-up"></i> 1.2%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong>DOW</strong>
+                    <span class="ticker-down">33,576.12 <i class="bi bi-arrow-down"></i> 0.3%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong>BTC</strong>
+                    <span class="ticker-up">64,325.78 <i class="bi bi-arrow-up"></i> 2.5%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong>ETH</strong>
+                    <span class="ticker-up">3,215.42 <i class="bi bi-arrow-up"></i> 1.7%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong><span class="fxams-logo">FXM</span></strong>
+                    <span class="ticker-up">2.14 <i class="bi bi-arrow-up"></i> 5.2%</span>
+                </div>
+                <div class="ticker-item">
+                    <strong>XRP</strong>
+                    <span class="ticker-down">0.5231 <i class="bi bi-arrow-down"></i> 0.9%</span>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="placeholder-chart">
+                    <div class="text-center">
+                        <div class="mb-2"><i class="bi bi-graph-up fs-1"></i></div>
+                        <p class="mb-0">Interactive Market Chart</p>
+                        <small>Sign in to view detailed market performance</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Live Market & Investments -->
+        <section class="mb-5">
+            <h2 class="mb-4">
+                <span class="payxc-brand">Live Investment Marketplace</span>
+                <div class="binary-code">01101100 01101001 01110110 01100101 01101101 01100001 01110010 01101011 01100101 01110100</div>
+            </h2>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <span>Real-Time Stock Listings</span>
+                    <span class="badge bg-light text-dark" id="market-status">Market Open</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-3">Live data from major exchanges. Invest directly from any connected payment platform.</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="stock-listings">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Company</th>
+                                    <th>Price</th>
+                                    <th>Change</th>
+                                    <th>% Change</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AAPL</td>
+                                    <td>Apple Inc.</td>
+                                    <td class="price">$168.42</td>
+                                    <td class="change text-success">+1.38</td>
+                                    <td class="percent text-success">+0.82%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>MSFT</td>
+                                    <td>Microsoft Corp.</td>
+                                    <td class="price">$387.41</td>
+                                    <td class="change text-success">+3.23</td>
+                                    <td class="percent text-success">+0.84%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>AMZN</td>
+                                    <td>Amazon.com Inc.</td>
+                                    <td class="price">$173.59</td>
+                                    <td class="change text-success">+2.14</td>
+                                    <td class="percent text-success">+1.25%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>GOOGL</td>
+                                    <td>Alphabet Inc.</td>
+                                    <td class="price">$165.87</td>
+                                    <td class="change text-success">+1.72</td>
+                                    <td class="percent text-success">+1.05%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>META</td>
+                                    <td>Meta Platforms Inc.</td>
+                                    <td class="price">$435.25</td>
+                                    <td class="change text-danger">-2.73</td>
+                                    <td class="percent text-danger">-0.62%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>TSLA</td>
+                                    <td>Tesla Inc.</td>
+                                    <td class="price">$182.44</td>
+                                    <td class="change text-danger">-1.12</td>
+                                    <td class="percent text-danger">-0.61%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>NVDA</td>
+                                    <td>NVIDIA Corp.</td>
+                                    <td class="price">$919.13</td>
+                                    <td class="change text-success">+12.56</td>
+                                    <td class="percent text-success">+1.39%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                                <tr>
+                                    <td>JPM</td>
+                                    <td>JPMorgan Chase & Co.</td>
+                                    <td class="price">$195.24</td>
+                                    <td class="change text-success">+0.76</td>
+                                    <td class="percent text-success">+0.39%</td>
+                                    <td><button class="btn btn-sm btn-success">Buy</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="small text-muted">Last updated: <span id="last-update">May 10, 2025 13:45 ET</span></span>
+                        <button class="btn btn-outline-primary btn-sm" id="view-more-stocks">View More Stocks <i class="bi bi-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Investment Options -->
+        <section class="mb-5">
+            <h2 class="mb-4">
+                <span class="payxc-brand">Investment Options</span>
+                <div class="binary-code">01101111 01110000 01110100 01101001 01101111 01101110 01110011</div>
+            </h2>
+            <div class="row g-4">
+                <!-- Stocks & ETFs -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <span class="risk-label risk-medium">Medium Risk</span>
+                            <h3 class="card-title h4 mb-3">Stocks & ETFs</h3>
+                            <p class="card-text">Access real-time market data with commission-free trades directly from any payment platform.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> 5000+ stocks and ETFs</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Real-time pricing and execution</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Fractional shares from $1</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Automated dividend reinvestment</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#real-time-stocks" class="btn btn-animated">Trade Stocks & ETFs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Precious Metals -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon" style="color: #FFD700;">
+                                <i class="bi bi-coin"></i>
+                            </div>
+                            <span class="risk-label risk-medium">Medium Risk</span>
+                            <h3 class="card-title h4 mb-3">Precious Metals</h3>
+                            <p class="card-text">Invest in gold, silver, platinum and other precious metals with secure storage and real-time trading.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Physical gold from 1g to 1kg</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Silver, platinum, and palladium</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Secure vault storage included</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Physical delivery option</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Live spot price trading</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#precious-metals" class="btn btn-animated" style="background-color: #FFD700; border-color: #FFD700;">Trade Precious Metals</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- California Bonds -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <span class="risk-label risk-low">Low Risk</span>
+                            <h3 class="card-title h4 mb-3">CA Bonds & Fixed Income</h3>
+                            <p class="card-text">Invest in tax-advantaged California municipal bonds and other government securities.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> CA municipal bonds (tax-free for CA residents)</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> US Treasury bonds and notes</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Corporate bonds with A+ ratings</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Bond ETFs and mutual funds</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#ca-bonds" class="btn btn-animated">Explore CA Bonds</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Roth IRAs -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon" style="color: var(--primary-color);">
+                                <i class="bi bi-piggy-bank"></i>
+                            </div>
+                            <span class="risk-label risk-low">Tax-Advantaged</span>
+                            <h3 class="card-title h4 mb-3">Roth IRAs</h3>
+                            <p class="card-text">Grow your retirement savings tax-free with our easy-to-manage Roth IRA accounts.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Tax-free growth and withdrawals</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Access to all investment options</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Automated portfolio rebalancing</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Contribute directly from any platform</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Easy rollover from existing accounts</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#roth-ira" class="btn btn-animated">Open Roth IRA</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cryptocurrency -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon" style="color: #FF00FF;">
+                                <i class="bi bi-currency-bitcoin"></i>
+                            </div>
+                            <span class="risk-label risk-high">High Risk</span>
+                            <h3 class="card-title h4 mb-3">Cryptocurrency with <span class="skulkams-logo">FXAMS</span></h3>
+                            <p class="card-text">Trade popular cryptocurrencies with enhanced security features and real-time market data. Use our exclusive <span class="skulkams-logo">FXAMS</span> cryptocurrency for 99% savings on transaction fees!</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> 50+ cryptocurrencies including <span class="skulkams-logo">FXAMS</span></li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Only 0.005% fee when using <span class="skulkams-logo">FXAMS</span></li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Secure wallet integration</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Recurring crypto purchases</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Partnership with <a href="https://crowd9.com" target="_blank">Crowd 9</a> exchange</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="cryptocurrency.html" class="btn btn-animated" style="background: linear-gradient(135deg, #FF00FF, #00C957); color: white;">Explore <span class="skulkams-logo">FXAMS</span> & Cryptocurrencies</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Crowd 9 Invest -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100 border-2" style="border-color: var(--gold);">
+                        <div class="card-body">
+                            <div class="card-icon" style="color: var(--gold);">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+                            <span class="risk-label" style="background-color: rgba(230, 195, 74, 0.2); color: var(--gold);">Angel Investing</span>
+                            <h3 class="card-title h4 mb-3">Crowd 9 Invest</h3>
+                            <p class="card-text">Maybe you're looking for a way for your money to do more. Look into crowd investments and angel investing with Crowd 9 Invest!</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Early-stage startup investments</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Community-backed projects</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Diversified investment pools</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Exclusive investment opportunities</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Minimum investment of only $100</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="https://crowd9.com/invest" target="_blank" class="btn btn-animated" style="background-color: var(--gold); border-color: var(--gold); color: #000;">Explore Crowd 9 Invest</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Robo-Advisor -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <span class="risk-label risk-medium">Medium Risk</span>
+                            <h3 class="card-title h4 mb-3">Robo-Advisor</h3>
+                            <p class="card-text">Automated investment management with personalized portfolios based on your goals and risk tolerance.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Personalized portfolio allocation</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Automatic rebalancing</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Tax-loss harvesting</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Low management fees (0.25%)</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#robo-advisor" class="btn btn-animated">Try Robo-Advisor</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Retirement Options -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card investment-card h-100">
+                        <div class="card-body">
+                            <div class="card-icon">
+                                <i class="bi bi-piggy-bank"></i>
+                            </div>
+                            <span class="risk-label risk-medium">Medium Risk</span>
+                            <h3 class="card-title h4 mb-3">Retirement Planning</h3>
+                            <p class="card-text">Tax-advantaged retirement investment options to help you prepare for the future.</p>
+                            <ul class="list-unstyled mb-4">
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Traditional & Roth IRAs</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> 401(k) rollovers</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Retirement calculators</li>
+                                <li><i class="bi bi-check-circle-fill text-success me-2"></i> Long-term planning tools</li>
+                            </ul>
+                            <div class="d-grid">
+                                <a href="#retirement-planning" class="btn btn-animated">Plan for Retirement</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- <span class="skulkams-logo">FXAMS</span> Cryptocurrency Section -->
+        <section id="fxams" class="mb-5">
+            <div class="card">
+                <div class="card-header" style="background: linear-gradient(135deg, #FF00FF, #00C957);">
+                    <h2 class="mb-0 h5">
+                        <span class="skulkams-logo">FXAMS</span> Cryptocurrency
+                        <div class="binary-code">01110011 01101011 01110101 01101100 01101011 01100001 01101101 01110011</div>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <h3 class="mb-4">Exclusive <span class="skulkams-logo">FXAMS</span> Cryptocurrency</h3>
+                            <p>PayXchangeable's exclusive <span class="skulkams-logo">FXAMS</span> cryptocurrency offers an incredible <strong>99% savings</strong> on all transactions! When you use <span class="skulkams-logo">FXAMS</span> for transfers, your fees drop to just 0.005% instead of the standard 0.5%.</p>
+                            
+                            <div class="crowd9-partnership mb-4">
+                                <div class="binary-code text-end">01101</div>
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <div class="me-4 text-center mb-3 mb-md-0">
+                                        <img src="assets/images/crowd9-logo.svg" alt="Crowd 9 Exchange" style="width: 100px; height: 100px;">
+                                    </div>
+                                    <div>
+                                        <h4 class="h5 mb-2">
+                                            <span class="payxc-brand">Exclusive Partnership with Crowd 9</span>
+                                            <div class="binary-code">01110000 01100001 01110010 01110100 01101110 01100101 01110010</div>
+                                        </h4>
+                                        <p class="mb-0">We've partnered with <a href="https://crowd9.com" target="_blank">Crowd 9</a> exchange to provide secure, fast, and reliable cryptocurrency trading. With Crowd 9, you get advanced trading tools, robust security, and competitive rates.</p>
+                                    </div>
+                                </div>
+                                <div class="binary-code text-start mt-2">10010</div>
+                            </div>
+                            
+                            <h4 class="h5 mb-3">Benefits of <span class="skulkams-logo">FXAMS</span>:</h4>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>99% lower fees</strong> - Only 0.005% transaction fee</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Fast transactions</strong> - Complete in seconds, not hours</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Enhanced security</strong> - Advanced encryption and security protocols</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Cross-platform compatibility</strong> - Works with all supported payment platforms</li>
+                                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Exclusive to PayXchangeable</strong> - Cannot be purchased elsewhere</li>
+                            </ul>
+                            
+                            <div class="d-flex flex-column flex-md-row">
+                                <a href="https://crowd9.com" target="_blank" class="btn btn-lg mb-3 me-md-3" style="background: var(--primary-color); color: white; border-color: var(--primary-color);">Visit Crowd 9 Exchange</a>
+                                <button class="btn btn-lg mb-3" style="background: linear-gradient(135deg, #FF00FF, #00C957); color: white;">Buy <span class="skulkams-logo">FXAMS</span> Now</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><span class="skulkams-logo">FXAMS</span> Price Chart</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height: 200px; background-color: #f8f8f8; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                                        <div class="text-center">
+                                            <div class="mb-2"><i class="bi bi-graph-up-arrow fs-1" style="color: #FF00FF;"></i></div>
+                                            <p class="mb-0">Live Chart Data</p>
+                                            <small>Sign in to view detailed price data</small>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Current Price:</span>
+                                            <span class="fw-bold text-success">$2.14 USD</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>24h Change:</span>
+                                            <span class="fw-bold text-success">+5.2%</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Market Cap:</span>
+                                            <span class="fw-bold">$28.7M USD</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Volume (24h):</span>
+                                            <span class="fw-bold">$3.9M USD</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Investment Simulator -->
+        <section class="mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0 h5">
+                        <span class="payxc-brand">Investment Simulator</span>
+                        <div class="binary-code">01110011 01101001 01101101 01110101 01101100 01100001 01110100 01100101</div>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <p>Try our investment simulator to see how your money could grow over time with different investment strategies.</p>
+                    
+                    <form id="investmentSimulator" class="mb-4">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="sourcePlatform" class="form-label">Source Platform</label>
+                                <select class="form-select" id="sourcePlatform">
+                                    <option value="paypal">PayPal</option>
+                                    <option value="zelle">Zelle</option>
+                                    <option value="venmo">Venmo</option>
+                                    <option value="cashapp">Cash App</option>
+                                    <option value="applecash">Apple Cash</option>
+                                    <option value="samsungpay">Samsung Pay</option>
+                                    <option value="bank">Bank Account</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="initialAmount" class="form-label">Initial Investment</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="initialAmount" min="1" value="1000">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="monthlyContribution" class="form-label">Monthly Contribution</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="monthlyContribution" min="0" value="100">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="timeframe" class="form-label">Timeframe (Years)</label>
+                                <input type="number" class="form-control" id="timeframe" min="1" max="50" value="10">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="riskLevel" class="form-label">Risk Level</label>
+                                <select class="form-select" id="riskLevel">
+                                    <option value="low">Conservative (4-6% avg. return)</option>
+                                    <option value="medium" selected>Moderate (6-8% avg. return)</option>
+                                    <option value="high">Aggressive (8-10% avg. return)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="investmentType" class="form-label">Investment Type</label>
+                                <select class="form-select" id="investmentType">
+                                    <option value="stocks">Stocks & ETFs</option>
+                                    <option value="crypto">Cryptocurrency</option>
+                                    <option value="bonds">Bonds</option>
+                                    <option value="mixed" selected>Mixed Portfolio</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label for="taxBracket" class="form-label">Tax Bracket</label>
+                                <select class="form-select" id="taxBracket">
+                                    <option value="0">0%</option>
+                                    <option value="10">10%</option>
+                                    <option value="12" selected>12%</option>
+                                    <option value="22">22%</option>
+                                    <option value="24">24%</option>
+                                    <option value="32">32%</option>
+                                    <option value="35">35%</option>
+                                    <option value="37">37%</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-animated" id="calculateButton">Calculate Potential Returns</button>
+                        </div>
+                    </form>
+                    
+                    <div id="simulationResults" style="display: none;">
+                        <h4 class="mb-3">Projected Investment Growth</h4>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total Invested</h5>
+                                        <p class="h3 text-primary" id="totalInvested">$13,000</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Projected Value</h5>
+                                        <p class="h3 text-success" id="projectedValue">$18,950</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Investment Growth</h5>
+                                        <p class="h3 growth-positive" id="investmentGrowth">+$5,950 (45.8%)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="placeholder-chart">
+                            <div class="text-center">
+                                <div class="mb-2"><i class="bi bi-bar-chart-line fs-1"></i></div>
+                                <p class="mb-0">Projected Growth Chart</p>
+                                <small>Sign in to view detailed growth projections</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="#start-investing" class="btn btn-animated">Start Investing Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Getting Started Guide -->
+        <section class="mb-5">
+            <h2 class="mb-4">
+                <span class="payxc-brand">Getting Started with Investing</span>
+                <div class="binary-code">01110011 01110100 01100001 01110010 01110100</div>
+            </h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">Step 1: Set Your Investment Goals</h3>
+                            <p>Determine what you're investing for and your time horizon. Are you saving for retirement, a home, education, or something else?</p>
+                            <p>Your goals will influence your investment strategy and risk tolerance.</p>
+                            <div class="d-grid mt-3">
+                                <a href="financial-learning.html" class="btn btn-animated">Define Your Goals</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">Step 2: Assess Your Risk Tolerance</h3>
+                            <p>Understand how much risk you're comfortable taking with your investments. Your risk tolerance is influenced by your age, financial situation, and personal preferences.</p>
+                            <div class="d-grid mt-3">
+                                <a href="#risk-assessment" class="btn btn-animated">Take Risk Assessment</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">Step 3: Choose Your Investments</h3>
+                            <p>Select investments that align with your goals and risk tolerance. Consider a diversified portfolio to manage risk effectively.</p>
+                            <div class="d-grid mt-3">
+                                <a href="#investment-options" class="btn btn-animated">Explore Options</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="h4 mb-3">Step 4: Start Investing</h3>
+                            <p>Begin with an amount you're comfortable with and consider setting up recurring investments for consistent growth over time.</p>
+                            <div class="d-grid mt-3">
+                                <a href="#open-account" class="btn btn-animated">Open Investment Account</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>PayXchangeable</h5>
+                    <p>The cross-platform payment bridge that makes transfers between payment platforms simple and secure.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Features</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#bridges">Bridges</a></li>
+                        <li><a href="ebt-benefits.html">Electronic Benefits</a></li>
+                        <li><a href="index.html#education">Education</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Company</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="mailto:support@payxchangeable.com">Contact</a></li>
+                        <li><a href="financial-learning.html">Financial Learning</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Stay Connected</h5>
+                    <div class="d-flex mb-3">
+                        <a href="https://facebook.com/payxchangeable" target="_blank" class="me-3">Facebook</a>
+                        <a href="https://twitter.com/payxchangeable" target="_blank" class="me-3">Twitter</a>
+                        <a href="https://instagram.com/payxchangeable" target="_blank" class="me-3">Instagram</a>
+                        <a href="https://linkedin.com/company/payxchangeable" target="_blank" class="me-3">LinkedIn</a>
+                    </div>
+                    <p class="mb-1">support@payxchangeable.com</p>
+                    <p class="small text-muted">Email support bot available 24/7</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="mb-0">© 2025 PayXchangeable. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Investment simulator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateButton = document.getElementById('calculateButton');
+            const simulationResults = document.getElementById('simulationResults');
+            const totalInvested = document.getElementById('totalInvested');
+            const projectedValue = document.getElementById('projectedValue');
+            const investmentGrowth = document.getElementById('investmentGrowth');
+            
+            calculateButton.addEventListener('click', function() {
+                // Get input values
+                const initialAmount = parseFloat(document.getElementById('initialAmount').value);
+                const monthlyContribution = parseFloat(document.getElementById('monthlyContribution').value);
+                const timeframe = parseInt(document.getElementById('timeframe').value);
+                const riskLevel = document.getElementById('riskLevel').value;
+                const investmentType = document.getElementById('investmentType').value;
+                const taxBracket = parseInt(document.getElementById('taxBracket').value) / 100;
+                
+                // Determine average annual return based on risk level
+                let annualReturn;
+                switch(riskLevel) {
+                    case 'low':
+                        annualReturn = 0.05; // 5% average return
+                        break;
+                    case 'medium':
+                        annualReturn = 0.07; // 7% average return
+                        break;
+                    case 'high':
+                        annualReturn = 0.09; // 9% average return
+                        break;
+                    default:
+                        annualReturn = 0.07; // Default to medium risk
+                }
+                
+                // Adjust return based on investment type
+                if (investmentType === 'crypto') {
+                    annualReturn += 0.03; // Add 3% for potentially higher crypto returns
+                } else if (investmentType === 'bonds') {
+                    annualReturn -= 0.02; // Reduce 2% for typically lower bond returns
+                }
+                
+                // Calculate future value (FV = P(1+r)^t + PMT * ((1+r)^t - 1)/r)
+                const monthlyReturn = Math.pow(1 + annualReturn, 1/12) - 1;
+                const numMonths = timeframe * 12;
+                
+                // Calculate future value of initial investment
+                const initialFutureValue = initialAmount * Math.pow(1 + annualReturn, timeframe);
+                
+                // Calculate future value of monthly contributions
+                let contributionFutureValue = 0;
+                if (monthlyContribution > 0) {
+                    contributionFutureValue = monthlyContribution * ((Math.pow(1 + monthlyReturn, numMonths) - 1) / monthlyReturn);
+                }
+                
+                // Total future value
+                const totalFutureValue = initialFutureValue + contributionFutureValue;
+                
+                // Calculate total invested amount
+                const totalInvestedAmount = initialAmount + (monthlyContribution * numMonths);
+                
+                // Calculate growth
+                const growthAmount = totalFutureValue - totalInvestedAmount;
+                const growthPercentage = (growthAmount / totalInvestedAmount) * 100;
+                
+                // Apply tax impacts (very simplified)
+                const taxableGrowth = growthAmount * (1 - taxBracket);
+                const afterTaxTotal = totalInvestedAmount + taxableGrowth;
+                
+                // Update display
+                totalInvested.textContent = '$' + totalInvestedAmount.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+                
+                projectedValue.textContent = '$' + afterTaxTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+                
+                const growthDisplay = '$' + taxableGrowth.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }) + ' (' + growthPercentage.toFixed(1) + '%)';
+                
+                investmentGrowth.textContent = '+' + growthDisplay;
+                if (taxableGrowth < 0) {
+                    investmentGrowth.textContent = growthDisplay;
+                    investmentGrowth.classList.remove('growth-positive');
+                    investmentGrowth.classList.add('growth-negative');
+                } else {
+                    investmentGrowth.classList.add('growth-positive');
+                    investmentGrowth.classList.remove('growth-negative');
+                }
+                
+                // Show results
+                simulationResults.style.display = 'block';
+            });
+        });
+    </script>
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+    
+    <!-- Real-time investment data script -->
+    <script>
+        // This script simulates real-time stock updates
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to update stock prices
+            function updateStockPrices() {
+                const stockRows = document.querySelectorAll('#stock-listings tbody tr');
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+                
+                document.getElementById('last-update').textContent = `May 10, 2025 ${timeString}`;
+                
+                stockRows.forEach(row => {
+                    const priceCell = row.querySelector('.price');
+                    const changeCell = row.querySelector('.change');
+                    const percentCell = row.querySelector('.percent');
+                    
+                    if (priceCell && changeCell && percentCell) {
+                        // Get current price without $ symbol
+                        const currentPrice = parseFloat(priceCell.textContent.replace('$', ''));
+                        
+                        // Calculate a small random change (-1% to +1%)
+                        const changePercent = (Math.random() * 2 - 1) * 0.01;
+                        const priceChange = currentPrice * changePercent;
+                        const newPrice = currentPrice + priceChange;
+                        
+                        // Update the price cell
+                        priceCell.textContent = `$${newPrice.toFixed(2)}`;
+                        
+                        // Update the change cell
+                        changeCell.textContent = priceChange > 0 ? `+${priceChange.toFixed(2)}` : `${priceChange.toFixed(2)}`;
+                        changeCell.className = priceChange > 0 ? 'change text-success' : 'change text-danger';
+                        
+                        // Update the percent cell
+                        const changePercentText = (changePercent * 100).toFixed(2);
+                        percentCell.textContent = priceChange > 0 ? `+${changePercentText}%` : `${changePercentText}%`;
+                        percentCell.className = priceChange > 0 ? 'percent text-success' : 'percent text-danger';
+                    }
+                });
+            }
+            
+            // Update stock prices every 10 seconds
+            setInterval(updateStockPrices, 10000);
+            
+            // Fetch more precious metals spot prices when metals tab is clicked
+            document.querySelector('a[href="#precious-metals"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal to display precious metals prices
+                const modalHTML = `
+                <div class="modal fade" id="preciousMetalsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Live Precious Metals Prices</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Metal</th>
+                                                <th>Spot Price (USD/oz)</th>
+                                                <th>24h Change</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Gold</strong></td>
+                                                <td>$2,348.72</td>
+                                                <td class="text-success">+$12.45 (+0.53%)</td>
+                                                <td><button class="btn btn-sm btn-warning">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Silver</strong></td>
+                                                <td>$31.18</td>
+                                                <td class="text-success">+$0.28 (+0.91%)</td>
+                                                <td><button class="btn btn-sm btn-light">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Platinum</strong></td>
+                                                <td>$1,027.60</td>
+                                                <td class="text-danger">-$8.72 (-0.84%)</td>
+                                                <td><button class="btn btn-sm btn-secondary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Palladium</strong></td>
+                                                <td>$1,018.45</td>
+                                                <td class="text-danger">-$12.35 (-1.20%)</td>
+                                                <td><button class="btn btn-sm btn-secondary">Buy</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h6 class="mt-4 mb-3">Available Purchase Options</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6>Physical Gold</h6>
+                                                <select class="form-select mb-2">
+                                                    <option>1 gram Gold Bar (99.99% pure)</option>
+                                                    <option>5 gram Gold Bar (99.99% pure)</option>
+                                                    <option>10 gram Gold Bar (99.99% pure)</option>
+                                                    <option>1 oz Gold Coin (American Eagle)</option>
+                                                    <option>1 oz Gold Coin (Canadian Maple Leaf)</option>
+                                                </select>
+                                                <button class="btn btn-sm btn-warning w-100">Add to Cart</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6>Silver Products</h6>
+                                                <select class="form-select mb-2">
+                                                    <option>1 oz Silver Coin (American Eagle)</option>
+                                                    <option>1 oz Silver Coin (Canadian Maple Leaf)</option>
+                                                    <option>10 oz Silver Bar (99.9% pure)</option>
+                                                    <option>1 kg Silver Bar (99.9% pure)</option>
+                                                </select>
+                                                <button class="btn btn-sm btn-light w-100">Add to Cart</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">Checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to the page
+                if (!document.getElementById('preciousMetalsModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const preciousMetalsModal = new bootstrap.Modal(document.getElementById('preciousMetalsModal'));
+                preciousMetalsModal.show();
+            });
+            
+            // Display Roth IRA setup modal when Roth IRA is clicked
+            document.querySelector('a[href="#roth-ira"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal to display Roth IRA setup
+                const modalHTML = `
+                <div class="modal fade" id="rothIraModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Open a Roth IRA Account</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                    <strong>Tax-Free Growth:</strong> Contributions to a Roth IRA are made with after-tax dollars, but qualified withdrawals are tax-free!
+                                </div>
+                                
+                                <h6 class="mb-3">Account Setup</h6>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Initial Contribution Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" value="1000" min="100" step="100">
+                                        </div>
+                                        <small class="text-muted">$6,500 annual contribution limit for 2025 ($7,500 if you're 50 or older)</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Investment Strategy</label>
+                                        <select class="form-select">
+                                            <option>Conservative (20% Stocks / 80% Bonds)</option>
+                                            <option selected>Moderate (50% Stocks / 50% Bonds)</option>
+                                            <option>Growth (70% Stocks / 30% Bonds)</option>
+                                            <option>Aggressive (90% Stocks / 10% Bonds)</option>
+                                            <option>Custom Allocation</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Recurring Contribution</label>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" value="200" min="25" step="25">
+                                            <select class="form-select" style="max-width: 150px;">
+                                                <option>Weekly</option>
+                                                <option selected>Monthly</option>
+                                                <option>Quarterly</option>
+                                            </select>
+                                        </div>
+                                        <small class="text-muted">Automatic transfers from your connected payment platforms</small>
+                                    </div>
+                                </form>
+                                
+                                <h6 class="mt-4 mb-3">Projected Growth</h6>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-4 mb-3">
+                                                <h6>5 Years</h6>
+                                                <p class="h4 text-success">$15,872</p>
+                                                <small class="text-muted">26.3% growth</small>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <h6>15 Years</h6>
+                                                <p class="h4 text-success">$59,764</p>
+                                                <small class="text-muted">97.8% growth</small>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <h6>30 Years</h6>
+                                                <p class="h4 text-success">$186,438</p>
+                                                <small class="text-muted">205.2% growth</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Open Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to the page
+                if (!document.getElementById('rothIraModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const rothIraModal = new bootstrap.Modal(document.getElementById('rothIraModal'));
+                rothIraModal.show();
+            });
+            
+            // Display CA Bonds modal when CA Bonds is clicked
+            document.querySelector('a[href="#ca-bonds"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal to display CA Bonds
+                const modalHTML = `
+                <div class="modal fade" id="caBondsModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">California Municipal Bonds & Fixed Income</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-success">
+                                    <strong>Tax Advantage:</strong> Interest from CA municipal bonds is exempt from federal and California state income tax for CA residents.
+                                </div>
+                                
+                                <h6 class="mb-3">Available California Municipal Bonds</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Bond Issue</th>
+                                                <th>Yield</th>
+                                                <th>Maturity</th>
+                                                <th>Rating</th>
+                                                <th>Min. Investment</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>CA State GO Bond 2025</td>
+                                                <td>3.2%</td>
+                                                <td>5 Years</td>
+                                                <td>AA-</td>
+                                                <td>$5,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Los Angeles Water & Power</td>
+                                                <td>3.7%</td>
+                                                <td>10 Years</td>
+                                                <td>A+</td>
+                                                <td>$1,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>San Francisco Bay Area Transit</td>
+                                                <td>3.9%</td>
+                                                <td>15 Years</td>
+                                                <td>A</td>
+                                                <td>$1,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>California School District Revenue</td>
+                                                <td>4.1%</td>
+                                                <td>20 Years</td>
+                                                <td>AA</td>
+                                                <td>$5,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h6 class="mt-4 mb-3">US Treasury Bonds</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Bond Type</th>
+                                                <th>Yield</th>
+                                                <th>Term</th>
+                                                <th>Min. Investment</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Treasury Bill</td>
+                                                <td>4.2%</td>
+                                                <td>3 Months</td>
+                                                <td>$100</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Treasury Note</td>
+                                                <td>4.5%</td>
+                                                <td>2 Years</td>
+                                                <td>$1,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Treasury Bond</td>
+                                                <td>4.7%</td>
+                                                <td>10 Years</td>
+                                                <td>$1,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Treasury Bond</td>
+                                                <td>4.8%</td>
+                                                <td>30 Years</td>
+                                                <td>$1,000</td>
+                                                <td><button class="btn btn-sm btn-primary">Buy</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">View Portfolio</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to the page
+                if (!document.getElementById('caBondsModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const caBondsModal = new bootstrap.Modal(document.getElementById('caBondsModal'));
+                caBondsModal.show();
+            });
+            
+            // Display real-time stocks modal when real-time stocks is clicked
+            document.querySelector('a[href="#real-time-stocks"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal to display more stocks
+                const modalHTML = `
+                <div class="modal fade" id="stocksModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Live Stock Trading</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search for a stock (e.g., AAPL, MSFT, GOOGL)">
+                                            <button class="btn btn-primary">Search</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select class="form-select">
+                                            <option>Top Gainers</option>
+                                            <option>Top Losers</option>
+                                            <option>Most Active</option>
+                                            <option>Technology Sector</option>
+                                            <option>Healthcare Sector</option>
+                                            <option>Financial Sector</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Symbol</th>
+                                                <th>Company</th>
+                                                <th>Last Price</th>
+                                                <th>Change</th>
+                                                <th>% Change</th>
+                                                <th>Volume</th>
+                                                <th>Market Cap</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>AAPL</td>
+                                                <td>Apple Inc.</td>
+                                                <td>$168.42</td>
+                                                <td class="text-success">+1.38</td>
+                                                <td class="text-success">+0.82%</td>
+                                                <td>34.5M</td>
+                                                <td>$2.74T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>MSFT</td>
+                                                <td>Microsoft Corp.</td>
+                                                <td>$387.41</td>
+                                                <td class="text-success">+3.23</td>
+                                                <td class="text-success">+0.84%</td>
+                                                <td>22.1M</td>
+                                                <td>$2.89T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>GOOGL</td>
+                                                <td>Alphabet Inc.</td>
+                                                <td>$165.87</td>
+                                                <td class="text-success">+1.72</td>
+                                                <td class="text-success">+1.05%</td>
+                                                <td>18.3M</td>
+                                                <td>$2.08T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>AMZN</td>
+                                                <td>Amazon.com Inc.</td>
+                                                <td>$173.59</td>
+                                                <td class="text-success">+2.14</td>
+                                                <td class="text-success">+1.25%</td>
+                                                <td>29.7M</td>
+                                                <td>$1.81T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>META</td>
+                                                <td>Meta Platforms Inc.</td>
+                                                <td>$435.25</td>
+                                                <td class="text-danger">-2.73</td>
+                                                <td class="text-danger">-0.62%</td>
+                                                <td>15.2M</td>
+                                                <td>$1.11T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>NVDA</td>
+                                                <td>NVIDIA Corp.</td>
+                                                <td>$919.13</td>
+                                                <td class="text-success">+12.56</td>
+                                                <td class="text-success">+1.39%</td>
+                                                <td>42.8M</td>
+                                                <td>$2.27T</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>JPM</td>
+                                                <td>JPMorgan Chase & Co.</td>
+                                                <td>$195.24</td>
+                                                <td class="text-success">+0.76</td>
+                                                <td class="text-success">+0.39%</td>
+                                                <td>10.1M</td>
+                                                <td>$563.2B</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>Visa Inc.</td>
+                                                <td>$273.35</td>
+                                                <td class="text-success">+1.23</td>
+                                                <td class="text-success">+0.45%</td>
+                                                <td>8.3M</td>
+                                                <td>$559.6B</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>WMT</td>
+                                                <td>Walmart Inc.</td>
+                                                <td>$62.58</td>
+                                                <td class="text-success">+0.43</td>
+                                                <td class="text-success">+0.69%</td>
+                                                <td>7.2M</td>
+                                                <td>$505.3B</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PG</td>
+                                                <td>Procter & Gamble Co.</td>
+                                                <td>$165.32</td>
+                                                <td class="text-danger">-0.87</td>
+                                                <td class="text-danger">-0.52%</td>
+                                                <td>5.9M</td>
+                                                <td>$389.7B</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-sm">
+                                                        <button class="btn btn-success">Buy</button>
+                                                        <button class="btn btn-outline-secondary">Watch</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <h6 class="mt-4 mb-3">Trading Order</h6>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <h6>Buy Stock</h6>
+                                                <div class="mb-2">
+                                                    <label class="form-label">Symbol</label>
+                                                    <input type="text" class="form-control" placeholder="e.g., AAPL">
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label">Order Type</label>
+                                                    <select class="form-select">
+                                                        <option>Market Order</option>
+                                                        <option>Limit Order</option>
+                                                        <option>Stop Order</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label">Quantity</label>
+                                                    <input type="number" class="form-control" value="1">
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label class="form-label">Source Platform</label>
+                                                    <select class="form-select">
+                                                        <option>PayXc Wallet ($2,450.67)</option>
+                                                        <option>Apple Cash ($842.15)</option>
+                                                        <option>PayPal ($1,289.32)</option>
+                                                        <option>Venmo ($567.89)</option>
+                                                    </select>
+                                                </div>
+                                                <button class="btn btn-success w-100 mt-2">Place Order</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6>Order Summary</h6>
+                                                <div class="alert alert-light">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Market Price:</span>
+                                                        <span>$0.00</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Quantity:</span>
+                                                        <span>0</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Subtotal:</span>
+                                                        <span>$0.00</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <span>Commission:</span>
+                                                        <span class="text-success">$0.00 (Free)</span>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="d-flex justify-content-between">
+                                                        <strong>Total:</strong>
+                                                        <strong>$0.00</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="alert alert-info small">
+                                                    <i class="bi bi-info-circle me-1"></i> All trades are commission-free. Fractional shares are available with a minimum investment of $1.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">View Portfolio</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to the page
+                if (!document.getElementById('stocksModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const stocksModal = new bootstrap.Modal(document.getElementById('stocksModal'));
+                stocksModal.show();
+            });
+            
+            // Also hook up the "View More Stocks" button in the main page table
+            document.getElementById('view-more-stocks')?.addEventListener('click', function() {
+                document.querySelector('a[href="#real-time-stocks"]').click();
+            });
+            
+            // Display Robo-Advisor modal when clicked
+            document.querySelector('a[href="#robo-advisor"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal for Robo-Advisor
+                const modalHTML = `
+                <div class="modal fade" id="roboAdvisorModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Automated Investment Management</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i> Our AI-powered Robo-Advisor automatically manages your portfolio based on your financial goals and risk tolerance.
+                                </div>
+                                
+                                <h6 class="mb-3">Investment Profile Setup</h6>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Risk Tolerance</label>
+                                        <select class="form-select">
+                                            <option>Conservative (Low Risk)</option>
+                                            <option selected>Moderate (Balanced Risk)</option>
+                                            <option>Growth (Medium-High Risk)</option>
+                                            <option>Aggressive (High Risk)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Investment Goal</label>
+                                        <select class="form-select">
+                                            <option>General Investing</option>
+                                            <option>Retirement</option>
+                                            <option>Education</option>
+                                            <option>Major Purchase</option>
+                                            <option>Income Generation</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Initial Investment</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" value="5000" min="500" step="100">
+                                        </div>
+                                        <small class="text-muted">$500 minimum initial investment</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Monthly Contribution</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" value="200" min="0" step="50">
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                                <h6 class="mt-4 mb-3">Recommended Portfolio</h6>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <canvas id="portfolioChart" width="400" height="250"></canvas>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        US Stocks
+                                                        <span class="badge bg-primary rounded-pill">40%</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        International Stocks
+                                                        <span class="badge bg-success rounded-pill">20%</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Bonds
+                                                        <span class="badge bg-info rounded-pill">30%</span>
+                                                    </li>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        Alternative Assets
+                                                        <span class="badge bg-warning rounded-pill">10%</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">Create Portfolio</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to page
+                if (!document.getElementById('roboAdvisorModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const roboAdvisorModal = new bootstrap.Modal(document.getElementById('roboAdvisorModal'));
+                roboAdvisorModal.show();
+            });
+            
+            // Display Retirement Planning modal when clicked
+            document.querySelector('a[href="#retirement-planning"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal for Retirement Planning
+                const modalHTML = `
+                <div class="modal fade" id="retirementPlanningModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Retirement Planning</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-lightbulb me-2"></i> Start planning early! Every year matters for retirement savings.
+                                </div>
+                                
+                                <h6 class="mb-3">Retirement Calculator</h6>
+                                <form>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Current Age</label>
+                                            <input type="number" class="form-control" value="35" min="18" max="80">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Retirement Age</label>
+                                            <input type="number" class="form-control" value="65" min="45" max="85">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Current Retirement Savings</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input type="number" class="form-control" value="50000" min="0">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Monthly Contribution</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input type="number" class="form-control" value="500" min="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Expected Annual Return (%)</label>
+                                            <input type="number" class="form-control" value="7" min="1" max="15" step="0.1">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Retirement Income Needed</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input type="number" class="form-control" value="60000" min="0">
+                                                <span class="input-group-text">/ year</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-primary mb-3">Calculate</button>
+                                    </div>
+                                </form>
+                                
+                                <h6 class="mt-4 mb-3">Retirement Projection</h6>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-4 mb-3">
+                                                <h6>Retirement Savings</h6>
+                                                <p class="h4 text-success">$1,247,346</p>
+                                                <small class="text-muted">at age 65</small>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <h6>Monthly Income</h6>
+                                                <p class="h4 text-success">$4,991</p>
+                                                <small class="text-muted">during retirement</small>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <h6>Retirement Readiness</h6>
+                                                <p class="h4 text-warning">83%</p>
+                                                <small class="text-muted">of goal</small>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 83%;" aria-valuenow="83" aria-valuemin="0" aria-valuemax="100">83%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">Open Retirement Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to page
+                if (!document.getElementById('retirementPlanningModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const retirementPlanningModal = new bootstrap.Modal(document.getElementById('retirementPlanningModal'));
+                retirementPlanningModal.show();
+            });
+            
+            // Hook up risk assessment button
+            document.querySelector('a[href="#risk-assessment"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal for risk assessment
+                const modalHTML = `
+                <div class="modal fade" id="riskAssessmentModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Investment Risk Tolerance Assessment</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i> This short quiz will help determine your investment risk tolerance, which guides portfolio recommendations.
+                                </div>
+                                
+                                <form id="riskAssessmentForm">
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">1. How long do you plan to invest before you need the money?</h6>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="timeHorizon" id="timeHorizon1" value="1">
+                                            <label class="form-check-label" for="timeHorizon1">Less than 3 years</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="timeHorizon" id="timeHorizon2" value="2">
+                                            <label class="form-check-label" for="timeHorizon2">3-5 years</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="timeHorizon" id="timeHorizon3" value="3" checked>
+                                            <label class="form-check-label" for="timeHorizon3">5-10 years</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="timeHorizon" id="timeHorizon4" value="4">
+                                            <label class="form-check-label" for="timeHorizon4">10+ years</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">2. How would you react if your investments lost 20% in a market downturn?</h6>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="marketReaction" id="marketReaction1" value="1">
+                                            <label class="form-check-label" for="marketReaction1">Sell everything to prevent further losses</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="marketReaction" id="marketReaction2" value="2">
+                                            <label class="form-check-label" for="marketReaction2">Sell some investments to reduce risk</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="marketReaction" id="marketReaction3" value="3" checked>
+                                            <label class="form-check-label" for="marketReaction3">Hold steady and wait for recovery</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="marketReaction" id="marketReaction4" value="4">
+                                            <label class="form-check-label" for="marketReaction4">Buy more at lower prices</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">3. When making investment decisions, which is more important to you?</h6>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="priority" id="priority1" value="1">
+                                            <label class="form-check-label" for="priority1">Protecting my initial investment, even if it means lower returns</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="priority" id="priority2" value="2" checked>
+                                            <label class="form-check-label" for="priority2">Balance between growth and protection</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="priority" id="priority3" value="3">
+                                            <label class="form-check-label" for="priority3">Maximum growth, even if it means more volatility</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">4. How much investing experience do you have?</h6>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="experience" id="experience1" value="1">
+                                            <label class="form-check-label" for="experience1">None or very limited</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="experience" id="experience2" value="2" checked>
+                                            <label class="form-check-label" for="experience2">Some experience with basic investments (stocks, bonds, mutual funds)</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="experience" id="experience3" value="3">
+                                            <label class="form-check-label" for="experience3">Experienced with various investment types including some complex products</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="radio" name="experience" id="experience4" value="4">
+                                            <label class="form-check-label" for="experience4">Very experienced investor across multiple asset classes</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-primary" id="calculateRiskProfile">Calculate My Risk Profile</button>
+                                    </div>
+                                </form>
+                                
+                                <div id="riskResult" class="mt-4" style="display: none;">
+                                    <h6 class="mb-3">Your Risk Tolerance Profile</h6>
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <div class="text-center mb-3">
+                                                <h4 id="riskProfileTitle">Moderate</h4>
+                                                <div class="progress" style="height: 30px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Conservative</div>
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">Moderate</div>
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Aggressive</div>
+                                                </div>
+                                                <div id="riskPointer" style="width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 15px solid black; margin: 0 auto; margin-top: -5px; position: relative; left: 0%;"></div>
+                                            </div>
+                                            
+                                            <div class="mt-4">
+                                                <h6>Recommended Asset Allocation</h6>
+                                                <div id="recommendedAllocation" class="d-flex flex-wrap gap-2 mt-2">
+                                                    <span class="badge bg-primary p-2">US Stocks: 35%</span>
+                                                    <span class="badge bg-success p-2">International Stocks: 15%</span>
+                                                    <span class="badge bg-info p-2">Bonds: 40%</span>
+                                                    <span class="badge bg-warning p-2">Alternative Assets: 5%</span>
+                                                    <span class="badge bg-secondary p-2">Cash: 5%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success" id="viewPortfolios">View Recommended Portfolios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to page
+                if (!document.getElementById('riskAssessmentModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                    
+                    // Add click handler for the Calculate button
+                    document.getElementById('calculateRiskProfile')?.addEventListener('click', function() {
+                        document.getElementById('riskResult').style.display = 'block';
+                        document.getElementById('riskPointer').style.left = '50%'; // Position the pointer
+                    });
+                }
+                
+                // Show the modal
+                const riskAssessmentModal = new bootstrap.Modal(document.getElementById('riskAssessmentModal'));
+                riskAssessmentModal.show();
+            });
+            
+            // Hook up investment options button
+            document.querySelector('a[href="#investment-options"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Scroll to investment options section
+                const investmentOptionsSection = document.querySelector('section:nth-of-type(3)');
+                if (investmentOptionsSection) {
+                    investmentOptionsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            
+            // Hook up open account button
+            document.querySelector('a[href="#open-account"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('a[href="#start-investing"]').click();
+            });
+            
+            // Display Get Started Investing modal when clicked
+            document.querySelector('a[href="#start-investing"]')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create a modal for starting investing
+                const modalHTML = `
+                <div class="modal fade" id="startInvestingModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Get Started with Investing</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle me-2"></i> You're just a few steps away from beginning your investment journey!
+                                </div>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">New Investor</h5>
+                                                <p class="card-text">Perfect for beginners who want an easy, guided approach to investing.</p>
+                                                <ul class="list-unstyled mb-3">
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Automated portfolio creation</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Guided walkthrough</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Low minimum investment ($100)</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Educational resources</li>
+                                                </ul>
+                                                <div class="d-grid">
+                                                    <button class="btn btn-primary">Start Simple</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Experienced Investor</h5>
+                                                <p class="card-text">For those who want full control over their investment decisions.</p>
+                                                <ul class="list-unstyled mb-3">
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Self-directed trading</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Advanced research tools</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Option trading capabilities</li>
+                                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Extended hours trading</li>
+                                                </ul>
+                                                <div class="d-grid">
+                                                    <button class="btn btn-outline-primary">Start Advanced</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h6 class="mb-3">Fund Your Account</h6>
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Select Payment Source</label>
+                                        <select class="form-select">
+                                            <option>PayXc Wallet ($2,450.67)</option>
+                                            <option>Bank Transfer</option>
+                                            <option>Debit Card</option>
+                                            <option>PayPal ($1,289.32)</option>
+                                            <option>Venmo ($567.89)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Initial Investment Amount</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" value="1000" min="100" step="100">
+                                        </div>
+                                        <small class="text-muted">$100 minimum initial investment</small>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-success">Create Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                
+                // Add modal to page
+                if (!document.getElementById('startInvestingModal')) {
+                    document.body.insertAdjacentHTML('beforeend', modalHTML);
+                }
+                
+                // Show the modal
+                const startInvestingModal = new bootstrap.Modal(document.getElementById('startInvestingModal'));
+                startInvestingModal.show();
+            });
+        });
+    </script>
+</body>
+</html>

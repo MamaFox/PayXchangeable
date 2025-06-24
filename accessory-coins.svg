@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Money bag accessory -->
+  <path d="M70,100 C70,80 130,80 130,100 L120,150 C120,160 80,160 80,150 Z" fill="#E6C34A"/>
+  <path d="M70,100 C70,90 130,90 130,100" stroke="#c09d20" stroke-width="2" fill="none"/>
+  
+  <!-- Dollar signs -->
+  <path d="M90,110 L90,120 M87,113 Q90,110 93,113 Q96,116 93,119 Q90,122 87,119" stroke="#32127A" stroke-width="2" fill="none"/>
+  <path d="M100,120 L100,130 M97,123 Q100,120 103,123 Q106,126 103,129 Q100,132 97,129" stroke="#32127A" stroke-width="2" fill="none"/>
+  <path d="M110,115 L110,125 M107,118 Q110,115 113,118 Q116,121 113,124 Q110,127 107,124" stroke="#32127A" stroke-width="2" fill="none"/>
+  
+  <!-- Coins -->
+  <circle cx="150" cy="120" r="15" fill="#E6C34A" stroke="#c09d20" stroke-width="2"/>
+  <text x="150" y="125" text-anchor="middle" font-size="15" font-family="Arial" font-weight="bold" fill="#32127A">$</text>
+  
+  <circle cx="170" cy="140" r="10" fill="#E6C34A" stroke="#c09d20" stroke-width="2"/>
+  <text x="170" y="144" text-anchor="middle" font-size="10" font-family="Arial" font-weight="bold" fill="#32127A">$</text>
+</svg>

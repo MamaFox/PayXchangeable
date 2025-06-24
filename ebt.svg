@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .card-bg {
+      fill: #00a86b; /* EBT green */
+    }
+    .card-edge {
+      fill: none;
+      stroke: #FFFFFF;
+      stroke-width: 4;
+    }
+    .card-chip {
+      fill: #e6c34a; /* Gold */
+      stroke: #FFFFFF;
+      stroke-width: 1;
+    }
+    .card-text {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      fill: #FFFFFF;
+      font-size: 32px;
+      text-anchor: middle;
+    }
+    .card-subtext {
+      font-family: 'Arial', sans-serif;
+      fill: #FFFFFF;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+    .govt-text {
+      font-family: 'Arial', sans-serif;
+      fill: #FFFFFF;
+      font-size: 10px;
+      text-anchor: start;
+    }
+  </style>
+  
+  <!-- Card background -->
+  <rect x="10" y="40" width="180" height="120" rx="10" class="card-bg" />
+  <rect x="10" y="40" width="180" height="120" rx="10" class="card-edge" />
+  
+  <!-- Card chip -->
+  <rect x="30" y="80" width="30" height="25" rx="3" class="card-chip" />
+  
+  <!-- EBT text -->
+  <text x="100" y="100" class="card-text">EBT</text>
+  <text x="100" y="130" class="card-subtext">CASH BENEFITS</text>
+  
+  <!-- Government text -->
+  <text x="20" y="65" class="govt-text">ELECTRONIC BENEFIT TRANSFER</text>
+  <text x="20" y="145" class="govt-text">GOVERNMENT BENEFITS</text>
+</svg>

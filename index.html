@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <meta name="version" content="beta-0.9.0" />
+    <meta name="robots" content="noindex,nofollow" /><!-- Prevent indexing of beta version -->
+    <title>PayXchangeable BETA - Cross-Platform Payment Bridge</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700;900&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for FXAMS */
+        
+        /* PayXc branding with hand-drawn styling */
+        .payxc-brand {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            font-weight: 900;
+            letter-spacing: 1px;
+            position: relative;
+            font-size: 1.6em;
+            color: #32127A;
+            text-shadow: 
+                -1px -1px 0 rgba(255, 255, 255, 0.7),
+                1px -1px 0 rgba(255, 255, 255, 0.7),
+                -1px 1px 0 rgba(255, 255, 255, 0.7),
+                1px 1px 0 rgba(255, 255, 255, 0.7);
+            padding: 0 2px;
+            margin: 0;
+            line-height: 1;
+            transform: rotate(-1deg);
+            display: inline-block;
+        }
+        
+        /* Binary code decoration - hand-drawn style */
+        .binary-code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: #444444; /* Darker grey like in the image */
+            letter-spacing: 1px;
+            line-height: 1;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif !important; /* Allegro font equivalent */
+            font-weight: 700 !important;
+            font-style: italic !important; /* Make sure it's italic as specified */
+            color: #FF00FF !important; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957 !important;
+            letter-spacing: 0.5px !important;
+        }
+        
+        /* Override any other styling that might affect FXAMS */
+        span.skulkams-logo,
+        p span.skulkams-logo,
+        .card span.skulkams-logo,
+        .feature-card span.skulkams-logo,
+        .bridge-card span.skulkams-logo,
+        .course-card span.skulkams-logo,
+        .small span.skulkams-logo,
+        small span.skulkams-logo {
+            font-family: 'Alegreya', serif !important;
+            font-weight: 700 !important;
+            color: #FF00FF !important;
+            text-shadow:
+                -1px -1px 0 #00C957,
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957 !important;
+            letter-spacing: 0.5px !important;
+            font-style: italic !important;
+            display: inline-block !important;
+        }
+        
+        /* PayXchangeable Color Theme */
+        :root {
+            /* Main brand colors */
+            --payxchangeable-purple: #32127A; /* Persian Indigo */
+            --money-green: #D4AF37;
+            --gold: #E6C34A; /* Replacing silver with gold */
+            --brown: #89756b;
+            --investment-green: #00a86b; /* Green for investment buttons */
+            
+            /* UI colors */
+            --primary-color: var(--payxchangeable-purple);
+            --secondary-color: var(--money-green);
+            --accent-color: var(--gold);
+            --tertiary-color: var(--brown);
+            
+            /* Light Mode */
+            --light-bg: #f8f9fa;
+            --light-text: #333;
+            --light-card-bg: white;
+            --light-section-bg: #f0f0f0;
+            
+            /* Dark Mode */
+            --dark-bg: #121212;
+            --dark-text: #f0f0f0;
+            --dark-card-bg: #242424;
+            --dark-section-bg: #1a1a1a;
+            
+            /* High-Contrast Mode for ALL Cards and Text Elements */
+            --high-contrast-bg: #ffffff;
+            --high-contrast-text: #000000;
+            --high-contrast-border: rgba(50, 18, 122, 0.5);
+            --high-contrast-outline: rgba(230, 195, 74, 0.5);
+        }
+        
+        /* Detect dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: var(--dark-bg);
+                --text-color: #FFFFFF; /* Pure white text for dark backgrounds */
+                --card-bg: var(--dark-card-bg);
+                --section-bg: var(--dark-section-bg);
+                --border-color: #444;
+                --muted-text: #dddddd; /* Lighter muted text for better contrast */
+            }
+            
+            /* Add gold outline to Persian Indigo elements in dark mode */
+            .text-primary, .btn-outline-primary {
+                text-shadow: 0 0 2px var(--gold);
+            }
+            
+            .bg-primary {
+                box-shadow: 0 0 2px 1px var(--gold);
+            }
+            
+            /* Ensure all informational text is white on dark backgrounds */
+            .text-muted {
+                color: #dddddd !important;
+            }
+            
+            p, span, li, label, a {
+                color: #FFFFFF;
+            }
+        }
+        
+        /* Light mode */
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-color: var(--light-bg);
+                --text-color: #000000; /* Pure black text for light backgrounds */
+                --card-bg: var(--light-card-bg);
+                --section-bg: var(--light-section-bg);
+                --border-color: #e0e0e0;
+                --muted-text: #444444; /* Darker muted text for better contrast */
+            }
+            
+            /* Ensure all informational text is black on light backgrounds */
+            .text-muted {
+                color: #444444 !important;
+            }
+            
+            p, span, li, label, a {
+                color: #000000;
+            }
+        }
+        
+        /* Force light mode with class */
+        .light-theme {
+            --bg-color: var(--light-bg) !important;
+            --text-color: #000000 !important; /* Pure black text for light backgrounds */
+            --card-bg: var(--light-card-bg) !important;
+            --section-bg: var(--light-section-bg) !important;
+            --border-color: #e0e0e0 !important;
+            --muted-text: #444444 !important; /* Darker muted text for better contrast */
+        }
+        
+        /* Light theme specific contrast adjustments */
+        .light-theme .text-muted {
+            color: #444444 !important; /* Darker muted text for better contrast */
+        }
+        
+        .light-theme p:not(.skulkams-logo):not(.skulkams-text), 
+        .light-theme span:not(.skulkams-logo):not(.skulkams-text), 
+        .light-theme li:not(.skulkams-logo):not(.skulkams-text), 
+        .light-theme label:not(.skulkams-logo):not(.skulkams-text), 
+        .light-theme a:not(.btn):not(.skulkams-logo):not(.skulkams-text) {
+            color: #000000 !important; /* Black text */
+        }
+        
+        /* Force dark mode with class */
+        .dark-theme {
+            --bg-color: var(--dark-bg) !important;
+            --text-color: #FFFFFF !important; /* Pure white text for dark backgrounds */
+            --card-bg: var(--dark-card-bg) !important;
+            --section-bg: var(--dark-section-bg) !important;
+            --border-color: #444 !important;
+            --muted-text: #dddddd !important; /* Lighter muted text for better contrast */
+        }
+        
+        /* Dark theme specific contrast adjustments */
+        .dark-theme .text-muted {
+            color: #dddddd !important; /* Lighter muted text for better contrast */
+        }
+        
+        .dark-theme p:not(.skulkams-logo):not(.skulkams-text), 
+        .dark-theme span:not(.skulkams-logo):not(.skulkams-text), 
+        .dark-theme li:not(.skulkams-logo):not(.skulkams-text), 
+        .dark-theme label:not(.skulkams-logo):not(.skulkams-text), 
+        .dark-theme a:not(.btn):not(.skulkams-logo):not(.skulkams-text) {
+            color: #FFFFFF !important; /* White text */
+        }
+        
+        /* Apply gold outline to Persian Indigo elements in forced dark mode */
+        .dark-theme .text-primary, 
+        .dark-theme .btn-outline-primary {
+            text-shadow: 0 0 1px var(--gold);
+        }
+            
+        .dark-theme .bg-primary {
+            box-shadow: 0 0 2px 1px var(--gold);
+        }
+        
+        /* HIGH CONTRAST MODE FOR ALL ELEMENTS */
+        body {
+            font-family: Arial, sans-serif;
+            color: #000000; /* Black text for light mode */
+            background-color: #FFFFFF; /* White background */
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        /* Dark mode contrast adjustments */
+        .dark-theme {
+            /* High contrast for dark mode */
+            --dark-text: #FFFFFF !important; /* Pure white text for dark backgrounds */
+        }
+        
+        /* Light mode contrast adjustments */
+        .light-theme {
+            /* High contrast for light mode */
+            --light-text: #000000 !important; /* Pure black text for light backgrounds */
+        }
+        
+        /* High contrast cards and sections */
+        .feature-card,
+        .bridge-card,
+        .course-card,
+        .card {
+            background-color: #FFFFFF !important;
+            border: 2px solid rgba(50, 18, 122, 0.5) !important;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                0 0 0 2px rgba(230, 195, 74, 0.3) !important;
+            color: #000000 !important;
+        }
+        
+        /* Make all text in these cards black and larger */
+        .feature-card *:not(.skulkams-logo):not(span.skulkams-logo):not(.skulkams-text),
+        .bridge-card *:not(.skulkams-logo):not(span.skulkams-logo):not(.skulkams-text),
+        .course-card *:not(.skulkams-logo):not(span.skulkams-logo):not(.skulkams-text),
+        .card *:not(.skulkams-logo):not(span.skulkams-logo):not(.skulkams-text) {
+            color: #000000 !important;
+            font-size: 1.05em;
+        }
+        
+        /* Headings with text shadow outline */
+        h1, h2, h3, h4, h5, h6 {
+            color: #32127A !important;
+            text-shadow: 
+                -1px -1px 0 #fff,
+                1px -1px 0 #fff,
+                -1px 1px 0 #fff,
+                1px 1px 0 #fff,
+                0 0 4px rgba(255, 255, 255, 0.8) !important;
+            font-weight: bold !important;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Special treatment for buttons */
+        .btn {
+            font-weight: bold !important;
+            font-size: 1.1em !important;
+            padding: 10px 20px !important;
+            border-width: 2px !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Stronger contrast for primary buttons */
+        .btn-primary {
+            background-color: #32127A !important;
+            color: #FFFFFF !important;
+            border: 2px solid #260e60 !important;
+            text-shadow: 0 0 1px #000000 !important;
+        }
+        
+        /* Stronger contrast for secondary buttons */
+        .btn-secondary, 
+        .btn-outline-primary:hover {
+            background-color: #E6C34A !important;
+            color: #000000 !important;
+            border: 2px solid #c09d20 !important;
+        }
+        
+        /* Outlined buttons */
+        .btn-outline-primary {
+            color: #32127A !important;
+            border: 2px solid #32127A !important;
+            background-color: #FFFFFF !important;
+            text-shadow: none !important;
+        }
+        
+        /* Hero section high contrast */
+        .hero-section {
+            background: #32127A;
+            color: white !important;
+            padding: 6rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            border-bottom: 3px solid #E6C34A;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero text with strong contrast */
+        .hero-section h1 {
+            color: white !important;
+            text-shadow: 
+                -1px -1px 0 #000,
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000,
+                0 0 8px rgba(0, 0, 0, 0.8) !important;
+            font-size: 2.8rem !important;
+            letter-spacing: 1px;
+        }
+        
+        .hero-section p {
+            color: white !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+            font-size: 1.3rem !important;
+            font-weight: 500 !important;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('assets/images/mockQRCode.svg');
+            background-repeat: no-repeat;
+            background-position: right -100px top -50px;
+            background-size: 500px;
+            opacity: 0.1;
+        }
+        
+        .feature-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--money-green);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--money-green);
+        }
+        
+        .bridge-card {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+        
+        .bridge-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .platform-logo {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+        
+        .arrow-icon {
+            font-size: 1.5rem;
+            color: var(--money-green);
+            margin: 0 15px;
+            flex-shrink: 0;
+        }
+        
+        /* Ensure buttons in bridge section don't overflow */
+        .bridge-card .btn-outline-primary {
+            min-width: 140px;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 8px 12px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .bridge-card .btn-outline-primary span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.9rem;
+        }
+        
+        .badge-ebt {
+            background-color: var(--money-green);
+            color: white;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            margin-left: 10px;
+        }
+        
+        .cta-section {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer {
+            background-color: #32127A;
+            color: #f8f9fa;
+            padding: 3rem 0;
+            box-shadow: 0 0 3px 1px #708090; /* Gray outline for footer */
+        }
+        
+        .footer-links a {
+            color: #d0d0d0;
+            margin-right: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--money-green);
+        }
+        
+        .financial-education-section {
+            background-color: rgba(212, 175, 55, 0.15);  /* Money green with opacity */
+            padding: 4rem 0;
+            margin-top: 3rem;
+        }
+        
+        .course-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .course-card .card-header {
+            background-color: var(--money-green);
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+        }
+        
+        .discount-banner {
+            background-color: rgba(137, 117, 107, 0.15);  /* Brown with opacity */
+            border-left: 5px solid var(--money-green);
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Make all text elements color-aware */
+        h1, h2, h3, h4, h5, h6, p, span, div {
+            color: var(--text-color);
+        }
+        
+        /* Exceptions for specific elements */
+        .navbar-dark, .hero-section, .cta-section, .footer {
+            color: white !important;
+        }
+        
+        /* High contrast navigation */
+        .navbar-dark {
+            font-size: 1.2rem !important;
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-dark .nav-link {
+            color: white !important;
+            font-weight: 600 !important;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8) !important;
+            margin: 0 5px;
+            padding: 10px 15px !important;
+        }
+        
+        .navbar-dark .nav-link:hover {
+            color: #E6C34A !important;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9) !important;
+        }
+        
+        /* Download button in nav */
+        .navbar-dark .nav-link.btn {
+            background-color: #E6C34A !important;
+            color: #000000 !important;
+            font-weight: bold !important;
+            border: 2px solid #c09d20 !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* Background color adjustments */
+        .bg-light {
+            background-color: var(--section-bg) !important;
+        }
+        
+        /* Button styling */
+        .btn-primary {
+            background-color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+        }
+        
+        .btn-primary:hover {
+            background-color: #260e60 !important;
+            border-color: #260e60 !important;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color) !important;
+            border-color: var(--secondary-color) !important;
+            color: white !important;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #c09d20 !important;
+            border-color: #c09d20 !important;
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color) !important;
+            border-color: var(--primary-color) !important;
+            text-shadow: 0 0 1px #708090; /* Gray outline for all Persian Indigo text */
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+        }
+        
+        /* Animated Button Styles */
+        .btn-animated {
+            background-color: #32127A;
+            color: #FFFFFF !important;
+            border: 2px solid #260e60;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(50, 18, 122, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-animated {
+            background-color: var(--investment-green);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 168, 107, 0.4);
+            background-color: #007a4d;
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(230, 195, 74, 0), rgba(230, 195, 74, 0.3), rgba(230, 195, 74, 0));
+            transition: left 0.8s ease;
+            z-index: -1;
+        }
+        
+        .btn-animated:hover::after {
+            left: 100%;
+        }
+        
+        /* Accessibility switcher */
+        .accessibility-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        /* Character container styling */
+        .character-container {
+            transition: transform 0.3s ease, filter 0.3s ease;
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .character-container:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 8px rgba(230, 195, 74, 0.6));
+        }
+        
+        .character-container img, .character-container svg {
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Superhero character styles */
+        .superhero-character {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Villain styles */
+        .villain-character {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 8px rgba(139, 0, 0, 0.6));
+        }
+        
+        /* Animal avatar styles */
+        .animal-avatar {
+            width: 100%;
+            height: 100%;
+        }
+        
+
+        
+        /* Character name styling */
+        .character-name {
+            font-weight: bold;
+            margin-top: 10px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        /* Villain character name styling */
+        .villain-character + .character-name {
+            color: #8B0000;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Accessibility features for the character toggle */
+        #characterToggle:focus + label {
+            outline: 2px solid var(--gold);
+            border-radius: 3px;
+            padding: 2px 4px;
+        }
+        
+        /* Ensure all elements fit properly in containers */
+        * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-size: clamp(1rem, 5vw, 2.5rem);
+            line-height: 1.3;
+        }
+        
+        .card, .feature-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-body {
+            flex: 1 1 auto;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure form elements fit in their containers */
+        input, select, textarea {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .badge {
+            white-space: normal;
+            text-align: center;
+        }
+        
+        /* Platform buttons sizing */
+        .platform-icon {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+        }
+        
+        .btn-outline-primary {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        
+        /* Home page specific improvements */
+        .platform-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        
+        .platform-btn img {
+            margin-right: 0.5rem;
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* Balance check display */
+        .balance-display {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Compact number display for function integers */
+        .number-display, 
+        .ticker-item span,
+        .card p.h3,
+        .growth-positive,
+        .growth-negative,
+        .balance-display,
+        .numeric-value,
+        .fee-amount,
+        .bridge-stat span,
+        .statistics-number {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-feature-settings: "tnum";
+        }
+        
+        /* Fixed width containers for numeric values */
+        .numeric-container {
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Ensure bridge card fees display properly */
+        .bridge-card .fee-amount,
+        .bridge-card .time-estimate {
+            display: inline-block;
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            background-color: rgba(0,0,0,0.05);
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Beta Update Banner -->
+    <div class="beta-update-banner bg-dark text-white py-2" style="position: relative; overflow: hidden;">
+        <span class="badge bg-warning text-dark position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%);">NEW</span>
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="me-2"><i class="bi bi-info-circle-fill text-warning"></i></div>
+                <div class="beta-update-text" style="white-space: nowrap; animation: scrollText 20s linear infinite;">
+                    <strong>Beta v0.9.0 Updates:</strong> 
+                    Implemented EBT transfer restrictions • Added proper fee structure (0.5-1% standard fees) • 
+                    10% discount for EBT users • Enhanced transaction displays • 
+                    FXAMS cryptocurrency integration complete • 
+                    All payment bridges fully operational • Security improvements
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #32127A; box-shadow: 0 0 3px 1px rgba(230, 195, 74, 0.5); background-image: linear-gradient(135deg, #32127A 95%, #E6C34A 100%);">
+        <div class="container position-relative">
+            <!-- Centered Logo -->
+            <div class="text-center py-3" style="height: 200px;">
+                <a class="navbar-brand d-inline-block" href="#">
+                    <img src="assets/images/payxc-banner.jpg" alt="PayXc - PayXchangeable" style="height: 180px; max-width: 100%; object-fit: contain;">
+                </a>
+            </div>
+            
+            <!-- Menu toggle button -->
+            <button class="navbar-toggler position-absolute" style="top: 85px; right: 15px;" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation links -->
+            <div class="collapse navbar-collapse mt-2" id="navbarNav">
+                <ul class="navbar-nav d-flex justify-content-center w-100 flex-wrap">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#bridges">Bridges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ebt-benefits.html">For EBT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="currency-exchange.html">Exchange</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cryptocurrency.html">Crypto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#betaFeedbackModal">
+                            <i class="bi bi-chat-right-text"></i> Beta Feedback
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about-us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">App</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my-account.html">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-superhero.html">Superhero</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn px-4 mt-2 mt-lg-0" style="background-color: #E6C34A; color: black; font-weight: bold;" href="#download">Download</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-4 fw-bold mb-3">Transfer Money Between Any Platforms</h1>
+                    <div class="alert alert-warning d-inline-block mb-3 mx-auto">
+                        <strong>Beta Release:</strong> We're actively testing and improving! Your feedback helps us build a better product.
+                    </div>
+                    <p class="lead mb-4">PayXchangeable bridges the gap between payment platforms, allowing direct transfers without needing the original apps. Send money between Apple Cash, Samsung Pay, Zelle, PayPal and more with our exclusive <span class="skulkams-logo" style="display:inline-block !important; color:#FF00FF !important; font-family:'Alegreya',serif !important; font-style:italic !important; font-weight:700 !important; text-shadow:-1px -1px 0 #00C957, 1px -1px 0 #00C957, -1px 1px 0 #00C957, 1px 1px 0 #00C957 !important;">FXAMS</span> cryptocurrency offering 99% savings on transaction fees!</p>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <a href="#download" class="btn btn-light btn-lg me-3 mb-3">Download Now</a>
+                        <a href="#bridges" class="btn btn-outline-light btn-lg mb-3">Explore Bridges</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Key Features</h2>
+                <p class="lead">Seamlessly connect and transfer between any payment platform</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-primary">
+                            <i class="bi bi-arrow-left-right"></i>
+                            🔄
+                        </div>
+                        <h3 class="h4 mb-3">Direct Transfers</h3>
+                        <p>Transfer money directly between platforms without needing both apps installed. Send from Apple Cash to Samsung Pay in seconds!</p>
+                        <div class="mt-3">
+                            <a href="#bridges" class="btn btn-primary btn-sm">Explore Platform Bridges</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-success">
+                            <i class="bi bi-shield-check"></i>
+                            🔒
+                        </div>
+                        <h3 class="h4 mb-3">Secure & Private</h3>
+                        <p>End-to-end encryption and enhanced security measures protect your financial information and transactions.</p>
+                        <div class="mt-3">
+                            <a href="app-features.html#security" class="btn btn-success btn-sm">Learn About Security</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-warning">
+                            <i class="bi bi-currency-exchange"></i>
+                            💱
+                        </div>
+                        <h3 class="h4 mb-3">Global Currency Exchange</h3>
+                        <p>Exchange between 30+ global currencies with competitive rates. Transfer money internationally or convert between USD, EUR, GBP and more!</p>
+                        <div class="mt-3">
+                            <a href="currency-exchange.html" class="btn btn-sm btn-animated">Exchange Currency</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-info">
+                            <i class="bi bi-credit-card"></i>
+                            💳
+                        </div>
+                        <h3 class="h4 mb-3">16+ Platforms Supported</h3>
+                        <p>Connect to PayPal, Venmo, Zelle, Cash App, Google Pay, Apple Cash, Samsung Pay, and more popular payment services.</p>
+                        <div class="mt-3">
+                            <a href="app-features.html#supported-platforms" class="btn btn-info btn-sm">View All Platforms</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-success">
+                            <i class="bi bi-graph-up"></i>
+                            📈
+                        </div>
+                        <h3 class="h4 mb-3">Premium Investment Options</h3>
+                        <p>Invest your funds directly from any platform with personalized recommendations. Access stocks, ETFs, bonds, and cryptocurrency in one place!</p>
+                        <div class="mt-3">
+                            <a href="investments.html" class="btn btn-sm btn-animated">Explore Investments</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon text-primary">
+                            <i class="bi bi-mortarboard"></i>
+                            🎓
+                        </div>
+                        <h3 class="h4 mb-3">Financial Education</h3>
+                        <p>Access comprehensive financial education courses tailored to your needs. Learn about investing, budgeting, saving, and more financial skills!</p>
+                        <div class="mt-3">
+                            <a href="#education" class="btn btn-sm" style="background-color: #00a86b; color: white;">Browse Courses</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="feature-icon" style="color: #FF00FF;">
+                            <i class="bi bi-currency-bitcoin"></i>
+                            💸
+                        </div>
+                        <h3 class="h4 mb-3"><span class="skulkams-logo" style="display:inline-block !important; color:#FF00FF !important; font-family:'Alegreya',serif !important; font-style:italic !important; font-weight:700 !important; text-shadow:-1px -1px 0 #00C957, 1px -1px 0 #00C957, -1px 1px 0 #00C957, 1px 1px 0 #00C957 !important;">FXAMS</span> Cryptocurrency</h3>
+                        <p>PayXchangeable's exclusive cryptocurrency that offers <strong>99% savings</strong> on all transactions that use <span class="skulkams-logo" style="display:inline-block !important; color:#FF00FF !important; font-family:'Alegreya',serif !important; font-style:italic !important; font-weight:700 !important; text-shadow:-1px -1px 0 #00C957, 1px -1px 0 #00C957, -1px 1px 0 #00C957, 1px 1px 0 #00C957 !important;">FXAMS</span>. Lower fees, faster transfers!</p>
+                        <div class="mt-3">
+                            <a href="investments.html#fxams" class="btn btn-sm" style="background: linear-gradient(135deg, #FF00FF, #00C957); color: white; font-weight: bold;">Learn About <span class="fxams-logo" style="display:inline-block !important; color:#FF00FF !important; font-family:'Alegreya',serif !important; font-style:italic !important; font-weight:700 !important; text-shadow:-1px -1px 0 #00C957, 1px -1px 0 #00C957, -1px 1px 0 #00C957, 1px 1px 0 #00C957 !important;">FXAMS</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bridge Showcase Section -->
+    <section id="bridges" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Featured Bridges</h2>
+                <p class="lead">Transfer money between these platforms without needing both apps</p>
+            </div>
+            
+            <div class="bridge-card">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#applecash" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/apple-cash.svg" alt="Apple Cash" class="platform-logo">
+                            <span class="fw-bold">Apple Cash</span>
+                        </a>
+                    </div>
+                    <div class="arrow-icon mx-1 mx-md-3">→</div>
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#samsungpay" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/samsung-pay.svg" alt="Samsung Pay" class="platform-logo">
+                            <span class="fw-bold">Samsung Pay</span>
+                        </a>
+                    </div>
+                    <div class="ms-auto badge bg-primary">Featured</div>
+                </div>
+                <div class="mt-3">
+                    <p class="mb-2">Transfer directly between Apple Cash and Samsung Pay without installing either app!</p>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Fee:</span> <span class="fw-semibold">0.5%</span> <span class="small text-success">(only 0.005% with <span class="skulkams-logo" style="display:inline-block !important; color:#FF00FF !important; font-family:'Alegreya',serif !important; font-style:italic !important; font-weight:700 !important; text-shadow:-1px -1px 0 #00C957, 1px -1px 0 #00C957, -1px 1px 0 #00C957, 1px 1px 0 #00C957 !important;">FXAMS</span>!)</span></div>
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Processing time:</span> <span class="fw-semibold">~1 hour</span></div>
+                        <a href="app-features.html#transfers" class="btn btn-sm btn-animated">Try It Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bridge-card">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#zelle" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/zelle.svg" alt="Zelle" class="platform-logo">
+                            <span class="fw-bold">Zelle</span>
+                        </a>
+                    </div>
+                    <div class="arrow-icon mx-1 mx-md-3">→</div>
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#cashapp" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/cash-app.svg" alt="Cash App" class="platform-logo">
+                            <span class="fw-bold">Cash App</span>
+                        </a>
+                    </div>
+                    <div class="ms-auto badge bg-primary">Featured</div>
+                </div>
+                <div class="mt-3">
+                    <p class="mb-2">Send money directly from Zelle to Cash App without installing either app!</p>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Fee:</span> <span class="fw-semibold">0.5%</span></div>
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Processing time:</span> <span class="fw-semibold">~1 hour</span></div>
+                        <a href="app-features.html#transfers" class="btn btn-sm btn-animated">Try It Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bridge-card">
+                <div class="d-flex align-items-center flex-wrap">
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#paypal" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/paypal.svg" alt="PayPal" class="platform-logo">
+                            <span class="fw-bold">PayPal</span>
+                        </a>
+                    </div>
+                    <div class="arrow-icon mx-1 mx-md-3">→</div>
+                    <div class="d-flex align-items-center me-2 mb-2 mb-md-0">
+                        <a href="app-features.html#venmo" class="btn btn-outline-primary d-flex align-items-center">
+                            <img src="assets/images/zelle.svg" alt="Zelle" class="platform-logo">
+                            <span class="fw-bold">Venmo</span>
+                        </a>
+                    </div>
+                    <div class="ms-auto badge bg-primary">Featured</div>
+                </div>
+                <div class="mt-3">
+                    <p class="mb-2">Transfer money directly between PayPal and Venmo without installing either app!</p>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Fee:</span> <span class="fw-semibold">0.5%</span></div>
+                        <div class="mb-2 mb-md-0"><span class="text-muted">Processing time:</span> <span class="fw-semibold">~1 hour</span></div>
+                        <a href="app-features.html#transfers" class="btn btn-sm btn-animated">Try It Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="app-features.html" class="btn btn-animated">Explore All Bridges</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EBT Benefits Section -->
+    <section id="ebt" class="py-5">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="fw-bold">Electronic Benefits Transfer (EBT) Access</h2>
+                <p class="lead mb-4">We offer special features and discounts for Electronic Benefits cardholders</p>
+                <a href="ebt-benefits.html" class="btn btn-lg btn-animated">Visit Dedicated EBT Page</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Superhero Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Create Your Financial Superhero</h2>
+                <p class="lead">Discover your financial personality and superpowers</p>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="assets/images/superhero-banner.svg" alt="Financial Superhero" class="img-fluid rounded">
+                </div>
+                <div class="col-lg-6">
+                    <h3>Personalize Your Financial Journey</h3>
+                    <p>Create your own financial superhero based on your money management style and financial goals. Your character will reflect your unique financial strengths and areas for growth.</p>
+                    
+                    <div class="d-flex flex-wrap mb-4">
+                        <span class="badge bg-primary me-2 mb-2 p-2">Financial Profile Analysis</span>
+                        <span class="badge bg-success me-2 mb-2 p-2">Customizable Characters</span>
+                        <span class="badge bg-danger me-2 mb-2 p-2">Personalized Recommendations</span>
+                        <span class="badge bg-warning text-dark me-2 mb-2 p-2">Shareable Results</span>
+                    </div>
+                    
+                    <p>Your financial superhero comes with tailored recommendations to help you maximize your strengths and improve your financial well-being.</p>
+                    
+                    <a href="financial-superhero.html" class="btn btn-animated mt-3">Create Your Superhero Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Financial Education Section -->
+    <section id="education" class="financial-education-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Financial Education</h2>
+                <p class="lead">Comprehensive financial education for all users</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="course-card">
+                        <div class="card-header">
+                            Featured Course
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title h4 mb-3">Budgeting Fundamentals</h3>
+                            <p class="card-text">Learn essential budgeting techniques to manage your finances effectively. Perfect for beginners!</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-auto"><span class="text-muted">Duration:</span> <span class="fw-semibold">3 hours</span></div>
+                                <div><span class="badge bg-primary">$1.99</span></div>
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-success">EBT/SSI/Student: $0.40 (80% off)</span> •
+                                <span class="text-success">With <span class="skulkams-logo">FXAMS</span>: FREE</span>
+                            </div>
+                            <a href="app-features.html#financial-education" class="btn btn-animated">Start Course</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="course-card">
+                        <div class="card-header">
+                            Popular Course
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title h4 mb-3">Advanced Investing Strategies</h3>
+                            <p class="card-text">Learn advanced investment techniques including portfolio diversification, risk management, and market analysis.</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-auto"><span class="text-muted">Duration:</span> <span class="fw-semibold">4 hours</span></div>
+                                <div><span class="badge bg-primary">$1.99</span></div>
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-success">EBT/SSI/Student: $0.40 (80% off)</span> •
+                                <span class="text-success">With <span class="skulkams-logo">FXAMS</span>: FREE</span>
+                            </div>
+                            <a href="app-features.html#financial-education" class="btn btn-animated">Start Course</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="course-card">
+                        <div class="card-body">
+                            <h3 class="card-title h5 mb-2">Debt Management</h3>
+                            <p class="card-text">Strategies for managing and reducing debt effectively.</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-auto"><span class="text-muted">Duration:</span> <span>1.5 hours</span></div>
+                                <div><span class="badge bg-primary">$1.99</span></div>
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-success">EBT/SSI/Student: $0.40</span> • <span class="text-success">With <span class="skulkams-logo">FXAMS</span>: FREE</span>
+                            </div>
+                            <a href="app-features.html#financial-education" class="btn btn-sm btn-animated">View Course</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="course-card">
+                        <div class="card-body">
+                            <h3 class="card-title h5 mb-2">Investment Basics</h3>
+                            <p class="card-text">Learn the fundamentals of investing for long-term growth.</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-auto"><span class="text-muted">Duration:</span> <span>2 hours</span></div>
+                                <div><span class="badge bg-primary">$1.99</span></div>
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-success">EBT/SSI/Student: $0.40</span> • <span class="text-success">With <span class="skulkams-logo">FXAMS</span>: FREE</span>
+                            </div>
+                            <a href="app-features.html#financial-education" class="btn btn-sm btn-animated">View Course</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="course-card">
+                        <div class="card-body">
+                            <h3 class="card-title h5 mb-2">Building Credit</h3>
+                            <p class="card-text">Strategies to build and improve your credit score.</p>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-auto"><span class="text-muted">Duration:</span> <span>1 hour</span></div>
+                                <div><span class="badge bg-primary">$1.99</span></div>
+                            </div>
+                            <div class="small mb-2">
+                                <span class="text-success">EBT/SSI/Student: $0.40</span> • <span class="text-success">With <span class="skulkams-logo">FXAMS</span>: FREE</span>
+                            </div>
+                            <a href="app-features.html#financial-education" class="btn btn-sm btn-animated">View Course</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="app-features.html#financial-education" class="btn btn-animated me-3">Explore All Courses</a>
+                <a href="financial-learning.html" class="btn btn-animated" style="background-color: #E6C34A; color: #000 !important; border-color: #c09d20;">
+                    <i class="bi bi-trophy me-1"></i> Try Gamified Learning
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Download PayXchangeable <span class="badge bg-warning text-dark">BETA</span></h2>
+                <p class="lead">Available on iOS, Android, and Web</p>
+                <div class="alert alert-info mx-auto" style="max-width: 800px;">
+                    <strong>Beta Information:</strong> This beta release focuses on core payment functionality, EBT features, and cryptocurrency integration. 
+                    Your feedback is crucial for our development.
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <div class="mb-3">📱</div>
+                            <h3 class="h4 mb-3">iOS App <span class="badge bg-warning text-dark" style="font-size: 0.65rem; vertical-align: super;">BETA</span></h3>
+                            <p class="mb-4">Download from the App Store or join our TestFlight beta.</p>
+                            <a href="https://apps.apple.com/app/payxchangeable/id1234567890" class="btn btn-animated w-100 mb-2">App Store</a>
+                            <a href="https://testflight.apple.com/join/payxchangeable" class="btn btn-outline-primary w-100 mb-2">TestFlight Beta</a>
+                            <div class="small text-muted mt-2">
+                                <i class="bi bi-shield-check"></i> Beta testing includes additional data collection for app improvement.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <div class="mb-3">🤖</div>
+                            <h3 class="h4 mb-3">Android App <span class="badge bg-warning text-dark" style="font-size: 0.65rem; vertical-align: super;">BETA</span></h3>
+                            <p class="mb-4">Download from Google Play or get the direct APK.</p>
+                            <a href="https://play.google.com/store/apps/details?id=com.payxchangeable" class="btn btn-animated w-100 mb-2">Google Play</a>
+                            <a href="https://github.com/payxchangeable/android/releases/download/v1.2.0/payxchangeable-v1.2.0.apk" class="btn btn-outline-primary w-100 mb-2" download>Download APK</a>
+                            <div class="small text-muted mt-2">
+                                <i class="bi bi-shield-check"></i> Beta testing includes additional data collection for app improvement.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <div class="mb-3">💻</div>
+                            <h3 class="h4 mb-3">Web App <span class="badge bg-warning text-dark" style="font-size: 0.65rem; vertical-align: super;">BETA</span></h3>
+                            <p class="mb-4">Use PayXchangeable directly in your browser, no download needed.</p>
+                            <a href="app-features.html" class="btn btn-animated w-100 mb-2">Launch Web App</a>
+                            <a href="https://github.com/payxchangeable" class="btn btn-outline-primary w-100 mb-2">GitHub Source</a>
+                            <div class="small text-muted mt-2">
+                                <i class="bi bi-shield-check"></i> Beta testing includes additional data collection for app improvement.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beta Information Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-4">Beta Testing Information</h3>
+                            
+                            <div class="mb-4">
+                                <h4 class="h5"><i class="bi bi-check-circle-fill text-success me-2"></i>Beta Focus Areas</h4>
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item">Core payment bridges between all platforms</li>
+                                    <li class="list-group-item">EBT integration with special discounts and transfer protocols</li>
+                                    <li class="list-group-item">FXAMS cryptocurrency transactions</li>
+                                    <li class="list-group-item">Fee structure implementation (0.5-1% standard, discounts for EBT)</li>
+                                    <li class="list-group-item">User interface and accessibility features</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4 class="h5"><i class="bi bi-shield-check text-primary me-2"></i>App Store Compliance</h4>
+                                <p>Our beta version meets all app store requirements for:</p>
+                                <div class="row text-center">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="p-3 border rounded">
+                                            <h5>Security</h5>
+                                            <div class="progress mb-2">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <small>End-to-end encryption</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="p-3 border rounded">
+                                            <h5>Privacy</h5>
+                                            <div class="progress mb-2">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <small>GDPR & CCPA compliant</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="p-3 border rounded">
+                                            <h5>Accessibility</h5>
+                                            <div class="progress mb-2">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <small>WCAG 2.1 AA compliant</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4 class="h5"><i class="bi bi-calendar-check text-primary me-2"></i>Beta Timeline</h4>
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <div class="p-3 border rounded text-center">
+                                            <div class="mb-2"><i class="bi bi-1-circle-fill fs-4 text-success"></i></div>
+                                            <h6>Phase 1 (Current)</h6>
+                                            <small>Core functionality testing</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="p-3 border rounded text-center">
+                                            <div class="mb-2"><i class="bi bi-2-circle fs-4"></i></div>
+                                            <h6>Phase 2</h6>
+                                            <small>Scale & performance testing</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="p-3 border rounded text-center">
+                                            <div class="mb-2"><i class="bi bi-3-circle fs-4"></i></div>
+                                            <h6>Phase 3</h6>
+                                            <small>Extended platform testing</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <div class="p-3 border rounded text-center">
+                                            <div class="mb-2"><i class="bi bi-check-circle fs-4"></i></div>
+                                            <h6>Release</h6>
+                                            <small>Public availability</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <a href="#download" class="btn btn-primary">Join the Beta Today</a>
+                                <button class="btn btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#betaFeedbackModal">
+                                    <i class="bi bi-chat-right-text"></i> Submit Feedback
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">Ready to bridge your payment platforms?</h2>
+                    <p class="lead mb-4">Join thousands of users who are already enjoying the freedom of platform-independent money transfers.</p>
+                    <a href="app-features.html" class="btn btn-light btn-lg me-3 mb-3">Try It Now</a>
+                    <a href="#download" class="btn btn-outline-light btn-lg mb-3">Download</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Fitness Section with Optional Corn Mascot -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Financial Fitness</h2>
+                <p class="lead">Track your financial health and set goals</p>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title h4 mb-3">Financial Health Tracker</h3>
+                            <p class="card-text">Monitor your spending habits, track your savings goals, and measure your investment performance all in one place.</p>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Savings Goal: 75%</div>
+                            </div>
+                            <a href="app-features.html" class="btn btn-animated">Try Financial Tracker</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-lg-block d-none">
+                    <!-- Superhero Character Container (shows user's character or nothing) -->
+                    <div class="character-container text-center" id="character-display">
+                        <!-- Character will be inserted dynamically by JavaScript based on user's superhero -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-white mb-4">PayXchangeable</h5>
+                    <p>Bridging the gap between payment platforms, making money transfers easier for everyone.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Features</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#features">Features</a></li>
+                        <li class="mb-2"><a href="#bridges">Bridges</a></li>
+                        <li class="mb-2"><a href="ebt-benefits.html">Electronic Benefits</a></li>
+                        <li class="mb-2"><a href="#education">Education</a></li>
+                        <li class="mb-2"><a href="financial-superhero.html">Superhero Creator</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-white mb-4">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="about-us.html">About Us</a></li>
+                        <li class="mb-2"><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white mb-4">Stay Connected</h5>
+                    <div class="footer-links mb-3">
+                        <a href="#">Facebook</a>
+                        <a href="#">Twitter</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                    <p class="mb-1">support@payxchangeable.com</p>
+                    <p class="small text-muted">Email support bot available 24/7</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="alert alert-warning text-center mb-3 small">
+                    <strong>Beta Testing Notice:</strong> This is pre-release software. Features may change, and some functionality may be limited. 
+                    By using this beta version, you agree to provide feedback and acknowledge that data security 
+                    measures are fully implemented but still under ongoing testing.
+                </div>
+                <p class="small text-muted text-center mb-0">© 2025 PayXchangeable. All rights reserved. <span class="badge bg-warning text-dark">v0.9.0 BETA</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Accessibility Toggle -->
+    <div class="accessibility-toggle">
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="offcanvas" data-bs-target="#accessibilitySettings">
+            <span class="d-none d-md-inline">Accessibility</span> ⚙️
+        </button>
+    </div>
+
+    <!-- Accessibility Settings Panel -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="accessibilitySettings">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Accessibility Settings</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+            </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="highContrastMode">
+                <label class="form-check-label" for="highContrastMode">High Contrast Mode</label>
+            </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="largeTextMode">
+                <label class="form-check-label" for="largeTextMode">Large Text</label>
+            </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="colorBlindMode">
+                <label class="form-check-label" for="colorBlindMode">Color Blind Mode</label>
+            </div>
+            <div class="mt-3">
+                <button id="applyAccessibilitySettings" class="btn btn-primary">Apply Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+    <script>
+        // Toggle Dark Mode
+        document.getElementById('darkModeToggle').addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-theme');
+                document.body.classList.remove('light-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
+            }
+        });
+        
+        // Apply Accessibility Settings
+        document.getElementById('applyAccessibilitySettings').addEventListener('click', function() {
+            const darkMode = document.getElementById('darkModeToggle').checked;
+            const highContrast = document.getElementById('highContrastMode').checked;
+            const largeText = document.getElementById('largeTextMode').checked;
+            const colorBlind = document.getElementById('colorBlindMode').checked;
+            
+            // Apply dark mode
+            document.body.classList.toggle('dark-theme', darkMode);
+            document.body.classList.toggle('light-theme', !darkMode);
+            
+            // Apply high contrast
+            document.body.classList.toggle('high-contrast', highContrast);
+            
+            // Apply large text
+            document.body.classList.toggle('large-text', largeText);
+            
+            // Apply color blind mode
+            document.body.classList.toggle('color-blind', colorBlind);
+            
+            // Close the settings panel
+            bootstrap.Offcanvas.getInstance(document.getElementById('accessibilitySettings')).hide();
+        });
+        
+        // Character display is handled by character-display.js
+        
+        // Initialize security features
+        if (window.PayXSecurity) {
+            window.PayXSecurity.init();
+        }
+    </script>
+    
+    <!-- Load security module -->
+    <script src="/assets/js/security.js"></script>
+    
+    <!-- Beta Feedback Modal -->
+    <div class="modal fade" id="betaFeedbackModal" tabindex="-1" aria-labelledby="betaFeedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #32127A; color: white;">
+                    <h5 class="modal-title" id="betaFeedbackModalLabel">Beta Feedback</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="betaFeedbackForm">
+                        <div class="mb-3">
+                            <label for="feedbackEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="feedbackEmail" required>
+                            <div class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackCategory" class="form-label">Feedback Category</label>
+                            <select class="form-select" id="feedbackCategory" required>
+                                <option value="" selected disabled>Select a category</option>
+                                <option value="payment-bridges">Payment Platform Bridges</option>
+                                <option value="ebt-features">EBT Features</option>
+                                <option value="cryptocurrency">FXAMS Cryptocurrency</option>
+                                <option value="ui-design">User Interface</option>
+                                <option value="accessibility">Accessibility</option>
+                                <option value="performance">Performance</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="feature-request">Feature Request</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackType" class="form-label">Feedback Type</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="feedbackType" id="feedbackPositive" value="positive" checked>
+                                <label class="form-check-label" for="feedbackPositive">
+                                    <i class="bi bi-emoji-smile text-success"></i> Positive
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="feedbackType" id="feedbackSuggestion" value="suggestion">
+                                <label class="form-check-label" for="feedbackSuggestion">
+                                    <i class="bi bi-lightbulb text-warning"></i> Suggestion
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="feedbackType" id="feedbackIssue" value="issue">
+                                <label class="form-check-label" for="feedbackIssue">
+                                    <i class="bi bi-exclamation-triangle text-danger"></i> Issue
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedbackMessage" class="form-label">Your Feedback</label>
+                            <textarea class="form-control" id="feedbackMessage" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="betaTesterCheck">
+                            <label class="form-check-label" for="betaTesterCheck">I'm interested in joining the beta tester community</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitFeedbackBtn">Submit Feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Beta Feedback Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitFeedbackBtn = document.getElementById('submitFeedbackBtn');
+            const feedbackForm = document.getElementById('betaFeedbackForm');
+            
+            if (submitFeedbackBtn && feedbackForm) {
+                submitFeedbackBtn.addEventListener('click', function() {
+                    // Check form validity
+                    if (!feedbackForm.checkValidity()) {
+                        feedbackForm.reportValidity();
+                        return;
+                    }
+                    
+                    // In a real app, this would send data to the server
+                    // For demo purposes, we'll just show a success message
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('betaFeedbackModal'));
+                    modal.hide();
+                    
+                    // Show success alert
+                    const alertHTML = `
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Thank you for your feedback!</strong> Your input helps us improve PayXchangeable.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `;
+                    
+                    document.querySelector('.hero-section .container').insertAdjacentHTML('afterbegin', alertHTML);
+                    
+                    // Clear form
+                    feedbackForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

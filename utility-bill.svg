@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bill-bg {
+      fill: #f8f9fa;
+      stroke: #32127A;
+      stroke-width: 2;
+    }
+    .bill-inner {
+      fill: #ffffff;
+      stroke: #32127A;
+      stroke-width: 1;
+      stroke-dasharray: 2,2;
+    }
+    .bill-text {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+      fill: #32127A;
+      font-size: 16px;
+      text-anchor: middle;
+    }
+    .bill-line {
+      stroke: #32127A;
+      stroke-width: 1;
+    }
+    .bill-icon {
+      fill: #00a86b;
+    }
+  </style>
+  
+  <!-- Bill background -->
+  <rect x="40" y="40" width="120" height="120" rx="5" class="bill-bg" />
+  <rect x="50" y="50" width="100" height="100" rx="3" class="bill-inner" />
+  
+  <!-- Bill lines -->
+  <line x1="60" y1="70" x2="140" y2="70" class="bill-line" />
+  <line x1="60" y1="90" x2="140" y2="90" class="bill-line" />
+  <line x1="60" y1="110" x2="140" y2="110" class="bill-line" />
+  <line x1="60" y1="130" x2="140" y2="130" class="bill-line" />
+  
+  <!-- Lightning bolt icon -->
+  <path d="M90,55 L75,90 L95,90 L80,130" class="bill-icon" stroke="#32127A" stroke-width="2" fill="none" />
+  
+  <!-- Bill text -->
+  <text x="100" y="150" class="bill-text">UTILITY BILL</text>
+</svg>

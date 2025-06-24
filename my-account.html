@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - PayXchangeable</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        /* Import fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap'); /* Using Oswald as a substitute for BOULDER font */
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@1,700&display=swap'); /* Allegro font equivalent for Skulkams */
+        
+        /* PayXc branding with BOULDER font styling */
+        .payxc-brand {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* Binary code decoration */
+        .binary-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(128, 128, 128, 0.3); /* Grey binary code */
+            letter-spacing: 2px;
+        }
+        
+        /* FXAMS logo styling with Allegro font */
+        .fxams-logo, .skulkams-logo, .skulkams-text {
+            font-family: 'Alegreya', serif; /* Allegro font equivalent */
+            font-weight: 700;
+            color: #FF00FF; /* Magenta */
+            text-shadow:
+                -1px -1px 0 #00C957, /* Kelly Green outline */
+                1px -1px 0 #00C957,
+                -1px 1px 0 #00C957,
+                1px 1px 0 #00C957;
+            letter-spacing: 0.5px;
+            font-style: italic;
+        }
+        
+        :root {
+            --primary-color: #32127A;
+            --accent-color: #E6C34A;
+            --secondary-accent: #89756b;
+            --light-bg: #f8f9fa;
+            --dark-text: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-link, .navbar-brand {
+            color: white !important;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #25085d;
+            border-color: #25085d;
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--dark-text);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d4b031;
+            border-color: #d4b031;
+            color: var(--dark-text);
+        }
+        
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            background-color: var(--accent-color);
+            color: var(--dark-text);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-animated:hover {
+            background-color: #d4b031;
+        }
+        
+        .btn-animated::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn-animated:hover::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        .section-header {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .platform-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .platform-logo {
+            max-height: 40px;
+            max-width: 100px;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .sidebar {
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            min-height: calc(100vh - 56px);
+        }
+        
+        .sidebar-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            display: block;
+            border-bottom: 1px solid #dee2e6;
+            transition: background-color 0.2s ease;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+        }
+        
+        .sidebar-link i {
+            width: 24px;
+            text-align: center;
+            margin-right: 8px;
+        }
+        
+        .account-section {
+            margin-bottom: 2rem;
+        }
+        
+        .transaction-card {
+            transition: transform 0.2s ease;
+        }
+        
+        .transaction-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .connected-platforms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .platform-badge {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            border: 1px solid #dee2e6;
+            gap: 0.5rem;
+        }
+        
+        .platform-badge img {
+            height: 24px;
+            width: auto;
+        }
+        
+        .platform-badge.active {
+            background-color: #e8f4fc;
+            border-color: #7cc;
+        }
+        
+        .platform-details {
+            display: none;
+        }
+        
+        .platform-details.active {
+            display: block;
+        }
+        
+        .balance-card {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary-color);
+        }
+        
+        .transaction-filter .form-select {
+            width: auto;
+            display: inline-block;
+        }
+        
+        .transaction-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .audit-trail {
+            font-size: 0.875rem;
+        }
+        
+        .audit-trail .list-group-item {
+            padding: 0.5rem 1rem;
+        }
+        
+        .activity-log-item {
+            border-left: 3px solid #dee2e6;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-log-item.transfer {
+            border-left-color: var(--primary-color);
+        }
+        
+        .activity-log-item.login {
+            border-left-color: #28a745;
+        }
+        
+        .activity-log-item.settings {
+            border-left-color: #fd7e14;
+        }
+        
+        .activity-log-item.platform {
+            border-left-color: #17a2b8;
+        }
+        
+        .demo-input {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            width: 100%;
+        }
+        
+        /* Compact number display for function integers */
+        .number-display, 
+        .account-balance,
+        .transaction-amount,
+        .currency-amount,
+        .fee-value,
+        .reward-points,
+        .total-value,
+        .transfer-count,
+        .platform-balance,
+        .data-metric,
+        .numeric-value {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-feature-settings: "tnum";
+        }
+        
+        /* Balance display */
+        .account-balance {
+            font-size: 1.75rem;
+            font-weight: bold;
+            padding: 0.5rem;
+            background-color: rgba(0, 168, 107, 0.1);
+            border-radius: 0.5rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        /* Transaction amount display */
+        .transaction-amount {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        /* Currency symbol alignment */
+        .currency-symbol {
+            display: inline-block;
+            width: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <img src="assets/images/logo-new.svg" alt="PayXc Logo" height="30" class="me-2">
+                <div class="d-flex flex-column">
+                    <div class="binary-code text-end">010101</div>
+                    <span class="payxc-brand">PayXc</span>
+                    <div class="binary-code text-start">101010</div>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="app-features.html">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="financial-learning.html">Financial Learning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="investments.html">Investments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="my-account.html">My Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 p-0">
+                <div class="sidebar pb-5">
+                    <div class="p-3 d-flex align-items-center">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">Your Account</div>
+                            <small class="text-muted">account@example.com</small>
+                        </div>
+                    </div>
+                    <a href="#dashboard" class="sidebar-link active" data-section="dashboard">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                    <a href="#linked-accounts" class="sidebar-link" data-section="linked-accounts">
+                        <i class="bi bi-link-45deg"></i> Linked Accounts
+                    </a>
+                    <a href="#transactions" class="sidebar-link" data-section="transactions">
+                        <i class="bi bi-arrow-left-right"></i> Transactions
+                    </a>
+                    <a href="#activity" class="sidebar-link" data-section="activity">
+                        <i class="bi bi-clock-history"></i> Activity Log
+                    </a>
+                    <a href="#settings" class="sidebar-link" data-section="settings">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                    <a href="#security" class="sidebar-link" data-section="security">
+                        <i class="bi bi-shield-lock"></i> Security
+                    </a>
+                    <a href="#notifications" class="sidebar-link" data-section="notifications">
+                        <i class="bi bi-bell"></i> Notifications
+                    </a>
+                    <a href="#" class="sidebar-link text-danger">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="col-lg-9 col-md-8 py-4 px-4">
+                <!-- Dashboard Section -->
+                <div class="account-section" id="dashboard-section">
+                    <h2 class="section-header">Account Dashboard</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Account Overview</h5>
+                                    <div class="connected-platforms">
+                                        <div class="platform-badge active">
+                                            <img src="assets/images/ebt-cash.svg" alt="EBT Cash">
+                                            <span>EBT Cash</span>
+                                        </div>
+                                        <div class="platform-badge active">
+                                            <img src="assets/images/paypal.svg" alt="PayPal">
+                                            <span>PayPal</span>
+                                        </div>
+                                        <div class="platform-badge active">
+                                            <img src="assets/images/zelle.svg" alt="Zelle">
+                                            <span>Zelle</span>
+                                        </div>
+                                        <div class="platform-badge">
+                                            <img src="assets/images/venmo.svg" alt="Venmo">
+                                            <span>Venmo</span>
+                                        </div>
+                                    </div>
+                                    <p><strong>Total Connected Platforms:</strong> <span id="platform-count">3</span> of 16 available</p>
+                                    <p><strong>Total Balance Across All Platforms:</strong> <span id="total-balance">$0.00</span></p>
+                                    <a href="#linked-accounts" class="btn btn-sm btn-primary sidebar-nav" data-section="linked-accounts">Manage Linked Accounts</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Recent Activity</h5>
+                                    <div id="recent-activity" class="transaction-list">
+                                        <div class="list-group list-group-flush">
+                                            <div class="list-group-item transaction-card">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Transfer to Zelle</h6>
+                                                    <small class="text-danger">-$150.00</small>
+                                                </div>
+                                                <small class="text-muted">From: EBT Cash • 2 hours ago</small>
+                                            </div>
+                                            <div class="list-group-item transaction-card">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Electricity Bill Payment</h6>
+                                                    <small class="text-danger">-$75.50</small>
+                                                </div>
+                                                <small class="text-muted">From: PayPal • Yesterday</small>
+                                            </div>
+                                            <div class="list-group-item transaction-card">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Refund Request</h6>
+                                                    <small class="text-info">Pending</small>
+                                                </div>
+                                                <small class="text-muted">For: EBT Transfer • Yesterday</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="#transactions" class="btn btn-sm btn-primary mt-3 sidebar-nav" data-section="transactions">View All Transactions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    Platform Balances
+                                </div>
+                                <div class="card-body">
+                                    <div id="balance-display" class="row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    Quick Transfer
+                                </div>
+                                <div class="card-body">
+                                    <form id="quick-transfer-form">
+                                        <div class="mb-3">
+                                            <label for="quickSourceSelect" class="form-label">From</label>
+                                            <select class="form-select demo-input" id="quickSourceSelect">
+                                                <option value="">Select source platform</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="quickDestinationSelect" class="form-label">To</label>
+                                            <select class="form-select demo-input" id="quickDestinationSelect">
+                                                <option value="">Select destination platform</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="quickTransferAmount" class="form-label">Amount</label>
+                                            <input type="number" class="demo-input" id="quickTransferAmount" placeholder="Enter amount" step="0.01" min="0.01">
+                                        </div>
+                                        <button type="button" class="btn btn-animated" id="quickTransferButton">Transfer Funds</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-header bg-light">
+                                    Financial Summary
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <strong>This Month Transfers:</strong>
+                                        </div>
+                                        <span>$325.75</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <strong>This Month Bill Payments:</strong>
+                                        </div>
+                                        <span>$185.25</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <strong>Fees Saved (EBT Discount):</strong>
+                                        </div>
+                                        <span class="text-success">$2.85</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <strong>Refunds Processed:</strong>
+                                        </div>
+                                        <span>1</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>Available Priority Refunds:</strong>
+                                        </div>
+                                        <span>3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Linked Accounts Section -->
+                <div class="account-section d-none" id="linked-accounts-section">
+                    <h2 class="section-header">Linked Payment Platforms & Digital Cards</h2>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Link all your payment platforms to enable seamless transfers between them. You can also create digital debit cards for your platforms. Your credentials are securely encrypted.
+                    </div>
+                    
+                    <!-- Digital Debit Cards Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Your Digital Debit Cards</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Create and manage virtual debit cards linked to your payment platforms.</p>
+                            
+                            <div class="row" id="digital-cards-container">
+                                <!-- EBT Digital Card -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card h-100" style="background: linear-gradient(135deg, #32127A, #4518a0); color: white; border-radius: 15px;">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <img src="assets/images/chip-card.svg" alt="Chip" height="40" onerror="this.src='https://placehold.co/40x40/E6C34A/000?text=CHIP'">
+                                                <img src="assets/images/ebt-cash.svg" alt="EBT" height="30" class="bg-white rounded p-1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="text-muted small">Card Number</div>
+                                                <div class="fw-bold">**** **** **** 5678</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="text-muted small">Valid Thru</div>
+                                                    <div class="fw-bold">05/28</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">CVV</div>
+                                                    <div class="fw-bold">***</div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <div class="text-muted small">Card Holder</div>
+                                                <div class="fw-bold">EBT CARDHOLDER</div>
+                                            </div>
+                                            <div class="mt-3 d-flex gap-2">
+                                                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#cardDetailsModal" data-card-type="ebt">
+                                                    <i class="bi bi-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#cardFreezeModal" data-card-type="ebt">
+                                                    <i class="bi bi-snow"></i> Freeze Card
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- PayPal Digital Card -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card h-100" style="background: linear-gradient(135deg, #009cde, #003087); color: white; border-radius: 15px;">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <img src="assets/images/chip-card.svg" alt="Chip" height="40" onerror="this.src='https://placehold.co/40x40/E6C34A/000?text=CHIP'">
+                                                <img src="assets/images/paypal.svg" alt="PayPal" height="30" class="bg-white rounded p-1">
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="text-muted small">Card Number</div>
+                                                <div class="fw-bold">**** **** **** 4321</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="text-muted small">Valid Thru</div>
+                                                    <div class="fw-bold">08/27</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="text-muted small">CVV</div>
+                                                    <div class="fw-bold">***</div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3">
+                                                <div class="text-muted small">Card Holder</div>
+                                                <div class="fw-bold">PAYPAL USER</div>
+                                            </div>
+                                            <div class="mt-3 d-flex gap-2">
+                                                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#cardDetailsModal" data-card-type="paypal">
+                                                    <i class="bi bi-eye"></i> View Details
+                                                </button>
+                                                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#cardFreezeModal" data-card-type="paypal">
+                                                    <i class="bi bi-snow"></i> Freeze Card
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Create New Card -->
+                                <div class="col-lg-4 col-md-6 mb-3">
+                                    <div class="card h-100 d-flex align-items-center justify-content-center" style="border: 2px dashed #dee2e6; background-color: #f8f9fa; min-height: 220px;">
+                                        <div class="card-body text-center">
+                                            <div class="mb-3">
+                                                <i class="bi bi-plus-circle" style="font-size: 3rem; color: #32127A;"></i>
+                                            </div>
+                                            <h5>Create New Digital Card</h5>
+                                            <p class="text-muted">Link a virtual debit card to any of your payment platforms</p>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCardModal">
+                                                Create Card
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="ebt-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/ebt-cash.svg" alt="EBT Cash" class="platform-logo">
+                                    </div>
+                                    <span class="badge bg-success">Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">EBT Cash Benefits</h5>
+                                    <p class="card-text">Government benefits card with special discounts and features.</p>
+                                    <p><strong>Balance:</strong> <span class="platform-balance" data-platform="ebt">$0.00</span></p>
+                                    <div class="d-flex">
+                                        <button class="btn btn-sm btn-primary me-2 platform-details-btn" data-platform="ebt">View Details</button>
+                                        <button class="btn btn-sm btn-outline-danger platform-disconnect-btn" data-platform="ebt">Disconnect</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="paypal-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/paypal.svg" alt="PayPal" class="platform-logo">
+                                    </div>
+                                    <span class="badge bg-success">Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">PayPal</h5>
+                                    <p class="card-text">Online payment system supporting multiple currencies.</p>
+                                    <p><strong>Balance:</strong> <span class="platform-balance" data-platform="paypal">$0.00</span></p>
+                                    <div class="d-flex">
+                                        <button class="btn btn-sm btn-primary me-2 platform-details-btn" data-platform="paypal">View Details</button>
+                                        <button class="btn btn-sm btn-outline-danger platform-disconnect-btn" data-platform="paypal">Disconnect</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="zelle-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/zelle.svg" alt="Zelle" class="platform-logo">
+                                    </div>
+                                    <span class="badge bg-success">Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Zelle</h5>
+                                    <p class="card-text">Bank-to-bank transfer system with immediate availability.</p>
+                                    <p><strong>Balance:</strong> <span class="platform-balance" data-platform="zelle">$0.00</span></p>
+                                    <div class="d-flex">
+                                        <button class="btn btn-sm btn-primary me-2 platform-details-btn" data-platform="zelle">View Details</button>
+                                        <button class="btn btn-sm btn-outline-danger platform-disconnect-btn" data-platform="zelle">Disconnect</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="venmo-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/venmo.svg" alt="Venmo" class="platform-logo" onerror="this.src='https://placehold.co/100x40/32127A/FFFFFF?text=Venmo'">
+                                    </div>
+                                    <span class="badge bg-secondary">Not Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Venmo</h5>
+                                    <p class="card-text">Social payment service owned by PayPal.</p>
+                                    <button class="btn btn-sm btn-primary platform-connect-btn" data-platform="venmo" data-bs-toggle="modal" data-bs-target="#connectPlatformModal">Connect Account</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="cashapp-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/cash-app.svg" alt="Cash App" class="platform-logo">
+                                    </div>
+                                    <span class="badge bg-secondary">Not Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Cash App</h5>
+                                    <p class="card-text">Mobile payment service with stock and Bitcoin investing.</p>
+                                    <button class="btn btn-sm btn-primary platform-connect-btn" data-platform="cashapp" data-bs-toggle="modal" data-bs-target="#connectPlatformModal">Connect Account</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="card platform-card" id="applecash-platform-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <img src="assets/images/apple-cash.svg" alt="Apple Cash" class="platform-logo">
+                                    </div>
+                                    <span class="badge bg-secondary">Not Connected</span>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Apple Cash</h5>
+                                    <p class="card-text">Digital payment service by Apple Inc.</p>
+                                    <button class="btn btn-sm btn-primary platform-connect-btn" data-platform="applecash" data-bs-toggle="modal" data-bs-target="#connectPlatformModal">Connect Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Platform Details Tabs -->
+                    <div class="mb-4">
+                        <h4>Platform Details</h4>
+                        <div class="platform-details-container">
+                            <!-- EBT Cash Details -->
+                            <div class="platform-details" id="ebt-platform-details">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <img src="assets/images/ebt-cash.svg" alt="EBT Cash" class="platform-logo me-2"> EBT Cash Benefits Details
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>Account Information</h5>
+                                                <p><strong>Card Number:</strong> **** **** **** 5678</p>
+                                                <p><strong>Balance:</strong> <span class="platform-balance" data-platform="ebt">$0.00</span></p>
+                                                <p><strong>Last Updated:</strong> Just now</p>
+                                                <p><strong>Special Benefits:</strong> 10% fee discount, free bill payments</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Recent Transactions</h5>
+                                                <div class="list-group list-group-flush platform-transactions" data-platform="ebt">
+                                                    <!-- Transactions will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <h5>Transaction History</h5>
+                                                <div class="transaction-filter mb-3">
+                                                    <label for="ebt-filter" class="form-label">Filter by:</label>
+                                                    <select class="form-select" id="ebt-filter">
+                                                        <option value="all">All</option>
+                                                        <option value="transfers">Transfers</option>
+                                                        <option value="refunds">Refunds</option>
+                                                        <option value="bills">Bill Payments</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Description</th>
+                                                                <th>Amount</th>
+                                                                <th>Status</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="platform-transaction-table" data-platform="ebt">
+                                                            <!-- Table rows will be populated by JavaScript -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- PayPal Details -->
+                            <div class="platform-details" id="paypal-platform-details">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <img src="assets/images/paypal.svg" alt="PayPal" class="platform-logo me-2"> PayPal Account Details
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>Account Information</h5>
+                                                <p><strong>Email:</strong> user****@example.com</p>
+                                                <p><strong>Balance:</strong> <span class="platform-balance" data-platform="paypal">$0.00</span></p>
+                                                <p><strong>Last Updated:</strong> Just now</p>
+                                                <p><strong>Account Type:</strong> Personal</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Recent Transactions</h5>
+                                                <div class="list-group list-group-flush platform-transactions" data-platform="paypal">
+                                                    <!-- Transactions will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <h5>Transaction History</h5>
+                                                <div class="transaction-filter mb-3">
+                                                    <label for="paypal-filter" class="form-label">Filter by:</label>
+                                                    <select class="form-select" id="paypal-filter">
+                                                        <option value="all">All</option>
+                                                        <option value="transfers">Transfers</option>
+                                                        <option value="refunds">Refunds</option>
+                                                        <option value="bills">Bill Payments</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Description</th>
+                                                                <th>Amount</th>
+                                                                <th>Status</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="platform-transaction-table" data-platform="paypal">
+                                                            <!-- Table rows will be populated by JavaScript -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Zelle Details -->
+                            <div class="platform-details" id="zelle-platform-details">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <img src="assets/images/zelle.svg" alt="Zelle" class="platform-logo me-2"> Zelle Account Details
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>Account Information</h5>
+                                                <p><strong>Phone Number:</strong> (***) *** - 5678</p>
+                                                <p><strong>Balance:</strong> <span class="platform-balance" data-platform="zelle">$0.00</span></p>
+                                                <p><strong>Last Updated:</strong> Just now</p>
+                                                <p><strong>Linked Bank:</strong> Yes (Bank *****)</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>Recent Transactions</h5>
+                                                <div class="list-group list-group-flush platform-transactions" data-platform="zelle">
+                                                    <!-- Transactions will be populated by JavaScript -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <h5>Transaction History</h5>
+                                                <div class="transaction-filter mb-3">
+                                                    <label for="zelle-filter" class="form-label">Filter by:</label>
+                                                    <select class="form-select" id="zelle-filter">
+                                                        <option value="all">All</option>
+                                                        <option value="transfers">Transfers</option>
+                                                        <option value="refunds">Refunds</option>
+                                                        <option value="bills">Bill Payments</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Description</th>
+                                                                <th>Amount</th>
+                                                                <th>Status</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="platform-transaction-table" data-platform="zelle">
+                                                            <!-- Table rows will be populated by JavaScript -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transactions Section -->
+                <div class="account-section d-none" id="transactions-section">
+                    <h2 class="section-header">Transactions History</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="mb-0">All Transactions</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex justify-content-md-end">
+                                        <select class="form-select me-2" id="transaction-filter" style="width: auto;">
+                                            <option value="all">All Platforms</option>
+                                            <option value="ebt">EBT Cash</option>
+                                            <option value="paypal">PayPal</option>
+                                            <option value="zelle">Zelle</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-primary" id="export-transactions">
+                                            <i class="bi bi-download me-1"></i> Export
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover" id="all-transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Source</th>
+                                            <th>Destination</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Fee</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="all-transactions-body">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Transaction Analytics</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Total Transfers</h5>
+                                            <div class="display-5 my-3" id="total-transfers-count">0</div>
+                                            <p class="card-text text-muted">Across all platforms</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-success h-100">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Total Amount Transferred</h5>
+                                            <div class="display-5 my-3" id="total-transfers-amount">$0.00</div>
+                                            <p class="card-text text-muted">Last 30 days</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-info h-100">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">Fees Saved</h5>
+                                            <div class="display-5 my-3" id="fees-saved">$0.00</div>
+                                            <p class="card-text text-muted">With EBT discounts</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity Log Section -->
+                <div class="account-section d-none" id="activity-section">
+                    <h2 class="section-header">Activity Log</h2>
+                    
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        This activity log shows all interactions with your account, including logins, transfers, platform connections, and account changes.
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="mb-0">Complete Activity Log</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex justify-content-md-end">
+                                        <select class="form-select" id="activity-filter" style="width: auto;">
+                                            <option value="all">All Activity</option>
+                                            <option value="login">Login Activity</option>
+                                            <option value="transfer">Transfers</option>
+                                            <option value="platform">Platform Connections</option>
+                                            <option value="settings">Settings Changes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-log" id="activity-log-container">
+                                <div class="activity-log-item login">
+                                    <div class="d-flex justify-content-between">
+                                        <h6><i class="bi bi-person-check me-2"></i> Account Login</h6>
+                                        <small class="text-muted">Today, 10:15 AM</small>
+                                    </div>
+                                    <p class="mb-0">You logged in successfully from Chrome on Windows</p>
+                                    <small class="text-muted">IP: 192.168.1.*** (Your usual location)</small>
+                                </div>
+                                
+                                <div class="activity-log-item transfer">
+                                    <div class="d-flex justify-content-between">
+                                        <h6><i class="bi bi-arrow-left-right me-2"></i> Transfer Completed</h6>
+                                        <small class="text-muted">Today, 11:20 AM</small>
+                                    </div>
+                                    <p class="mb-0">You transferred $150.00 from EBT Cash to Zelle</p>
+                                    <small class="text-muted">Transaction ID: 987654321</small>
+                                </div>
+                                
+                                <div class="activity-log-item platform">
+                                    <div class="d-flex justify-content-between">
+                                        <h6><i class="bi bi-link-45deg me-2"></i> Platform Connected</h6>
+                                        <small class="text-muted">Yesterday, 3:45 PM</small>
+                                    </div>
+                                    <p class="mb-0">You connected your PayPal account</p>
+                                    <small class="text-muted">Email: user****@example.com</small>
+                                </div>
+                                
+                                <div class="activity-log-item settings">
+                                    <div class="d-flex justify-content-between">
+                                        <h6><i class="bi bi-gear me-2"></i> Settings Changed</h6>
+                                        <small class="text-muted">Yesterday, 5:30 PM</small>
+                                    </div>
+                                    <p class="mb-0">You updated your notification preferences</p>
+                                </div>
+                                
+                                <div class="activity-log-item transfer">
+                                    <div class="d-flex justify-content-between">
+                                        <h6><i class="bi bi-arrow-left-right me-2"></i> Refund Requested</h6>
+                                        <small class="text-muted">Yesterday, 6:15 PM</small>
+                                    </div>
+                                    <p class="mb-0">You requested a refund for a $75.00 transfer from EBT Cash</p>
+                                    <small class="text-muted">Reason: Exceeded Budget</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="account-section d-none" id="settings-section">
+                    <h2 class="section-header">Account Settings</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Profile Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="profile-form">
+                                        <div class="mb-3">
+                                            <label for="display-name" class="form-label">Display Name</label>
+                                            <input type="text" class="form-control" id="display-name" value="User Account">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="email" value="account@example.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="phone" value="(555) 123-4567">
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Notification Preferences</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="notifications-form">
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="email-notifications" checked>
+                                            <label class="form-check-label" for="email-notifications">Email Notifications</label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="sms-notifications" checked>
+                                            <label class="form-check-label" for="sms-notifications">SMS Notifications</label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="push-notifications">
+                                            <label class="form-check-label" for="push-notifications">Push Notifications</label>
+                                        </div>
+                                        <hr>
+                                        <h6>Notify me about:</h6>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="transfer-notifications" checked>
+                                            <label class="form-check-label" for="transfer-notifications">Transfers & Refunds</label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="security-notifications" checked>
+                                            <label class="form-check-label" for="security-notifications">Security Alerts</label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="marketing-notifications">
+                                            <label class="form-check-label" for="marketing-notifications">Marketing & Promotions</label>
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Save Preferences</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Display & Accessibility</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="accessibility-form">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="theme-preference" class="form-label">Theme Preference</label>
+                                                    <select class="form-select" id="theme-preference">
+                                                        <option value="light">Light Mode</option>
+                                                        <option value="dark">Dark Mode</option>
+                                                        <option value="system">Use System Preference</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="text-size" class="form-label">Text Size</label>
+                                                    <select class="form-select" id="text-size">
+                                                        <option value="small">Small</option>
+                                                        <option value="medium" selected>Medium</option>
+                                                        <option value="large">Large</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="color-mode" class="form-label">Color Mode</label>
+                                                    <select class="form-select" id="color-mode">
+                                                        <option value="normal">Normal</option>
+                                                        <option value="high-contrast">High Contrast</option>
+                                                        <option value="protanopia">Color Blind - Red (Protanopia)</option>
+                                                        <option value="deuteranopia">Color Blind - Green (Deuteranopia)</option>
+                                                        <option value="tritanopia">Color Blind - Blue (Tritanopia)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" class="form-check-input" id="motion-reduced">
+                                                    <label class="form-check-label" for="motion-reduced">Reduce Motion & Animations</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Save Preferences</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Section -->
+                <div class="account-section d-none" id="security-section">
+                    <h2 class="section-header">Security Settings</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Password & Authentication</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="password-form">
+                                        <div class="mb-3">
+                                            <label for="current-password" class="form-label">Current Password</label>
+                                            <input type="password" class="form-control" id="current-password">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="new-password" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="new-password">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm-password" class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirm-password">
+                                        </div>
+                                        <button type="button" class="btn btn-primary">Change Password</button>
+                                    </form>
+                                    
+                                    <hr>
+                                    
+                                    <h6>Two-Factor Authentication</h6>
+                                    <p>Add an extra layer of security to your account.</p>
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="enable-2fa">
+                                        <label class="form-check-label" for="enable-2fa">Enable Two-Factor Authentication</label>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" id="setup-2fa" disabled>Set Up 2FA</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Security Devices & Sessions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Active Sessions</h6>
+                                    <div class="list-group mb-3">
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1"><i class="bi bi-laptop me-2"></i> Current Device</h6>
+                                                <small class="text-success">Active Now</small>
+                                            </div>
+                                            <p class="mb-1">Chrome on Windows</p>
+                                            <small class="text-muted">IP: 192.168.1.*** (Your usual location)</small>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1"><i class="bi bi-phone me-2"></i> Mobile Device</h6>
+                                                <small class="text-muted">2 hours ago</small>
+                                            </div>
+                                            <p class="mb-1">PayXchangeable App on iPhone</p>
+                                            <small class="text-muted">IP: 192.168.1.*** (Your usual location)</small>
+                                            <div class="mt-2">
+                                                <button class="btn btn-sm btn-outline-danger">Log Out</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6>Trusted Devices</h6>
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1"><i class="bi bi-laptop me-2"></i> Windows PC</h6>
+                                                <button class="btn btn-sm btn-outline-danger">Remove</button>
+                                            </div>
+                                            <p class="mb-0">Added on May 1, 2023</p>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1"><i class="bi bi-phone me-2"></i> iPhone 13</h6>
+                                                <button class="btn btn-sm btn-outline-danger">Remove</button>
+                                            </div>
+                                            <p class="mb-0">Added on January 15, 2023</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Platform Security</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Your platform connection credentials are encrypted with bank-level security. Only you can access your connected accounts.
+                                    </div>
+                                    
+                                    <h6>Connected Platform Security</h6>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Platform</th>
+                                                    <th>Status</th>
+                                                    <th>Last Verified</th>
+                                                    <th>Authentication Method</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><img src="assets/images/ebt-cash.svg" alt="EBT" height="20"> EBT Cash</td>
+                                                    <td><span class="badge bg-success">Secure</span></td>
+                                                    <td>Today, 10:15 AM</td>
+                                                    <td>Card Number + PIN</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary">Re-verify</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="assets/images/paypal.svg" alt="PayPal" height="20"> PayPal</td>
+                                                    <td><span class="badge bg-success">Secure</span></td>
+                                                    <td>Yesterday, 3:45 PM</td>
+                                                    <td>OAuth 2.0</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary">Re-verify</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="assets/images/zelle.svg" alt="Zelle" height="20"> Zelle</td>
+                                                    <td><span class="badge bg-warning">Verification Needed</span></td>
+                                                    <td>3 days ago</td>
+                                                    <td>Phone Number + OTP</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-primary">Verify Now</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <h6>Data Protection Settings</h6>
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="auto-logout" checked>
+                                            <label class="form-check-label" for="auto-logout">Auto-logout after 30 minutes of inactivity</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="transaction-alerts" checked>
+                                            <label class="form-check-label" for="transaction-alerts">Send alerts for all transactions</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="new-device-alerts" checked>
+                                            <label class="form-check-label" for="new-device-alerts">Require verification for new devices</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notifications Section -->
+                <div class="account-section d-none" id="notifications-section">
+                    <h2 class="section-header">Notifications</h2>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <h5 class="mb-0">Recent Notifications</h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-md-end">
+                                        <button class="btn btn-sm btn-outline-primary me-2">Mark All as Read</button>
+                                        <select class="form-select" id="notification-filter" style="width: auto;">
+                                            <option value="all">All</option>
+                                            <option value="unread">Unread</option>
+                                            <option value="transfers">Transfers</option>
+                                            <option value="security">Security</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="list-group list-group-flush">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1"><span class="badge bg-primary me-2">New</span> Successful Transfer</h6>
+                                        <small class="text-muted">2 hours ago</small>
+                                    </div>
+                                    <p class="mb-1">You transferred $150.00 from EBT Cash to Zelle successfully.</p>
+                                    <small class="text-muted">Transaction ID: 987654321</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1"><span class="badge bg-primary me-2">New</span> Refund Request Received</h6>
+                                        <small class="text-muted">Yesterday</small>
+                                    </div>
+                                    <p class="mb-1">Your refund request for $75.00 has been received and is being processed.</p>
+                                    <small class="text-muted">Estimated completion: 24 hours</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">PayPal Account Connected</h6>
+                                        <small class="text-muted">Yesterday</small>
+                                    </div>
+                                    <p class="mb-1">You successfully connected your PayPal account to PayXchangeable.</p>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Security Alert</h6>
+                                        <small class="text-muted">3 days ago</small>
+                                    </div>
+                                    <p class="mb-1">New login detected from your Windows device using Chrome.</p>
+                                    <small class="text-muted">Location: Your usual location</small>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">EBT Balance Updated</h6>
+                                        <small class="text-muted">1 week ago</small>
+                                    </div>
+                                    <p class="mb-1">Your EBT Cash benefits have been updated.</p>
+                                    <small class="text-muted">New balance: $550.00</small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-light">
+                            <a href="#" class="text-decoration-none">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Connect Platform Modal -->
+    <div class="modal fade" id="connectPlatformModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="connectPlatformTitle">Connect Platform</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="platform-connect-form">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Your credentials are securely encrypted and never stored in plaintext. We only use them to establish the connection with your platform.
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="platform-username" class="form-label">Username/Email/Phone</label>
+                            <input type="text" class="form-control" id="platform-username">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="platform-password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="platform-password">
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="platform-terms">
+                            <label class="form-check-label" for="platform-terms">
+                                I authorize PayXchangeable to connect to this platform and perform transfers on my behalf
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="connect-platform-btn">Connect Platform</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Transaction Details Modal -->
+    <div class="modal fade" id="transactionDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Transaction Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="transaction-details-content">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="request-refund-btn">Request Refund</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Card Details Modal -->
+    <div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Digital Card Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-shield-lock me-2"></i>
+                        For security reasons, we're showing you the complete card details. Keep this information confidential.
+                    </div>
+                    
+                    <div id="card-details-content">
+                        <div class="mb-3">
+                            <label class="form-label">Card Number</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="4532 1111 2222 5678" readonly>
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="bi bi-clipboard"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label">Expiration Date</label>
+                                <input type="text" class="form-control" value="05/28" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label">CVV</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="123" readonly>
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Card Holder</label>
+                            <input type="text" class="form-control" value="EBT CARDHOLDER" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Billing Address</label>
+                            <textarea class="form-control" rows="2" readonly>123 Main St, Anytown, US 12345</textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Linked Platform</label>
+                            <input type="text" class="form-control" value="EBT Cash Benefits" readonly>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h6>Card Settings</h6>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enableOnlineTransactions" checked>
+                                <label class="form-check-label" for="enableOnlineTransactions">Enable Online Transactions</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enableInternationalTransactions">
+                                <label class="form-check-label" for="enableInternationalTransactions">Enable International Transactions</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Transaction Limit</label>
+                            <select class="form-select">
+                                <option value="500">$500 per transaction</option>
+                                <option value="1000" selected>$1,000 per transaction</option>
+                                <option value="5000">$5,000 per transaction</option>
+                                <option value="custom">Custom limit</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger me-auto">
+                        <i class="bi bi-trash"></i> Delete Card
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-card-settings-btn">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Card Freeze Modal -->
+    <div class="modal fade" id="cardFreezeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Freeze Digital Card</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-snow" style="font-size: 3rem; color: #0dcaf0;"></i>
+                    </div>
+                    
+                    <p>You're about to temporarily freeze your digital card. While frozen:</p>
+                    
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item">
+                            <i class="bi bi-x-circle text-danger me-2"></i>
+                            All pending and new transactions will be declined
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-x-circle text-danger me-2"></i>
+                            The card cannot be used for online or in-store purchases
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            You can unfreeze the card at any time
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle text-success me-2"></i>
+                            Recurring subscriptions or payments will not be affected
+                        </li>
+                    </ul>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="confirmFreezeCheckbox">
+                        <label class="form-check-label" for="confirmFreezeCheckbox">
+                            I understand that freezing this card will prevent all new transactions
+                        </label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Reason for freezing (optional)</label>
+                        <select class="form-select">
+                            <option value="">Select a reason</option>
+                            <option value="lost">Card lost</option>
+                            <option value="theft">Suspected theft</option>
+                            <option value="fraud">Suspected fraud</option>
+                            <option value="temporary">Temporary precaution</option>
+                            <option value="other">Other reason</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirm-freeze-btn" disabled>Freeze Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Card Modal -->
+    <div class="modal fade" id="createCardModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Digital Debit Card</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Create a virtual debit card linked to one of your payment platforms. This card can be used for online purchases and contactless payments.
+                    </div>
+                    
+                    <form id="create-card-form">
+                        <div class="mb-3">
+                            <label for="cardPlatform" class="form-label">Link to Platform</label>
+                            <select class="form-select" id="cardPlatform" required>
+                                <option value="">Select a platform</option>
+                                <option value="venmo">Venmo</option>
+                                <option value="cashapp">Cash App</option>
+                                <option value="applecash">Apple Cash</option>
+                            </select>
+                            <small class="text-muted">Funds will be drawn from this platform when the card is used.</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cardName" class="form-label">Card Name</label>
+                            <input type="text" class="form-control" id="cardName" placeholder="e.g., Shopping Card, Bills Card" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cardDesign" class="form-label">Card Design</label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-check card p-0">
+                                        <input class="form-check-input position-absolute" type="radio" name="cardDesign" id="designPurple" value="purple" checked style="top: 10px; left: 10px;">
+                                        <label class="form-check-label d-block p-0" for="designPurple">
+                                            <div style="background: linear-gradient(135deg, #32127A, #4518a0); height: 60px; border-radius: 4px;"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check card p-0">
+                                        <input class="form-check-input position-absolute" type="radio" name="cardDesign" id="designBlue" value="blue" style="top: 10px; left: 10px;">
+                                        <label class="form-check-label d-block p-0" for="designBlue">
+                                            <div style="background: linear-gradient(135deg, #009cde, #003087); height: 60px; border-radius: 4px;"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-check card p-0">
+                                        <input class="form-check-input position-absolute" type="radio" name="cardDesign" id="designGold" value="gold" style="top: 10px; left: 10px;">
+                                        <label class="form-check-label d-block p-0" for="designGold">
+                                            <div style="background: linear-gradient(135deg, #E6C34A, #c09d20); height: 60px; border-radius: 4px;"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="spendingLimit" class="form-label">Daily Spending Limit</label>
+                            <select class="form-select" id="spendingLimit" required>
+                                <option value="500">$500</option>
+                                <option value="1000" selected>$1,000</option>
+                                <option value="2500">$2,500</option>
+                                <option value="5000">$5,000</option>
+                                <option value="custom">Custom Amount</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3 d-none" id="customLimitField">
+                            <label for="customLimit" class="form-label">Enter Custom Limit</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="customLimit" placeholder="Enter amount">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enableOnlinePayments" checked>
+                                <label class="form-check-label" for="enableOnlinePayments">Enable Online Payments</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enableNFC" checked>
+                                <label class="form-check-label" for="enableNFC">Enable Contactless Payments (NFC)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enableInternational">
+                                <label class="form-check-label" for="enableInternational">Enable International Transactions</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="create-card-btn">Create Digital Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>PayXchangeable</h5>
+                    <p>Bridging the gap between different payment platforms.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="app-features.html">Features</a></li>
+                        <li><a href="financial-learning.html">Financial Education</a></li>
+                        <li><a href="my-account.html">My Account</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:support@payxchangeable.com">support@payxchangeable.com</a></li>
+                        <li><span class="small text-muted">Email support bot available 24/7</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="mt-4 mb-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 PayXchangeable. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/my-account.js"></script>
+    <script src="assets/js/character-display.js"></script>
+    <script src="assets/js/support-bot.js"></script>
+</body>
+</html>
