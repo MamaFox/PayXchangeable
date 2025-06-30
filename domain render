@@ -1,0 +1,12 @@
+# For apex domain
+Type: A
+Name: @
+Value: 216.24.57.1
+# For www subdomain  
+Type: CNAME
+Name: www
+Value: payxchangeable.com
+# Alternative CNAME setup (if A record doesn't work)
+Type: CNAME
+Name: @
+Value: payxchangeable.com
